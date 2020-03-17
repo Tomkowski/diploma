@@ -1,17 +1,24 @@
 package com.tomitive.avia
 
 import android.os.Bundle
+import android.os.Looper
+import android.os.Message
+import android.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.tomitive.avia.utils.TimeFormatManager
+import kotlinx.android.synthetic.main.avia_toolbar.*
+import java.util.logging.Handler
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
@@ -19,9 +26,21 @@ class MainActivity : AppCompatActivity() {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(setOf(
-                R.id.navigation_search, R.id.navigation_favourites, R.id.navigation_map))
+            R.id.navigation_search, R.id.navigation_favourites, R.id.navigation_map))
         //setupActionBarWithNavController(navController, appBarConfiguration)
 
         navView.setupWithNavController(navController)
+
+        navView.setOnNavigationItemReselectedListener {  }
+
+        Thread{
+            while(true){
+                runOnUiThread() {
+                    current_time.text = TimeFormatManager.currentTime
+                }
+                Thread.sleep(1000)
+            }
+        }.start()
+
     }
 }
