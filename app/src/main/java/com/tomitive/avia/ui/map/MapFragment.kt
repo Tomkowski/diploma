@@ -1,15 +1,15 @@
 package com.tomitive.avia.ui.map
 
+import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
+import android.system.Os.remove
+import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager.LayoutParams.FLAG_LAYOUT_INSET_DECOR
-import android.view.WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -39,24 +39,12 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         savedInstanceState: Bundle?
     ): View? {
 
-
-
-        activity?.run {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
-            (this as AppCompatActivity).supportActionBar?.hide()
-
-        }
-
         return inflater.inflate(R.layout.fragment_map, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        activity?.run {
-            (this as AppCompatActivity).supportActionBar?.hide()
-
-        }
         map_view.onCreate(savedInstanceState)
         map_view.onResume()
         map_view.getMapAsync(this)
@@ -72,13 +60,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             val zoom = (if (inPortraitMode) portraitZoom else landscapeZoom)
             mMap.setMinZoomPreference(zoom)
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(polandSouthWest + (polandNorthEast - polandSouthWest) / 2.0, zoom));  //move camera to location
-        }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        activity?.run {
-            (this as AppCompatActivity).supportActionBar?.show()
         }
     }
 }
