@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Avia</string>
+    <string name="app_name">Aviacast</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
@@ -8,4 +8,8 @@
     <string name="title_map">Map</string>
     <string name="google_maps_API_key">AIzaSyAY_amNQsF472oKY2MevBTD6O7MsDyl-Ho</string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_airbase_data_full_info">AirbaseDataFullInfo</string>
+    <string name="airbase_full_data_tab1">TAF</string>
+    <string name="airbase_full_data_tab2">METAR</string>
+    <string name="airbase_full_data_tab3">NOTAM</string>
 </resources>

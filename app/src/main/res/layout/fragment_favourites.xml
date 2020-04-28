@@ -4,17 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="@dimen/favourites_recyclerview_padding_bottom"
     tools:context=".ui.favourites.FavouritesFragment">
 
-    <TextView
-        android:id="@+id/text_favourites"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/favourites_list"
+        android:clipToPadding="false"
+        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="@dimen/favourite_item_padding_bottom"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
