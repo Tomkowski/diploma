@@ -32,6 +32,8 @@
             android:background="?attr/colorPrimary" />
 
 
+
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager.widget.ViewPager

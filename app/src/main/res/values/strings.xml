@@ -12,4 +12,10 @@
     <string name="airbase_full_data_tab1">TAF</string>
     <string name="airbase_full_data_tab2">METAR</string>
     <string name="airbase_full_data_tab3">NOTAM</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="taf">TAF</string>
+    <string name="metar">METAR</string>
+    <string name="notam">NOTAM</string>
 </resources>

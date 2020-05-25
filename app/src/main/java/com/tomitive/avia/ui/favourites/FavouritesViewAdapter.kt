@@ -75,7 +75,7 @@ class FavouritesViewAdapter(private val context: Context, private val data: List
     override fun onBindViewHolder(holder: FavouritesView, position: Int) {
         val metar: Metar = data[position]
         Log.d(TAG, metar.toString())
-
+        Log.d(TAG, "creating fav view")
         val airportName = airtportName[metar.station]
         val airportLocation = airportLocation[metar.station]
 

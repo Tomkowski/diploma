@@ -13,6 +13,8 @@ class PageViewModel : ViewModel() {
         it
     }
 
+
+    //set data to be displayed
     fun setIndex(message: String?) {
         _index.value = message
     }
