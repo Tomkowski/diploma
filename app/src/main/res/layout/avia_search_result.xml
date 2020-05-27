@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:id="@+id/avia_search_result"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_navigation_search_result_background"
+    android:elevation="3dp"
+    android:paddingHorizontal="8dp">
+
+    <Button
+        android:id="@+id/search_result_fav_button"
+        android:layout_width="58dp"
+        android:layout_height="39dp"
+        android:background="@drawable/ic_search_favourite_black_24dp"
+        android:scaleX="0.6"
+        android:scaleY="0.8"
+        app:layout_constraintBottom_toTopOf="@+id/search_result_airport_full_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/search_result_airport_name"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.25" />
+
+    <TextView
+        android:id="@+id/search_result_airport_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tool:text="EPDE" />
+
+    <TextView
+        android:id="@+id/search_result_airport_full_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_result_airport_name"
+        tool:text="Dęblin military airbase" />
+
+    <TextView
+        android:id="@+id/search_result_airport_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_result_airport_full_name"
+        tool:text="Dęblin, Poland" />
+</androidx.constraintlayout.widget.ConstraintLayout>

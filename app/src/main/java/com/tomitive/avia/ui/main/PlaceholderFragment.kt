@@ -52,13 +52,5 @@ class PlaceholderFragment : Fragment() {
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        @JvmStatic
-        fun newInstance(sectionNumber: Int): PlaceholderFragment {
-            return PlaceholderFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_SECTION_NUMBER, sectionNumber)
-                }
-            }
-        }
     }
 }

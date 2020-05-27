@@ -11,9 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.tomitive.avia.AirbaseDataFullInfo
 import com.tomitive.avia.R
 import com.tomitive.avia.utils.airportLocation
-import com.tomitive.avia.utils.airtportName
+import com.tomitive.avia.utils.airportName
 import io.github.mivek.model.Metar
-import io.github.mivek.parser.TAFParser
 import kotlinx.android.synthetic.main.avia_favourite_item.view.*
 import kotlinx.android.synthetic.main.avia_favourite_item_status.view.*
 
@@ -76,7 +75,7 @@ class FavouritesViewAdapter(private val context: Context, private val data: List
         val metar: Metar = data[position]
         Log.d(TAG, metar.toString())
         Log.d(TAG, "creating fav view")
-        val airportName = airtportName[metar.station]
+        val airportName = airportName[metar.station]
         val airportLocation = airportLocation[metar.station]
 
         holder.setAirportName(airportName)

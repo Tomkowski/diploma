@@ -1,6 +1,6 @@
 package com.tomitive.avia.utils
 
-val airtportName = mapOf<String, String>(
+val airportName = mapOf<String, String>(
     "EPCE" to "Cewice Military Air Base",
     "EPDA" to "Darłowo Military Air Base",
     "EPDE" to "Dęblin Military Air Base",

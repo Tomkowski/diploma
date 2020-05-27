@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.tomitive.avia.databinding.ActivityMainBinding
+import com.tomitive.avia.interfaces.NavControllerListener
 import com.tomitive.avia.model.TimeFormatManager
 import com.tomitive.avia.utils.TafManager
 import io.github.mivek.model.TAF
@@ -31,7 +33,7 @@ class MainActivity : AppCompatActivity() {
 
         navView.setupWithNavController(navController)
 
-        navView.setOnNavigationItemReselectedListener { }
+        navView.setOnNavigationItemReselectedListener(NavControllerListener(this))
 
         val format = "EEEE dd/MM/yyyy HH:mm:ss (UTC)"
         val timeZone = "GMT+000"

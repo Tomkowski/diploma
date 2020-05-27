@@ -17,27 +17,30 @@ class FavouritesFragment : Fragment() {
 
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_favourites, container, false)
         val favouritesList = rootView.findViewById<RecyclerView>(R.id.favourites_list)
 
         val metarForecast = MetarManager().forecast
 
-        if(metarForecast.isEmpty()){
-            Toast.makeText(context,
-                "Could not connect to internet! Check your internet connection and try again.",
-                Toast.LENGTH_LONG).show()
-        }else {
-            initRecyclerView(favouritesList, metarForecast)
+        if (metarForecast.isEmpty()) {
+            Toast.makeText(
+                context,
+                getString(R.string.metar_fail_msg),
+                Toast.LENGTH_LONG
+            ).show()
         }
+
+        initRecyclerView(favouritesList, metarForecast)
+
 
         return rootView
     }
 
-    private fun initRecyclerView(favouritesList: RecyclerView, metarForecast: List<Metar>){
+    private fun initRecyclerView(favouritesList: RecyclerView, metarForecast: List<Metar>) {
         favouritesList.adapter = FavouritesViewAdapter(requireContext(), metarForecast)
         favouritesList.addItemDecoration(
             MarginItemDecoration(resources.getDimension(R.dimen.recyclerview_item_padding).toInt())
