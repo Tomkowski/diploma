@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tomitive.avia.R
+import com.tomitive.avia.model.airports
 import com.tomitive.avia.utils.MarginItemDecoration
 import com.tomitive.avia.utils.MetarManager
 import io.github.mivek.model.Metar
@@ -24,6 +25,7 @@ class FavouritesFragment : Fragment() {
         val rootView = inflater.inflate(R.layout.fragment_favourites, container, false)
         val favouritesList = rootView.findViewById<RecyclerView>(R.id.favourites_list)
 
+        //TODO CHANGE GETTING FORECAST TO OTHER CLASS. SAVE IT IN AIRPORT FAVS ONLY
         val metarForecast = MetarManager().forecast
 
         if (metarForecast.isEmpty()) {
