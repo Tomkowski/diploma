@@ -23,7 +23,6 @@ class SearchFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         val rootView = inflater.inflate(R.layout.fragment_search, container, false)
         val searchList = rootView.findViewById<RecyclerView>(R.id.search_list)
 
@@ -31,8 +30,7 @@ class SearchFragment : Fragment() {
 
         rootView.navigation_search_edit_text.afterTextChanged { searchText ->
             (searchList.adapter as SearchViewAdapter).updateSearchResults(
-                airportName.map { it.key }
-                    .filter { it.contains(searchText.trim().toUpperCase()) }
+                airportName.map { it.key }.filter { it.contains(searchText.trim().toUpperCase()) }
             )
 
             Log.d("searchview", "listener set")

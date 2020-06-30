@@ -9,19 +9,18 @@
     android:elevation="3dp"
     android:paddingHorizontal="8dp">
 
-    <Button
-        android:id="@+id/search_result_fav_button"
-        android:layout_width="58dp"
-        android:layout_height="39dp"
-        android:background="@drawable/ic_search_favourite_black_24dp"
-        android:scaleX="0.6"
-        android:scaleY="0.8"
+    <CheckBox
+        android:id="@+id/search_result_fav_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:button="@drawable/avia_search_item_favourite_background"
+        android:checked="false"
         app:layout_constraintBottom_toTopOf="@+id/search_result_airport_full_name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.914"
         app:layout_constraintStart_toEndOf="@+id/search_result_airport_name"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.25" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/search_result_airport_name"

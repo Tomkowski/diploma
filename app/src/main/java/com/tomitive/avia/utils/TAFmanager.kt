@@ -8,7 +8,7 @@ import org.jsoup.Jsoup
 import org.jsoup.select.Elements
 import kotlin.properties.Delegates
 
-class TafManager : ForecastManager<TAF> {
+class TafManager : ForecastManager<TAF?> {
 
     // TODO decoded EPDA is unknown as an airport
     private var taf: List<TAF> by Delegates.notNull()
@@ -27,8 +27,9 @@ class TafManager : ForecastManager<TAF> {
         }
     }
 
-    override val forecast: List<TAF>
-        get() = taf
+    override fun getForecast(airportName: String): TAF?{
+        return null
+    }
 
 }
 

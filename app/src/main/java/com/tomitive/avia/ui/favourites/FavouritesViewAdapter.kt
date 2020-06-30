@@ -6,18 +6,23 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.tomitive.avia.AirbaseDataFullInfo
 import com.tomitive.avia.R
+import com.tomitive.avia.model.Airport
+import com.tomitive.avia.utils.MetarManager
 import com.tomitive.avia.utils.airportLocation
 import com.tomitive.avia.utils.airportName
 import io.github.mivek.model.Metar
 import kotlinx.android.synthetic.main.avia_favourite_item.view.*
 import kotlinx.android.synthetic.main.avia_favourite_item_status.view.*
+import kotlin.concurrent.thread
 
-class FavouritesViewAdapter(private val context: Context, private val data: List<Metar>) : RecyclerView.Adapter<FavouritesViewAdapter.FavouritesView>() {
+class FavouritesViewAdapter(private val context: Context, private val data: List<Airport>) : RecyclerView.Adapter<FavouritesViewAdapter.FavouritesView>() {
     private val TAG = "MetarViewAdapter"
+
     class FavouritesView(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val parentLayout = itemView.findViewById<ConstraintLayout>(R.id.avia_favourite_item)
@@ -72,34 +77,34 @@ class FavouritesViewAdapter(private val context: Context, private val data: List
     override fun getItemCount(): Int = data.size
 
     override fun onBindViewHolder(holder: FavouritesView, position: Int) {
-        val metar: Metar = data[position]
-        Log.d(TAG, metar.toString())
-        Log.d(TAG, "creating fav view")
-        val airportName = airportName[metar.station]
-        val airportLocation = airportLocation[metar.station]
+        val entry = data[position]
+        val airportName = entry.airportName
+        val airportFullName = entry.airportFullName
+        val airportLocation = entry.airportLocation
 
         holder.setAirportName(airportName)
         holder.setAirportLocation(airportLocation)
 
         //check if COR
         //holder.setFlightRules(TAFParser.getInstance().parse("").isAmendment)
-            /*
-        holder.setWind(metar.wind.speed, metar.wind.direction)
-        holder.setTemperature(metar.temperature)
-        holder.setClouds(metar.clouds.joinToString(separator = ", "))
-        holder.setWeather(metar.weatherConditions.joinToString(separator = ", "))
-        holder.setVisibility(metar.visibility.mainVisibility)
-        */
+
+        holder.setWind(entry.metar?.wind?.speed, entry.metar?.wind?.direction)
+        holder.setTemperature(entry.metar?.temperature)
+        holder.setClouds(entry.metar?.clouds?.joinToString(separator = ", "))
+        holder.setWeather(entry.metar?.weatherConditions?.joinToString(separator = ", "))
+        holder.setVisibility(entry.metar?.visibility?.mainVisibility)
+
         holder.setFlightRules("VFR") //TODO logic to handle flight rule based on weather conditions
 
         holder.parentLayout.setOnClickListener {
 
             Log.d(TAG, "Clicked on : $airportName")
             val intent = Intent(context, AirbaseDataFullInfo::class.java)
-            intent.putExtra("airbaseName", airportName)
-            intent.putExtra("metar", metar.message)
+            intent.putExtra("airbaseName", airportFullName)
+            intent.putExtra("metar", entry.metar?.message)
             context.startActivity(intent)
         }
+        holder.itemView.animation = AnimationUtils.loadAnimation(context, R.anim.favourite_item_transition)
     }
 
 }

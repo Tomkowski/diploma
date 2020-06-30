@@ -5,4 +5,5 @@
     <color name="colorAccent">#D8E4AE</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="avia_fav_color">#FFFAFA</color>
+    <color name="ic_search_item_fav_on">#FF0030</color>
 </resources>

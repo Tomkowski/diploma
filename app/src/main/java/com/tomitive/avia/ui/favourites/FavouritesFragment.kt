@@ -1,6 +1,7 @@
 package com.tomitive.avia.ui.favourites
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tomitive.avia.R
+import com.tomitive.avia.model.Airport
 import com.tomitive.avia.model.airports
 import com.tomitive.avia.utils.MarginItemDecoration
 import com.tomitive.avia.utils.MetarManager
@@ -25,29 +27,21 @@ class FavouritesFragment : Fragment() {
         val rootView = inflater.inflate(R.layout.fragment_favourites, container, false)
         val favouritesList = rootView.findViewById<RecyclerView>(R.id.favourites_list)
 
-        //TODO CHANGE GETTING FORECAST TO OTHER CLASS. SAVE IT IN AIRPORT FAVS ONLY
-        val metarForecast = MetarManager().forecast
 
-        if (metarForecast.isEmpty()) {
-            Toast.makeText(
-                context,
-                getString(R.string.metar_fail_msg),
-                Toast.LENGTH_LONG
-            ).show()
-        }
+        val favAirports = airports.filter { it.isFavourite }
 
-        initRecyclerView(favouritesList, metarForecast)
+        initRecyclerView(favouritesList, favAirports)
 
 
         return rootView
     }
 
-    private fun initRecyclerView(favouritesList: RecyclerView, metarForecast: List<Metar>) {
-        favouritesList.adapter = FavouritesViewAdapter(requireContext(), metarForecast)
+    private fun initRecyclerView(favouritesList: RecyclerView, favAirports: List<Airport>) {
+        favouritesList.adapter = FavouritesViewAdapter(requireContext(), favAirports)
         favouritesList.addItemDecoration(
             MarginItemDecoration(resources.getDimension(R.dimen.recyclerview_item_padding).toInt())
         )
-//        favouritesList.addOnScrollListener(RecyclerViewCenterItemListener())
+        //favouritesList.addOnScrollListener(RecyclerViewCenterItemListener())
         favouritesList.layoutManager = LinearLayoutManager(requireContext())
         favouritesList.setHasFixedSize(true)
 
