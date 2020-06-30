@@ -18,51 +18,53 @@ import com.tomitive.avia.utils.airportName
 import io.github.mivek.model.Metar
 import kotlinx.android.synthetic.main.avia_favourite_item.view.*
 import kotlinx.android.synthetic.main.avia_favourite_item_status.view.*
+import kotlinx.coroutines.runBlocking
 import kotlin.concurrent.thread
 
-class FavouritesViewAdapter(private val context: Context, private val data: List<Airport>) : RecyclerView.Adapter<FavouritesViewAdapter.FavouritesView>() {
+class FavouritesViewAdapter(private val context: Context, private val data: List<Airport>) :
+    RecyclerView.Adapter<FavouritesViewAdapter.FavouritesView>() {
     private val TAG = "MetarViewAdapter"
 
     class FavouritesView(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val parentLayout = itemView.findViewById<ConstraintLayout>(R.id.avia_favourite_item)
 
-        fun setAirportName(airportName: String?){
+        fun setAirportName(airportName: String?) {
             itemView.airport_name.text = airportName
         }
 
 
-        fun setAirportLocation(country: String?, city: String?){
-            val location ="$city, $country"
+        fun setAirportLocation(country: String?, city: String?) {
+            val location = "$city, $country"
             itemView.airport_location.text = location
         }
 
-        fun setAirportLocation(location: String?){
+        fun setAirportLocation(location: String?) {
             itemView.airport_location.text = location
         }
 
-        fun setWind(speed: Int?, direction: String?){
+        fun setWind(speed: Int?, direction: String?) {
             val wind = "$direction, $speed"
             itemView.wind.text = wind
         }
 
-        fun setTemperature(temperature: Int?){
+        fun setTemperature(temperature: Int?) {
             itemView.temperature.text = temperature.toString()
         }
 
-        fun setClouds(clouds: String?){
+        fun setClouds(clouds: String?) {
             itemView.clouds.text = clouds
         }
 
-        fun setWeather(weather: String?){
+        fun setWeather(weather: String?) {
             itemView.weather.text = weather
         }
 
-        fun setVisibility(visibility: String?){
+        fun setVisibility(visibility: String?) {
             itemView.weather.text = visibility
         }
 
-        fun setFlightRules(rule: String?){
+        fun setFlightRules(rule: String?) {
             itemView.flight_rule.status.text = "$rule"
         }
     }
@@ -77,6 +79,7 @@ class FavouritesViewAdapter(private val context: Context, private val data: List
     override fun getItemCount(): Int = data.size
 
     override fun onBindViewHolder(holder: FavouritesView, position: Int) {
+
         val entry = data[position]
         val airportName = entry.airportName
         val airportFullName = entry.airportFullName
@@ -104,7 +107,8 @@ class FavouritesViewAdapter(private val context: Context, private val data: List
             intent.putExtra("metar", entry.metar?.message)
             context.startActivity(intent)
         }
-        holder.itemView.animation = AnimationUtils.loadAnimation(context, R.anim.favourite_item_transition)
+        holder.itemView.animation =
+            AnimationUtils.loadAnimation(context, R.anim.favourite_item_transition)
     }
 
 }

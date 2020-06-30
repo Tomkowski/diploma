@@ -7,6 +7,7 @@ import androidx.annotation.UiThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.whenResumed
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.tomitive.avia.R
 import com.tomitive.avia.ui.favourites.FavouritesFragment
@@ -20,10 +21,8 @@ class NavControllerSelectedListener(private val parentActivity: AppCompatActivit
     BottomNavigationView.OnNavigationItemSelectedListener {
     private val TAG = "NavSelectedListener"
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        if(isLoading) return false
+        if (isLoading) return false
 
-        setProgressBarVisible(true)
-        Log.d(TAG, "progress bar is now visible")
         when (item.itemId) {
             R.id.navigation_map -> {
                 Log.d(TAG, "MAP IS SELECTED")
@@ -42,9 +41,10 @@ class NavControllerSelectedListener(private val parentActivity: AppCompatActivit
                 return false
             }
         }
+
+        setProgressBarVisible(true)
         launchFragment(item.itemId)
 
-        Log.d(TAG, "progress bar is now visible - ${parentActivity.progress_bar.isVisible}")
         return true
     }
 
@@ -63,7 +63,6 @@ class NavControllerSelectedListener(private val parentActivity: AppCompatActivit
                     R.id.navigation_favourites -> FavouritesFragment()
                     else -> null
                 }
-                //Thread.sleep(2000) //for testing purposes
                 fragment?.run {
                     parentActivity
                         .supportFragmentManager
@@ -72,13 +71,16 @@ class NavControllerSelectedListener(private val parentActivity: AppCompatActivit
                         .replace(R.id.nav_host_fragment, this)
                         .commit()
                 }
-                isLoading = false
-                setProgressBarVisible(false)
+                fragment?.whenResumed {
+                    isLoading = false
+                    setProgressBarVisible(false)
+                }
 
             }
         }
     }
-    companion object{
+
+    companion object {
         var isLoading = false
     }
 }

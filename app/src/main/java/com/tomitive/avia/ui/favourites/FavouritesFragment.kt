@@ -15,6 +15,8 @@ import com.tomitive.avia.model.airports
 import com.tomitive.avia.utils.MarginItemDecoration
 import com.tomitive.avia.utils.MetarManager
 import io.github.mivek.model.Metar
+import kotlinx.coroutines.runBlocking
+import kotlin.concurrent.thread
 
 class FavouritesFragment : Fragment() {
 
@@ -30,6 +32,11 @@ class FavouritesFragment : Fragment() {
 
         val favAirports = airports.filter { it.isFavourite }
 
+        thread {
+            favAirports.forEach {
+                if (it.metar == null) it.metar = MetarManager.getForecast(it.airportName)
+            }
+        }.join()
         initRecyclerView(favouritesList, favAirports)
 
 

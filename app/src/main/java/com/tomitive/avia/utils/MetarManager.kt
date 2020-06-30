@@ -18,33 +18,37 @@ import kotlin.concurrent.thread
 import kotlin.properties.Delegates
 
 object MetarManager : ForecastManager<Metar?> {
+    private val TAG = "metar"
     private val METAR_POSITION_IN_RSS = 1
     private var metar: Metar? = null
 
     override fun getForecast(airportName: String): Metar? {
-        var metar : Metar? = null
+        var metar: Metar? = null
         thread {
 
             runBlocking {
+                Log.d(TAG, "Started searching for $airportName")
+                metar = try {
+                    val doc =
+                        Jsoup.connect("http://awiacja.imgw.pl/rss/metarmil.php?airport=$airportName")
+                            .get()
 
-                val doc =
-                    Jsoup.connect("http://awiacja.imgw.pl/rss/metarmil.php?airport=$airportName")
-                        .get()
+                    val rss =
+                        Jsoup.parse(doc.html(), "", Parser.xmlParser()).select("description")
 
-                val rss =
-                    Jsoup.parse(doc.html(), "", Parser.xmlParser()).select("description")
-
-                val textToDecode = rss[METAR_POSITION_IN_RSS].text().trim().removePrefix("METAR")
-                    .replace("COR", "").trim()
-                try {
-                    metar = MetarFacade.getInstance().decode(textToDecode)
+                    val textToDecode =
+                        rss[METAR_POSITION_IN_RSS].text().trim().removePrefix("METAR")
+                            .replace("COR", "").trim()
+                    MetarFacade.getInstance().decode(textToDecode)
                 } catch (exception: Exception) {
                     exception.printStackTrace()
+                    Metar()
                 }
 
-              }
+            }
         }.join()
-        Log.d("metar", metar.toString())
+        Log.d(TAG, "GOT $airportName")
+        //Log.d(TAG, metar.toString())
         return metar
     }
 
