@@ -1,142 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:elevation="@dimen/favourite_item_elevation"
-    android:paddingStart="@dimen/favourite_item_padding_horizontal"
-    android:paddingEnd="@dimen/favourite_item_padding_horizontal"
-    android:paddingTop="@dimen/favourite_item_padding_top"
-    android:background="@drawable/shape_avia_favourite_item_background"
-    android:layout_gravity="center_horizontal"
-    android:id="@+id/avia_favourite_item"
-    >
+<layout>
 
+    <data>
 
-    <TextView
-        android:id="@+id/clouds"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/favourite_textView_padding_horizontal"
-        android:paddingBottom="@dimen/favourite_textView_padding_horizontal"
-        android:textSize="@dimen/favourite_item_airport_data"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/temperature"
-        app:layout_constraintTop_toBottomOf="@+id/temperature"
-        tools:text="Scattered at 3400ft AGL" />
+        <variable
+            name="airport"
+            type="com.tomitive.avia.model.Airport" />
 
+    </data>
 
-    <TextView
-        android:id="@+id/weather"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/favourite_textView_padding_horizontal"
-
-        android:paddingBottom="@dimen/favourite_textView_padding_horizontal"
-        android:textSize="@dimen/favourite_item_airport_data"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/clouds"
-        app:layout_constraintTop_toBottomOf="@+id/clouds"
-        tools:text="Medium showers" />
-
-    <TextView
-        android:id="@+id/visibility"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/favourite_textView_padding_horizontal"
-        android:paddingBottom="@dimen/favourite_textView_padding_horizontal"
-        android:textSize="@dimen/favourite_item_airport_data"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/weather"
-        app:layout_constraintTop_toBottomOf="@+id/weather"
-        app:layout_constraintVertical_bias="0.0"
-        tools:text="Visibility min. 8km" />
-
-    <include
-        android:id="@+id/flight_rule"
-        layout="@layout/avia_favourite_item_status"
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/airport_name">
-
-    </include>
-
-    <TextView
-
-        android:id="@+id/airport_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:paddingStart="@dimen/favourite_textView_padding_horizontal"
-        android:paddingEnd="@dimen/favourite_textView_padding_horizontal"
-        android:textSize="@dimen/favourite_item_airport_location"
-        app:layout_constraintBottom_toTopOf="@+id/seperation_bar"
-        app:layout_constraintEnd_toStartOf="@+id/flight_rule"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/airport_name"
-        app:layout_constraintTop_toBottomOf="@+id/airport_name"
-        app:layout_constraintVertical_bias="0.034"
-        tools:text="Deblin, Poland" />
-
-    <TextView
-        android:id="@+id/airport_name"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/avia_favourite_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/favourite_textView_padding_horizontal"
-        android:paddingEnd="@dimen/favourite_textView_padding_horizontal"
-        android:textSize="@dimen/favourite_item_airport_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Moja nazwa lotniska" />
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/shape_avia_favourite_item_background"
+        android:elevation="@dimen/favourite_item_elevation"
+        android:paddingStart="@dimen/favourite_item_padding_horizontal"
+        android:paddingTop="@dimen/favourite_item_padding_top"
+        android:paddingEnd="@dimen/favourite_item_padding_horizontal">
 
 
-    <TextView
-        android:id="@+id/temperature"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/favourite_textView_padding_horizontal"
-        android:paddingBottom="@dimen/favourite_textView_padding_horizontal"
-        android:textSize="@dimen/favourite_item_airport_data"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/wind"
-        app:layout_constraintTop_toBottomOf="@+id/wind"
-        tools:text="11 °C " />
+        <include
+            android:id="@+id/flight_rule"
+            layout="@layout/avia_favourite_item_status"
 
-    <TextView
-        android:id="@+id/wind"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/favourite_textView_padding_horizontal"
-        android:paddingBottom="@dimen/favourite_textView_padding_horizontal"
-        android:textSize="@dimen/favourite_item_airport_data"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.125"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seperation_bar"
-        tools:text="↙️ 230° at 8kt" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/airport_name">
 
-    <ImageView
-        android:id="@+id/seperation_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="13dp"
-        android:paddingStart="@dimen/favourite_item_seperator_padding"
-        android:paddingEnd="@dimen/favourite_item_seperator_padding"
-        app:layout_constraintBottom_toTopOf="@+id/wind"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/flight_rule"
-        app:srcCompat="@drawable/shape_avia_favourite_item_seperate_bar" />
+        </include>
+
+        <TextView
+
+            android:id="@+id/airport_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:paddingStart="@dimen/favourite_textView_padding_horizontal"
+            android:paddingEnd="@dimen/favourite_textView_padding_horizontal"
+            android:textSize="@dimen/favourite_item_airport_location"
+            app:layout_constraintBottom_toTopOf="@+id/seperation_bar"
+            app:layout_constraintEnd_toStartOf="@+id/flight_rule"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/airport_name"
+            app:layout_constraintTop_toBottomOf="@+id/airport_name"
+            app:layout_constraintVertical_bias="0.034"
+            android:text="@{airport.airportLocation}"
+            tools:text="Dęblin, Poland"/>
+
+        <TextView
+            android:id="@+id/airport_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/favourite_textView_padding_horizontal"
+            android:paddingEnd="@dimen/favourite_textView_padding_horizontal"
+            android:text="@{airport.airportFullName}"
+            android:textSize="@dimen/favourite_item_airport_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Moja nazwa lotniska" />
+
+        <ImageView
+            android:id="@+id/seperation_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:paddingStart="@dimen/favourite_item_seperator_padding"
+            android:paddingEnd="@dimen/favourite_item_seperator_padding"
+            app:layout_constraintBottom_toTopOf="@+id/wind"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/flight_rule"
+            app:srcCompat="@drawable/shape_avia_favourite_item_seperate_bar" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/wind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/favourite_textView_padding_horizontal"
+            android:paddingBottom="@dimen/favourite_textView_padding_horizontal"
+            android:textSize="@dimen/favourite_item_airport_data"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.125"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seperation_bar"
+            android:text="@{`Wind: ` + airport.metar.wind.directionDegrees+`°`+ ` at `+ airport.metar.wind.speed +` kt`}"
+            tools:text="Wind: 250° at 8kt"/>
+        <TextView
+            android:id="@+id/temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/favourite_textView_padding_horizontal"
+            android:paddingBottom="@dimen/favourite_textView_padding_horizontal"
+            android:textSize="@dimen/favourite_item_airport_data"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/wind"
+            app:layout_constraintTop_toBottomOf="@+id/wind"
+            android:text="@{`Temperature: ` + airport.metar.temperature + `°C`}"
+            tools:text="Temperature: 24°C"/>
+
+        <TextView
+            android:id="@+id/clouds"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/favourite_textView_padding_horizontal"
+            android:paddingBottom="@dimen/favourite_textView_padding_horizontal"
+            android:textSize="@dimen/favourite_item_airport_data"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/temperature"
+            app:layout_constraintTop_toBottomOf="@+id/temperature"
+            tools:text="Scattered at 3400ft AGL" />
+
+
+        <TextView
+            android:id="@+id/weather"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/favourite_textView_padding_horizontal"
+
+            android:paddingBottom="@dimen/favourite_textView_padding_horizontal"
+            android:textSize="@dimen/favourite_item_airport_data"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/clouds"
+            app:layout_constraintTop_toBottomOf="@+id/clouds"
+            tools:text="Medium showers" />
+
+        <TextView
+            android:id="@+id/visibility"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/favourite_textView_padding_horizontal"
+            android:paddingBottom="@dimen/favourite_textView_padding_horizontal"
+            android:text="@{`Visibility ` + airport.metar.visibility.mainVisibility}"
+            android:textSize="@dimen/favourite_item_airport_data"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/weather"
+            app:layout_constraintTop_toBottomOf="@+id/weather"
+            app:layout_constraintVertical_bias="0.0"
+            tools:text="Visibility min. 8km" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

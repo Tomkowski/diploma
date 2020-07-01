@@ -5,24 +5,27 @@
     android:id="@+id/avia_clock">
 
     <data>
-        <variable name="timezone"
-            type="com.tomitive.avia.model.TimeFormatManager"/>
+
+        <variable
+            name="timezone"
+            type="com.tomitive.avia.model.TimeFormatManager" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <TextClock
             android:id="@+id/current_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimaryDark"
+            android:format12Hour="@{null}"
+            android:format24Hour="@{timezone.format}"
             android:gravity="center"
             android:textColor="@color/colorWhite"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:format12Hour="@{null}"
-            android:format24Hour="@{timezone.format}"
             android:timeZone="@{timezone.timezone}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -30,5 +33,5 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -11,6 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.tomitive.avia.AirbaseDataFullInfo
 import com.tomitive.avia.R
+import com.tomitive.avia.databinding.AviaFavouriteItemBinding
 import com.tomitive.avia.model.Airport
 import com.tomitive.avia.utils.MetarManager
 import com.tomitive.avia.utils.airportLocation
@@ -25,53 +26,19 @@ class FavouritesViewAdapter(private val context: Context, private val data: List
     RecyclerView.Adapter<FavouritesViewAdapter.FavouritesView>() {
     private val TAG = "MetarViewAdapter"
 
-    class FavouritesView(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class FavouritesView(private val binding: AviaFavouriteItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        val parentLayout = binding.root.findViewById<ConstraintLayout>(R.id.avia_favourite_item)
 
-        val parentLayout = itemView.findViewById<ConstraintLayout>(R.id.avia_favourite_item)
-
-        fun setAirportName(airportName: String?) {
-            itemView.airport_name.text = airportName
-        }
-
-
-        fun setAirportLocation(country: String?, city: String?) {
-            val location = "$city, $country"
-            itemView.airport_location.text = location
-        }
-
-        fun setAirportLocation(location: String?) {
-            itemView.airport_location.text = location
-        }
-
-        fun setWind(speed: Int?, direction: String?) {
-            val wind = "$direction, $speed"
-            itemView.wind.text = wind
-        }
-
-        fun setTemperature(temperature: Int?) {
-            itemView.temperature.text = temperature.toString()
-        }
-
-        fun setClouds(clouds: String?) {
-            itemView.clouds.text = clouds
-        }
-
-        fun setWeather(weather: String?) {
-            itemView.weather.text = weather
-        }
-
-        fun setVisibility(visibility: String?) {
-            itemView.weather.text = visibility
-        }
-
-        fun setFlightRules(rule: String?) {
-            itemView.flight_rule.status.text = "$rule"
+        fun bind(item: Airport) {
+            binding.airport = item
+            binding.executePendingBindings()
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavouritesView {
-        val from = LayoutInflater.from(context)
-        val view = from.inflate(R.layout.avia_favourite_item, parent, false)
+
+        val view = AviaFavouriteItemBinding.inflate(
+            LayoutInflater.from(context), parent, false)
 
         return FavouritesView(view)
     }
@@ -80,31 +47,14 @@ class FavouritesViewAdapter(private val context: Context, private val data: List
 
     override fun onBindViewHolder(holder: FavouritesView, position: Int) {
 
-        val entry = data[position]
-        val airportName = entry.airportName
-        val airportFullName = entry.airportFullName
-        val airportLocation = entry.airportLocation
-
-        holder.setAirportName(airportName)
-        holder.setAirportLocation(airportLocation)
-
-        //check if COR
-        //holder.setFlightRules(TAFParser.getInstance().parse("").isAmendment)
-
-        holder.setWind(entry.metar?.wind?.speed, entry.metar?.wind?.direction)
-        holder.setTemperature(entry.metar?.temperature)
-        holder.setClouds(entry.metar?.clouds?.joinToString(separator = ", "))
-        holder.setWeather(entry.metar?.weatherConditions?.joinToString(separator = ", "))
-        holder.setVisibility(entry.metar?.visibility?.mainVisibility)
-
-        holder.setFlightRules("VFR") //TODO logic to handle flight rule based on weather conditions
+        holder.bind(data[position])
 
         holder.parentLayout.setOnClickListener {
 
             Log.d(TAG, "Clicked on : $airportName")
             val intent = Intent(context, AirbaseDataFullInfo::class.java)
-            intent.putExtra("airbaseName", airportFullName)
-            intent.putExtra("metar", entry.metar?.message)
+            intent.putExtra("airbaseFullName", data[position].airportFullName)
+            intent.putExtra("airbaseName", data[position].airportName)
             context.startActivity(intent)
         }
         holder.itemView.animation =
