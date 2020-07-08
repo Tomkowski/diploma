@@ -1,29 +1,32 @@
 package com.tomitive.avia.ui.map
 
-import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
-import android.system.Os.remove
-import android.util.AttributeSet
+import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 import com.tomitive.avia.R
+import com.tomitive.avia.model.airports
+import com.tomitive.avia.utils.airportLocationCoordinates
 import com.tomitive.avia.utils.div
 import com.tomitive.avia.utils.minus
 import com.tomitive.avia.utils.plus
 import kotlinx.android.synthetic.main.fragment_map.*
 
 
-class MapFragment : Fragment(), OnMapReadyCallback {
+class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
+    private val TAG = "gmap"
     private lateinit var mMap: GoogleMap
     private val polandSouthWest = LatLng(48.857389, 13.894399)
     private val polandNorthEast = LatLng(54.581568, 23.883870)
@@ -44,39 +47,61 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        try {
-            map_view.onCreate(savedInstanceState)
-            map_view.onResume()
-            map_view.getMapAsync(this)
+        map_view.onCreate(savedInstanceState)
+        map_view.onResume()
+        map_view.getMapAsync(this)
 
-        }
-        catch (e: Exception){
-            e.printStackTrace()
-        }
     }
 
     override fun onMapReady(map: GoogleMap?) {
-        try {
-            map?.let {
-                mMap = it
-                mMap.setLatLngBoundsForCameraTarget(
-                    LatLngBounds
-                        (
-                        polandSouthWest,
-                        polandNorthEast
+        if (map == null) return
+
+        mMap = map
+        mMap.setOnMarkerClickListener(this)
+        mMap.setLatLngBoundsForCameraTarget(
+            LatLngBounds
+                (
+                polandSouthWest,
+                polandNorthEast
+            )
+        )
+        val zoom = (if (inPortraitMode) portraitZoom else landscapeZoom)
+        mMap.setMinZoomPreference(zoom)
+        mMap.moveCamera(
+            CameraUpdateFactory.newLatLngZoom(
+                polandSouthWest + (polandNorthEast - polandSouthWest) / 2.0,
+                zoom
+            )
+        );  //move camera to location
+
+        airports.filter { it.isFavourite }.forEach {
+            val coordinates = airportLocationCoordinates[it.airportName]
+            if (coordinates != null) {
+                mMap.addMarker(
+                    MarkerOptions().position(
+                        coordinates
                     )
+                        .title(it.airportName)
                 )
-                val zoom = (if (inPortraitMode) portraitZoom else landscapeZoom)
-                mMap.setMinZoomPreference(zoom)
-                mMap.moveCamera(
-                    CameraUpdateFactory.newLatLngZoom(
-                        polandSouthWest + (polandNorthEast - polandSouthWest) / 2.0,
-                        zoom
-                    )
-                );  //move camera to location
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
         }
     }
+
+    override fun onMarkerClick(marker: Marker?): Boolean {
+        if (marker == null) return true
+
+        Log.d(TAG, "clicked on ${marker.title}")
+        with(marker) {
+            Handler().post {
+                moveToCurrentLocation(LatLng(position.latitude, position.longitude))
+                showInfoWindow()
+            }
+            return true
+        }
+    }
+
+    private fun moveToCurrentLocation(currentLocation: LatLng) {
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 13f))
+    }
+
 }

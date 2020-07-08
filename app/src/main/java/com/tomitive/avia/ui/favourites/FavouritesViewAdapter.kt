@@ -51,6 +51,10 @@ class FavouritesViewAdapter(private val context: Context, private val data: List
                 setOnClickListener { onClickMetarOk(adapterPosition) }
                 animation = AnimationUtils.loadAnimation(context, R.anim.favourite_item_transition)
 
+                if(adapterPosition < 3){
+                    animation.startOffset = (adapterPosition * 150L)
+                }
+
             }
 
             with(binding) {
