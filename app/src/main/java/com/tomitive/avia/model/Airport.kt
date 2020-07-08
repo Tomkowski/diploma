@@ -10,14 +10,13 @@ data class Airport(
     val airportFullName: String,
     val airportLocation: String?
 ) {
+    var timestamp: String? = "Server not responding"
     var metar: Metar? = null
     var taf: TAF? = null
     var notam: String? = null
     var isFavourite = false
+    var reloading = true
 
-    private fun downloadMetar(){
-
-    }
 }
 
 

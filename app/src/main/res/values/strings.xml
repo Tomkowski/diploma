@@ -20,4 +20,5 @@
     <string name="notam">NOTAM</string>
     <string name="metar_fail_msg">Could not connect to internet! Check your internet connection and try again.</string>
     <string name="navigation_search_hint">Enter airport code</string>
+    <string name="something_went_wrong_please_try_again">Something went wrong. Please try again.</string>
 </resources>

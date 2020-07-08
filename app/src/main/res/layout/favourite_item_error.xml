@@ -13,27 +13,18 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/avia_favourite_item"
+        android:id="@+id/avia_favourite_item_error"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:alpha="0.8"
         android:background="@drawable/shape_avia_favourite_item_background"
         android:elevation="@dimen/favourite_item_elevation"
         android:paddingStart="@dimen/favourite_item_padding_horizontal"
         android:paddingTop="@dimen/favourite_item_padding_top"
-        android:paddingEnd="@dimen/favourite_item_padding_horizontal">
+        android:paddingEnd="@dimen/favourite_item_padding_horizontal"
+        android:minHeight="150dp">
 
-
-        <include
-            android:id="@+id/flight_rule"
-            layout="@layout/avia_favourite_item_status"
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/airport_name">
-
-        </include>
 
         <TextView
 
@@ -46,8 +37,6 @@
             android:text="@{airport.airportLocation}"
             android:textSize="@dimen/favourite_item_airport_location"
             app:layout_constraintBottom_toTopOf="@+id/seperation_bar"
-            app:layout_constraintEnd_toStartOf="@+id/flight_rule"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/airport_name"
             app:layout_constraintTop_toBottomOf="@+id/airport_name"
             app:layout_constraintVertical_bias="0.034"
@@ -57,14 +46,13 @@
             android:id="@+id/timestamp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingStart="@dimen/favourite_textView_padding_horizontal"
-            android:paddingEnd="@dimen/favourite_textView_padding_horizontal"
-            android:gravity="start"
-            android:paddingTop="4dp"
             android:elevation="2dp"
-            android:textSize="@dimen/favourite_item_update_timestamp"
+            android:gravity="start"
+            android:paddingStart="@dimen/favourite_textView_padding_horizontal"
+            android:paddingTop="4dp"
+            android:paddingEnd="@dimen/favourite_textView_padding_horizontal"
             android:text="@{`Last updated: `+ airport.timestamp}"
-            app:layout_constraintEnd_toStartOf="@+id/flight_rule"
+            android:textSize="@dimen/favourite_item_update_timestamp"
             app:layout_constraintStart_toStartOf="@+id/airport_location"
             app:layout_constraintTop_toBottomOf="@+id/airport_location"
             tools:text="Last updated: 02.07.2020 14:58" />
@@ -92,81 +80,41 @@
             app:layout_constraintBottom_toTopOf="@+id/wind"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/flight_rule"
+            app:layout_constraintTop_toBottomOf="@id/timestamp"
             app:srcCompat="@drawable/shape_avia_favourite_item_seperate_bar" />
 
 
         <TextView
-            android:id="@+id/wind"
+            android:id="@+id/error_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="32dp"
             android:paddingTop="@dimen/favourite_textView_padding_horizontal"
             android:paddingBottom="@dimen/favourite_textView_padding_horizontal"
-            android:text="@{`Wind: ` + airport.metar.wind.directionDegrees+`°`+ ` at `+ airport.metar.wind.speed +` kt`}"
+            android:autoSizeTextType="uniform"
+            android:text="@string/something_went_wrong_please_try_again"
             android:textSize="@dimen/favourite_item_airport_data"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:singleLine="true"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.125"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/seperation_bar"
-            tools:text="Wind: 250° at 8kt" />
-
-        <TextView
-            android:id="@+id/temperature"
+            app:layout_constraintTop_toBottomOf="@+id/seperation_bar" />
+        <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="32dp"
             android:paddingTop="@dimen/favourite_textView_padding_horizontal"
             android:paddingBottom="@dimen/favourite_textView_padding_horizontal"
-            android:text="@{`Temperature: ` + airport.metar.temperature + `°C`}"
-            android:textSize="@dimen/favourite_item_airport_data"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/wind"
-            app:layout_constraintTop_toBottomOf="@+id/wind"
-            tools:text="Temperature: 24°C" />
-
-        <TextView
-            android:id="@+id/clouds"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/favourite_textView_padding_horizontal"
-            android:paddingBottom="@dimen/favourite_textView_padding_horizontal"
-            android:textSize="@dimen/favourite_item_airport_data"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/temperature"
-            app:layout_constraintTop_toBottomOf="@+id/temperature"
-            tools:text="Scattered at 3400ft AGL" />
-
-
-        <TextView
-            android:id="@+id/weather"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/favourite_textView_padding_horizontal"
-
-            android:paddingBottom="@dimen/favourite_textView_padding_horizontal"
-            android:textSize="@dimen/favourite_item_airport_data"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/clouds"
-            app:layout_constraintTop_toBottomOf="@+id/clouds"
-            tools:text="Medium showers" />
-
-        <TextView
-            android:id="@+id/visibility"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/favourite_textView_padding_horizontal"
-            android:paddingBottom="@dimen/favourite_textView_padding_horizontal"
-            android:text="@{`Visibility ` + airport.metar.visibility.mainVisibility}"
-            android:textSize="@dimen/favourite_item_airport_data"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/weather"
-            app:layout_constraintTop_toBottomOf="@+id/weather"
-            app:layout_constraintVertical_bias="0.0"
-            tools:text="Visibility min. 8km" />
+            app:layout_constraintHorizontal_bias="0.5"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seperation_bar" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

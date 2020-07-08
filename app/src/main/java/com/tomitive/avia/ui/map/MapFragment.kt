@@ -25,8 +25,8 @@ import kotlinx.android.synthetic.main.fragment_map.*
 class MapFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
-    private val polandSouthWest = LatLng(48.857389,  13.894399)
-    private val polandNorthEast = LatLng(54.581568,  23.883870)
+    private val polandSouthWest = LatLng(48.857389, 13.894399)
+    private val polandNorthEast = LatLng(54.581568, 23.883870)
 
     private val portraitZoom = 5.7f
     private val landscapeZoom = 5.2f
@@ -44,22 +44,39 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        try {
+            map_view.onCreate(savedInstanceState)
+            map_view.onResume()
+            map_view.getMapAsync(this)
 
-        map_view.onCreate(savedInstanceState)
-        map_view.onResume()
-        map_view.getMapAsync(this)
+        }
+        catch (e: Exception){
+            e.printStackTrace()
+        }
     }
 
-    override fun onMapReady(map: GoogleMap?){
-        map?.let {
-            mMap = it
-            mMap.setLatLngBoundsForCameraTarget(LatLngBounds
-                (polandSouthWest,
-                polandNorthEast)
-            )
-            val zoom = (if (inPortraitMode) portraitZoom else landscapeZoom)
-            mMap.setMinZoomPreference(zoom)
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(polandSouthWest + (polandNorthEast - polandSouthWest) / 2.0, zoom));  //move camera to location
+    override fun onMapReady(map: GoogleMap?) {
+        try {
+            map?.let {
+                mMap = it
+                mMap.setLatLngBoundsForCameraTarget(
+                    LatLngBounds
+                        (
+                        polandSouthWest,
+                        polandNorthEast
+                    )
+                )
+                val zoom = (if (inPortraitMode) portraitZoom else landscapeZoom)
+                mMap.setMinZoomPreference(zoom)
+                mMap.moveCamera(
+                    CameraUpdateFactory.newLatLngZoom(
+                        polandSouthWest + (polandNorthEast - polandSouthWest) / 2.0,
+                        zoom
+                    )
+                );  //move camera to location
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 }

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="airport"
+            type="com.tomitive.avia.model.Airport" />
+
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/avia_favourite_item_loading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:alpha="0.8"
+        android:background="@drawable/shape_avia_favourite_item_background"
+        android:elevation="@dimen/favourite_item_elevation"
+        android:paddingStart="@dimen/favourite_item_padding_horizontal"
+        android:paddingTop="@dimen/favourite_item_padding_top"
+        android:paddingEnd="@dimen/favourite_item_padding_horizontal"
+        android:minHeight="150dp">
+
+
+        <TextView
+
+            android:id="@+id/airport_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:paddingStart="@dimen/favourite_textView_padding_horizontal"
+            android:paddingEnd="@dimen/favourite_textView_padding_horizontal"
+            android:text="@{airport.airportLocation}"
+            android:textSize="@dimen/favourite_item_airport_location"
+            app:layout_constraintBottom_toTopOf="@+id/seperation_bar"
+            app:layout_constraintStart_toStartOf="@+id/airport_name"
+            app:layout_constraintTop_toBottomOf="@+id/airport_name"
+            app:layout_constraintVertical_bias="0.034"
+            tools:text="Dęblin, Poland" />
+
+        <TextView
+            android:id="@+id/timestamp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:elevation="2dp"
+            android:gravity="start"
+            android:paddingStart="@dimen/favourite_textView_padding_horizontal"
+            android:paddingTop="4dp"
+            android:paddingEnd="@dimen/favourite_textView_padding_horizontal"
+            android:text="@{`Last updated: `+ airport.timestamp}"
+            android:textSize="@dimen/favourite_item_update_timestamp"
+            app:layout_constraintStart_toStartOf="@+id/airport_location"
+            app:layout_constraintTop_toBottomOf="@+id/airport_location"
+            tools:text="Last updated: 02.07.2020 14:58" />
+
+        <TextView
+            android:id="@+id/airport_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/favourite_textView_padding_horizontal"
+            android:paddingEnd="@dimen/favourite_textView_padding_horizontal"
+            android:text="@{airport.airportFullName}"
+            android:textSize="@dimen/favourite_item_airport_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Moja nazwa lotniska" />
+
+        <ImageView
+            android:id="@+id/seperation_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:paddingStart="@dimen/favourite_item_seperator_padding"
+            android:paddingEnd="@dimen/favourite_item_seperator_padding"
+            app:layout_constraintBottom_toTopOf="@+id/wind"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/timestamp"
+            app:srcCompat="@drawable/shape_avia_favourite_item_seperate_bar" />
+
+
+        <ProgressBar
+            android:id="@+id/loading_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="32dp"
+            android:paddingTop="@dimen/favourite_textView_padding_horizontal"
+            android:paddingBottom="@dimen/favourite_textView_padding_horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seperation_bar" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

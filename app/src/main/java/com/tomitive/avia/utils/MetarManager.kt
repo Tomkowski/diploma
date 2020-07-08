@@ -20,7 +20,6 @@ import kotlin.properties.Delegates
 object MetarManager : ForecastManager<Metar?> {
     private val TAG = "metar"
     private val METAR_POSITION_IN_RSS = 1
-    private var metar: Metar? = null
 
     override fun getForecast(airportName: String): Metar? {
         var metar: Metar? = null
@@ -42,7 +41,7 @@ object MetarManager : ForecastManager<Metar?> {
                     MetarFacade.getInstance().decode(textToDecode)
                 } catch (exception: Exception) {
                     exception.printStackTrace()
-                    Metar()
+                    null
                 }
 
             }
@@ -51,6 +50,4 @@ object MetarManager : ForecastManager<Metar?> {
         //Log.d(TAG, metar.toString())
         return metar
     }
-
-
 }
