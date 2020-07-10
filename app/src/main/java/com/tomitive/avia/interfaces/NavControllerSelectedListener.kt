@@ -9,6 +9,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.whenResumed
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.tomitive.avia.MainActivity
 import com.tomitive.avia.R
 import com.tomitive.avia.ui.favourites.FavouritesFragment
 import com.tomitive.avia.ui.map.MapFragment
@@ -68,7 +69,7 @@ class NavControllerSelectedListener(private val parentActivity: AppCompatActivit
                         .supportFragmentManager
                         .beginTransaction()
                         .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-                        .replace(R.id.nav_host_fragment, this)
+                        .replace(R.id.nav_host_fragment, this, "fragment")
                         .commit()
                 }
                 fragment?.whenResumed {

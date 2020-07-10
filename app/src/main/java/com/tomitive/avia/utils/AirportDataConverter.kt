@@ -61,3 +61,23 @@ val airportLocationCoordinates = mapOf(
     "EPSN" to LatLng(53.790611, 15.826250),
     "EPTM" to LatLng(51.584500, 20.097194)
 )
+
+val airportMeteoLinks = mapOf(
+    "EPCE" to "1944",
+    "EPDA" to "1718",
+    "EPDE" to "1391",
+    "EPIR" to "2077",
+    "EPKS" to "2406",
+    "EPLK" to "2231",
+    "EPLY" to "2237",
+    "EPMB" to "1947",
+    "EPMI" to "1755",
+    "EPMM" to "2827",
+    "EPNA" to "1753",
+    "EPOK" to "1878",
+    "EPPR" to "1909",
+    "EPPW" to "2650",
+    "EPRA" to "2725",
+    "EPSN" to "1746",
+    "EPTM" to "2357"
+)

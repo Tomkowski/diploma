@@ -5,10 +5,12 @@ import android.content.Context.INPUT_METHOD_SERVICE
 import android.util.Log
 import android.view.MenuItem
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getSystemService
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.tomitive.avia.MainActivity
 import com.tomitive.avia.R
 import com.tomitive.avia.ui.map.MapFragment
 
@@ -35,14 +37,10 @@ class NavControllerReselectedListener(private val parentActivity: AppCompatActiv
     }
 
     private fun restartMapFragment() {
-        val fragment = MapFragment()
-        parentActivity
-            .supportFragmentManager
-            .beginTransaction()
-            .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-            .replace(R.id.map_view, fragment)
-            .commit()
+        val fragment = parentActivity.supportFragmentManager.findFragmentByTag("fragment") as MapFragment
 
+        fragment.refreshMap()
+        fragment.hideWeather()
     }
 
     private fun openSoftKeyboard() {

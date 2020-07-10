@@ -15,11 +15,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.launcher"
-        android:usesCleartextTraffic="true"
-        >
+        android:usesCleartextTraffic="true">
+        <activity android:name=".ui.marker.MarkerActivity"></activity>
         <activity
             android:name=".AirbaseDataFullInfo"
-            android:label="@string/title_activity_airbase_data_full_info"/>
+            android:label="@string/title_activity_airbase_data_full_info" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

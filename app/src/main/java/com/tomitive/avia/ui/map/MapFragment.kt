@@ -7,7 +7,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -15,16 +17,20 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.tomitive.avia.MainActivity
 import com.tomitive.avia.R
 import com.tomitive.avia.model.airports
+import com.tomitive.avia.ui.marker.MarkerFragment
 import com.tomitive.avia.utils.airportLocationCoordinates
 import com.tomitive.avia.utils.div
 import com.tomitive.avia.utils.minus
 import com.tomitive.avia.utils.plus
+import kotlinx.android.synthetic.main.avia_favourite_item.*
 import kotlinx.android.synthetic.main.fragment_map.*
 
 
-class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+class MapFragment() : Fragment(), OnMapReadyCallback,
+    GoogleMap.OnMarkerClickListener {
 
     private val TAG = "gmap"
     private lateinit var mMap: GoogleMap
@@ -65,14 +71,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
                 polandNorthEast
             )
         )
-        val zoom = (if (inPortraitMode) portraitZoom else landscapeZoom)
-        mMap.setMinZoomPreference(zoom)
-        mMap.moveCamera(
-            CameraUpdateFactory.newLatLngZoom(
-                polandSouthWest + (polandNorthEast - polandSouthWest) / 2.0,
-                zoom
-            )
-        );  //move camera to location
+
+        refreshMap()
 
         airports.filter { it.isFavourite }.forEach {
             val coordinates = airportLocationCoordinates[it.airportName]
@@ -96,12 +96,39 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
                 moveToCurrentLocation(LatLng(position.latitude, position.longitude))
                 showInfoWindow()
             }
-            return true
         }
+
+        airport_title.text = marker.title
+
+        val args = Bundle().apply { putString("title", marker.title) }
+        childFragmentManager
+            .beginTransaction()
+            .replace(R.id.meteo, MarkerFragment().apply {
+                arguments = args
+            })
+
+            .commit()
+
+
+        return true
     }
 
     private fun moveToCurrentLocation(currentLocation: LatLng) {
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 13f))
     }
 
+    fun refreshMap() {
+        val zoom = (if (inPortraitMode) portraitZoom else landscapeZoom)
+        mMap.setMinZoomPreference(zoom)
+        mMap.animateCamera(
+            CameraUpdateFactory.newLatLngZoom(
+                polandSouthWest + (polandNorthEast - polandSouthWest) / 2.0,
+                zoom
+            )
+        );  //move camera to location
+    }
+    fun hideWeather(){
+        val button = view?.findViewById<Button>(R.id.dummy_motion_listener) ?: return
+        button.performClick()
+    }
 }
