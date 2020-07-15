@@ -10,9 +10,15 @@
         <OnSwipe
             motion:touchAnchorId="@+id/airport_title"
             motion:touchRegionId="@id/airport_title" />
-    </Transition>
+            <OnClick motion:targetId="@+id/dummy_motion_listener" />
+         </Transition>
 
-    <ConstraintSet android:id="@+id/start"></ConstraintSet>
+    <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:id="@+id/airport_title">
+        </Constraint>
+
+    </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
         <Constraint
@@ -22,7 +28,9 @@
             motion:layout_constraintEnd_toEndOf="parent"
             motion:layout_constraintStart_toEndOf="parent"
             motion:layout_constraintTop_toBottomOf="@+id/guideline"
-            motion:layout_editor_absoluteY="865dp" />
+            motion:layout_editor_absoluteY="865dp"
+            >
+        </Constraint>
         <Constraint
             android:id="@+id/meteo"
             android:layout_width="match_parent"

@@ -15,6 +15,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+        android:background="@drawable/shape_avia_favourite_item_background"
+        android:text="@string/more_info"
+        android:textColor="#3A3737"
+        android:textSize="12sp"
         android:id="@+id/meteo_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

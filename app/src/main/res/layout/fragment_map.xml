@@ -50,13 +50,11 @@
         tools:context=".ui.map.MapsActivity" />
 
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/meteo"
-        android:name="com.tomitive.avia.ui.marker.MarkerFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:elevation="2dp"
-        app:layout="@layout/marker_fragment"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

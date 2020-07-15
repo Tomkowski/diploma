@@ -17,6 +17,7 @@ import com.tomitive.avia.R
 import com.tomitive.avia.utils.NetworkManager
 import com.tomitive.avia.utils.airportMeteoLinks
 import com.tomitive.avia.utils.airportName
+import kotlinx.android.synthetic.main.marker_fragment.*
 
 
 class MarkerFragment : Fragment() {
@@ -26,22 +27,19 @@ class MarkerFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        val rootView = inflater.inflate(R.layout.marker_fragment, container, false)
-        rootView.setOnClickListener {
-            Toast.makeText(context, "Web clicked", Toast.LENGTH_SHORT).show()
-        }
-        if(arguments == null){
-            Toast.makeText(context, "arguments are empty", Toast.LENGTH_SHORT).show()
-        }
+        Log.d("Marker", "view oncreate")
         code = arguments?.getString("title") ?: ""
 
-        if(code.isNullOrEmpty()) { Log.d("Marker", "code is empty");return rootView}
-        initWebWiev(rootView)
-        initButton(rootView)
+        val rootView = inflater.inflate(R.layout.marker_fragment, container, false)
 
+        initWebWiev(rootView)
 
         return rootView
+    }
+
+    override fun onStart() {
+        super.onStart()
+        meteo_button.setOnClickListener { initButton(code) }
     }
 
     private fun initWebWiev(rootView: View) {
@@ -52,33 +50,42 @@ class MarkerFragment : Fragment() {
             setAppCacheEnabled(true)
             javaScriptEnabled = true
             cacheMode = WebSettings.LOAD_DEFAULT
-            if (NetworkManager.isNetworkAvailable(requireContext())) {
+            if (!NetworkManager.isNetworkAvailable(requireContext())) {
                 cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
             }
         }
         var airportId = airportMeteoLinks[code]
-
-        Toast.makeText(requireContext(), "Fragment openened with code :$airportId", Toast.LENGTH_SHORT).show()
 
         if (airportId == null) {
             Toast.makeText(requireContext(), "Unable to find that airport!", Toast.LENGTH_SHORT)
                 .show()
             airportId = "1391"
         }
-        meteoWebView.webViewClient = WebViewClient()
-        meteoWebView.visibility = View.VISIBLE
+        meteoWebView.webViewClient = MeteoWebViewClient()
         meteoWebView.loadUrl("https://www.meteo.pl/um/php/meteorogram_id_um.php?ntype=0u&id=$airportId")
     }
 
-    private fun initButton(rootView: View) {
-        val airportFullName = airportName[code] ?: "Unknown airport"
-        val meteoButton = rootView.findViewById<Button>(R.id.meteo_button)
-        Log.d("marker", "clicked")
-        meteoButton.setOnClickListener {
-            val intent = Intent(context, AirbaseDataFullInfo::class.java)
-            intent.putExtra("airbaseFullName", airportFullName)
-            intent.putExtra("airbaseName", code)
-            requireContext().startActivity(intent)
+    private class MeteoWebViewClient : WebViewClient() {
+        override fun onPageFinished(view: WebView?, url: String?) {
+            view?.loadUrl(
+                """javascript:(function() { 
+
+	document.getElementById("wtg_meteorogram_top").style.display="none";
+	document.getElementById("wtg_meteorogram_right").style.display="none";
+	document.getElementById("wtg_meteorogram_bottom").style.display="none";
+
+})()"""
+            )
         }
+    }
+
+    private fun initButton(code: String) {
+        val airportFullName = airportName[code] ?: "Unknown airport"
+        Log.d("marker", "clicked $code")
+        val intent = Intent(context, AirbaseDataFullInfo::class.java)
+        intent.putExtra("airbaseFullName", airportFullName)
+        intent.putExtra("airbaseName", code)
+        requireContext().startActivity(intent)
+
     }
 }

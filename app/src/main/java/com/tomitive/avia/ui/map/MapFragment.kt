@@ -72,7 +72,16 @@ class MapFragment() : Fragment(), OnMapReadyCallback,
             )
         )
 
-        refreshMap()
+
+        val zoom = (if (inPortraitMode) portraitZoom else landscapeZoom)
+        mMap.setMinZoomPreference(zoom)
+        mMap.moveCamera(
+            CameraUpdateFactory.newLatLngZoom(
+                polandSouthWest + (polandNorthEast - polandSouthWest) / 2.0,
+                zoom
+            )
+        );  //move camera to location
+
 
         airports.filter { it.isFavourite }.forEach {
             val coordinates = airportLocationCoordinates[it.airportName]
@@ -106,7 +115,6 @@ class MapFragment() : Fragment(), OnMapReadyCallback,
             .replace(R.id.meteo, MarkerFragment().apply {
                 arguments = args
             })
-
             .commit()
 
 
