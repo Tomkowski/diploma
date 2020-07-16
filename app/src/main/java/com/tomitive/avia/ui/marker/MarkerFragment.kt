@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.tomitive.avia.AirbaseDataFullInfo

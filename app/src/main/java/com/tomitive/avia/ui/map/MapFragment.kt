@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -56,32 +57,32 @@ class MapFragment() : Fragment(), OnMapReadyCallback,
         map_view.onCreate(savedInstanceState)
         map_view.onResume()
         map_view.getMapAsync(this)
-
     }
 
     override fun onMapReady(map: GoogleMap?) {
         if (map == null) return
 
         mMap = map
-        mMap.setOnMarkerClickListener(this)
-        mMap.setLatLngBoundsForCameraTarget(
-            LatLngBounds
-                (
-                polandSouthWest,
-                polandNorthEast
+        with(mMap) {
+            setOnMarkerClickListener(this@MapFragment)
+            setLatLngBoundsForCameraTarget(
+                LatLngBounds
+                    (
+                    polandSouthWest,
+                    polandNorthEast
+                )
             )
-        )
 
 
-        val zoom = (if (inPortraitMode) portraitZoom else landscapeZoom)
-        mMap.setMinZoomPreference(zoom)
-        mMap.moveCamera(
-            CameraUpdateFactory.newLatLngZoom(
-                polandSouthWest + (polandNorthEast - polandSouthWest) / 2.0,
-                zoom
-            )
-        );  //move camera to location
-
+            val zoom = (if (inPortraitMode) portraitZoom else landscapeZoom)
+            setMinZoomPreference(zoom)
+            moveCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                    polandSouthWest + (polandNorthEast - polandSouthWest) / 2.0,
+                    zoom
+                )
+            );  //move camera to location
+        }
 
         airports.filter { it.isFavourite }.forEach {
             val coordinates = airportLocationCoordinates[it.airportName]
@@ -98,7 +99,6 @@ class MapFragment() : Fragment(), OnMapReadyCallback,
 
     override fun onMarkerClick(marker: Marker?): Boolean {
         if (marker == null) return true
-
         Log.d(TAG, "clicked on ${marker.title}")
         with(marker) {
             Handler().post {
@@ -117,7 +117,7 @@ class MapFragment() : Fragment(), OnMapReadyCallback,
             })
             .commit()
 
-
+        toolbarAction()
         return true
     }
 
@@ -135,8 +135,14 @@ class MapFragment() : Fragment(), OnMapReadyCallback,
             )
         );  //move camera to location
     }
-    fun hideWeather(){
+    private fun toolbarAction(){
         val button = view?.findViewById<Button>(R.id.dummy_motion_listener) ?: return
         button.performClick()
     }
+    fun hideToolbar(){
+        val button = view?.findViewById<Button>(R.id.dummy_motion1_listener) ?: return
+        button.performClick()
+
+    }
+
 }

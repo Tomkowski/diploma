@@ -40,7 +40,7 @@ class NavControllerReselectedListener(private val parentActivity: AppCompatActiv
         val fragment = parentActivity.supportFragmentManager.findFragmentByTag("fragment") as MapFragment
 
         fragment.refreshMap()
-        fragment.hideWeather()
+        fragment.hideToolbar()
     }
 
     private fun openSoftKeyboard() {

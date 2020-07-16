@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android" android:constantSize="true">
-    <item android:drawable="@drawable/chessboard" android:state_checked="true" />
-    <item android:drawable="@drawable/default_fav" android:state_checked="false" />
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:enterFadeDuration="@android:integer/config_shortAnimTime"
+    android:exitFadeDuration="@android:integer/config_shortAnimTime"
+    android:constantSize="true">
+
+    <item android:drawable="@drawable/chessboard"
+        android:state_checked="true" />
+    <item android:drawable="@drawable/default_fav"
+        android:state_checked="false" />
 </selector>
