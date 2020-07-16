@@ -1,0 +1,21 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="oval">
+
+            <solid
+                android:color="#8A8686"/>
+
+            <size
+                android:width="@dimen/search_fav_icon_size"
+                android:height="@dimen/search_fav_icon_size"/>
+        </shape>
+    </item>
+    <item
+        android:top="@dimen/search_fav_heart_padding_top"
+        android:left="@dimen/search_fav_heart_padding_left"
+        android:width="@dimen/search_fav_heart_size"
+        android:height="@dimen/search_fav_heart_size"
+        android:drawable="@drawable/chessboard_heart" />
+</layer-list>

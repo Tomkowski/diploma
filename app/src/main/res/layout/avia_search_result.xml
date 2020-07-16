@@ -13,14 +13,14 @@
         android:id="@+id/search_result_fav_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:button="@drawable/avia_search_item_favourite_background"
         android:checked="false"
-        app:layout_constraintBottom_toTopOf="@+id/search_result_airport_full_name"
+        android:paddingTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.914"
+        app:layout_constraintHorizontal_bias="0.915"
         app:layout_constraintStart_toEndOf="@+id/search_result_airport_name"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/search_result_airport_name"
