@@ -57,6 +57,7 @@ class MapFragment() : Fragment(), OnMapReadyCallback,
         map_view.onCreate(savedInstanceState)
         map_view.onResume()
         map_view.getMapAsync(this)
+        openMarkerFragment("EPDE")
     }
 
     override fun onMapReady(map: GoogleMap?) {
@@ -108,17 +109,23 @@ class MapFragment() : Fragment(), OnMapReadyCallback,
         }
 
         airport_title.text = marker.title
+        with(childFragmentManager.findFragmentByTag("MarkerFragment") as MarkerFragment){
+            code = marker.title
+            loadUrl(code)
+        }
+        toolbarAction()
+        return true
+    }
 
-        val args = Bundle().apply { putString("title", marker.title) }
+    private fun openMarkerFragment(airportTitle: String){
+        val args = Bundle().apply { putString("title", airportTitle) }
         childFragmentManager
             .beginTransaction()
             .replace(R.id.meteo, MarkerFragment().apply {
                 arguments = args
-            })
+            }, "MarkerFragment")
             .commit()
 
-        toolbarAction()
-        return true
     }
 
     private fun moveToCurrentLocation(currentLocation: LatLng) {
@@ -144,5 +151,4 @@ class MapFragment() : Fragment(), OnMapReadyCallback,
         button.performClick()
 
     }
-
 }

@@ -20,7 +20,8 @@ import kotlinx.android.synthetic.main.marker_fragment.*
 
 
 class MarkerFragment : Fragment() {
-    private lateinit var code: String
+    lateinit var code: String
+    private lateinit var meteoWebView: WebView
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -42,7 +43,7 @@ class MarkerFragment : Fragment() {
     }
 
     private fun initWebWiev(rootView: View) {
-        val meteoWebView = rootView.findViewById<WebView>(R.id.meteo_web_view)
+        meteoWebView = rootView.findViewById<WebView>(R.id.meteo_web_view)
         with(meteoWebView.settings) {
             setAppCachePath("${requireContext().cacheDir.absolutePath}/aviacast")
             allowFileAccess = true
@@ -52,7 +53,12 @@ class MarkerFragment : Fragment() {
             if (!NetworkManager.isNetworkAvailable(requireContext())) {
                 cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
             }
+            loadUrl(code)
         }
+
+         }
+
+    fun loadUrl(code: String){
         var airportId = airportMeteoLinks[code]
 
         if (airportId == null) {
@@ -63,6 +69,7 @@ class MarkerFragment : Fragment() {
         meteoWebView.webViewClient = MeteoWebViewClient()
         meteoWebView.loadUrl("https://www.meteo.pl/um/php/meteorogram_id_um.php?ntype=0u&id=$airportId")
     }
+
 
     private class MeteoWebViewClient : WebViewClient() {
         override fun onPageFinished(view: WebView?, url: String?) {
