@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ConstraintSet android:id="@+id/start" />
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint android:id="@id/raw_metar">
+            <PropertySet android:alpha="1.0" />
+            <Transform android:rotationX="0" />
+        </Constraint>
+
+        <Constraint android:id="@id/decoded_metar"
+            android:layout_width="200dp">
+            <Transform
+                android:rotationX="-25"/>
+        </Constraint>
+    </ConstraintSet>
+
+    <Transition
+        android:id="@+id/startToEnd"
+        app:constraintSetEnd="@id/end"
+        app:constraintSetStart="@+id/start"
+        app:duration="1000">
+        <OnSwipe
+            app:dragDirection="dragDown"
+            app:onTouchUp="autoCompleteToStart"
+            app:touchAnchorId="@id/decoded_metar"
+            app:touchAnchorSide="bottom"
+            app:touchRegionId="@id/decoded_metar" />
+        <KeyFrameSet>
+            <KeyAttribute
+                android:alpha="0.0"
+                app:framePosition="70"
+                app:motionTarget="@id/raw_metar" />
+        </KeyFrameSet>
+    </Transition>
+</MotionScene>

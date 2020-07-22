@@ -11,6 +11,7 @@ data class Airport(
     val airportLocation: String?
 ) {
     var timestamp: String? = "Server not responding"
+    var rawMetar: String? = null
     var metar: Metar? = null
     var taf: TAF? = null
     var notam: String? = null

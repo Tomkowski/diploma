@@ -2,6 +2,7 @@ package com.tomitive.avia.utils
 
 import android.util.Log
 import com.tomitive.avia.interfaces.ForecastManager
+import com.tomitive.avia.model.airports
 import io.github.mivek.facade.MetarFacade
 import io.github.mivek.model.Metar
 import kotlinx.coroutines.runBlocking
@@ -31,6 +32,9 @@ object MetarManager : ForecastManager<Metar?> {
                     val textToDecode =
                         rss[METAR_POSITION_IN_RSS].text().trim().removePrefix("METAR")
                             .replace("COR", "").trim()
+
+                    airports.find { it.airportName == airportName }?.rawMetar = textToDecode
+
                     MetarFacade.getInstance().decode(textToDecode)
                 } catch (exception: Exception) {
                     exception.printStackTrace()

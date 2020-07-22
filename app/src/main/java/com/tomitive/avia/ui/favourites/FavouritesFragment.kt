@@ -7,10 +7,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.tomitive.avia.R
 import com.tomitive.avia.model.Airport
 import com.tomitive.avia.model.airports
 import com.tomitive.avia.utils.MarginItemDecoration
+import com.tomitive.avia.utils.MetarManager
+import com.tomitive.avia.utils.TimeManager
+import kotlinx.coroutines.runBlocking
+import kotlin.concurrent.thread
 
 class FavouritesFragment : Fragment() {
 
@@ -23,6 +28,24 @@ class FavouritesFragment : Fragment() {
         val favouritesList = rootView.findViewById<RecyclerView>(R.id.favourites_list)
 
         val favAirports = airports.filter { it.isFavourite }
+
+        with(rootView as SwipeRefreshLayout) {
+            setOnRefreshListener {
+                thread {
+                    runBlocking {
+                        airports.filter { it.isFavourite }.forEach {
+                            val newMetar = MetarManager.getForecast(it.airportName)
+                            if (newMetar != null) {
+                                it.metar = newMetar
+                                it.timestamp = TimeManager.time
+                            }
+                        }
+                    }
+                    isRefreshing = false
+                    post { favouritesList.adapter?.notifyDataSetChanged() }
+                }
+            }
+        }
 
         initRecyclerView(favouritesList, favAirports)
 
