@@ -18,7 +18,7 @@
         android:usesCleartextTraffic="true">
         <activity android:name=".ui.marker.MarkerActivity"></activity>
         <activity
-            android:name=".AirbaseDataFullInfo"
+            android:name=".ui.airbasefullinfo.AirbaseDataFullInfo"
             android:label="@string/title_activity_airbase_data_full_info" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -31,6 +31,9 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
         <activity
             android:name=".ui.map.MapFragment"

@@ -10,45 +10,37 @@
     </data>
 
     <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/fragment_metar_full_data_info"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/avia_fav_color"
         app:layoutDescription="@xml/fragment_activity_airbase_data_metar_scene"
         tools:context=".ui.fragments.ActivityAirbaseDataMetar">
 
-        <!-- TODO: Update blank fragment layout -->
-        <TextView
-            android:id="@+id/decoded_metar"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:background="@drawable/avia_search_item_favourite_background"
-            android:elevation="2dp"
-            android:gravity="center"
-            android:text="@string/metar"
-            android:textSize="32sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <TextView
             android:id="@+id/raw_metar"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:alpha="0"
+            android:fontFamily="@font/armata"
             android:gravity="center"
-            android:rotationX="-55"
             android:text="@{raw_metar_data}"
-            tools:text="METAR EPCE 221000Z 27014KT 9999 SCT039 18/08
-Q1019 RMK 177 052 4/4="
             android:textSize="12sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="METAR EPCE 221000Z 27014KT 9999 SCT039 18/08
+Q1019 RMK 177 052 4/4=" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/metar_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/raw_metar" />
 
     </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>

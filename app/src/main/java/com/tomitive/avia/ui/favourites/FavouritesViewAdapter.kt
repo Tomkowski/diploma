@@ -9,7 +9,7 @@ import android.view.animation.AnimationUtils
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
-import com.tomitive.avia.AirbaseDataFullInfo
+import com.tomitive.avia.ui.airbasefullinfo.AirbaseDataFullInfo
 import com.tomitive.avia.R
 import com.tomitive.avia.databinding.AviaFavouriteItemBinding
 import com.tomitive.avia.databinding.FavouriteItemErrorBinding
@@ -18,8 +18,6 @@ import com.tomitive.avia.model.Airport
 import com.tomitive.avia.utils.MetarManager
 import com.tomitive.avia.utils.TimeManager
 import com.tomitive.avia.utils.airportName
-import kotlinx.android.synthetic.main.avia_favourite_item.view.*
-import kotlinx.android.synthetic.main.avia_favourite_item_status.view.*
 import kotlinx.coroutines.runBlocking
 import kotlin.concurrent.thread
 

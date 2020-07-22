@@ -11,7 +11,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.tomitive.avia.AirbaseDataFullInfo
+import com.tomitive.avia.ui.airbasefullinfo.AirbaseDataFullInfo
 import com.tomitive.avia.R
 import com.tomitive.avia.utils.NetworkManager
 import com.tomitive.avia.utils.airportMeteoLinks

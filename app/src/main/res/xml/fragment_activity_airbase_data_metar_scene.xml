@@ -2,19 +2,32 @@
 <MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ConstraintSet android:id="@+id/start" />
+    <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:id="@+id/metar_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/raw_metar" />
+    </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
-        <Constraint android:id="@id/raw_metar">
-            <PropertySet android:alpha="1.0" />
-            <Transform android:rotationX="0" />
+        <Constraint
+            android:id="@id/raw_metar"
+            android:layout_width="0dp"
+            app:layout_constraintBottom_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <Transform android:translationY="-20dp" />
+            <PropertySet android:alpha="0.0" />
         </Constraint>
 
-        <Constraint android:id="@id/decoded_metar"
-            android:layout_width="200dp">
-            <Transform
-                android:rotationX="-25"/>
-        </Constraint>
+        <Constraint
+            android:id="@+id/metar_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/raw_metar" />
     </ConstraintSet>
 
     <Transition
@@ -24,14 +37,13 @@
         app:duration="1000">
         <OnSwipe
             app:dragDirection="dragDown"
-            app:onTouchUp="autoCompleteToStart"
-            app:touchAnchorId="@id/decoded_metar"
+            app:touchAnchorId="@id/metar_info"
             app:touchAnchorSide="bottom"
-            app:touchRegionId="@id/decoded_metar" />
+            app:touchRegionId="@id/metar_info" />
         <KeyFrameSet>
             <KeyAttribute
-                android:alpha="0.0"
-                app:framePosition="70"
+                android:alpha="1.0"
+                app:framePosition="50"
                 app:motionTarget="@id/raw_metar" />
         </KeyFrameSet>
     </Transition>
