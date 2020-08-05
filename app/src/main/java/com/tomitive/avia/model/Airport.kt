@@ -14,7 +14,7 @@ data class Airport(
     var rawMetar: String? = null
     var metar: Metar? = null
     var taf: TAF? = null
-    var notam: String? = null
+    var notams: List<Notam> = emptyList()
     var isFavourite = false
     var reloading = true
 

@@ -43,30 +43,30 @@ class MarkerFragment : Fragment() {
     }
 
     private fun initWebWiev(rootView: View) {
-        meteoWebView = rootView.findViewById<WebView>(R.id.meteo_web_view)
+        meteoWebView = rootView.findViewById(R.id.meteo_web_view)
+        meteoWebView.webViewClient = MeteoWebViewClient()
         with(meteoWebView.settings) {
-            setAppCachePath("${requireContext().cacheDir.absolutePath}/aviacast")
             allowFileAccess = true
-            setAppCacheEnabled(true)
             javaScriptEnabled = true
-            cacheMode = WebSettings.LOAD_DEFAULT
-            if (!NetworkManager.isNetworkAvailable(requireContext())) {
-                cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
-            }
-            loadUrl(code)
+            setAppCacheEnabled(true)
+            setAppCachePath("${requireContext().cacheDir.absolutePath}/aviacast")
         }
+        loadUrl(code)
+    }
 
-         }
-
-    fun loadUrl(code: String){
+    fun loadUrl(code: String) {
         var airportId = airportMeteoLinks[code]
+        meteoWebView.settings.cacheMode =
+            if (!NetworkManager.isNetworkAvailable(requireContext()))
+                WebSettings.LOAD_CACHE_ELSE_NETWORK
+            else WebSettings.LOAD_DEFAULT
+
 
         if (airportId == null) {
             Toast.makeText(requireContext(), "Unable to find that airport!", Toast.LENGTH_SHORT)
                 .show()
             airportId = "1391"
         }
-        meteoWebView.webViewClient = MeteoWebViewClient()
         meteoWebView.loadUrl("https://www.meteo.pl/um/php/meteorogram_id_um.php?ntype=0u&id=$airportId")
     }
 

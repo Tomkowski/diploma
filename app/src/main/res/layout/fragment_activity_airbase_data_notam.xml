@@ -1,18 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/notam_motion_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.ActivityAirbaseDataNotam"
-    android:background="@color/avia_fav_color">
+    android:background="@color/avia_fav_color"
+    app:layoutDescription="@xml/fragment_activity_airbase_data_notam_scene"
+    tools:context=".ui.fragments.ActivityAirbaseDataNotam">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:gravity="center"
-        android:textSize="32dp"
-        android:textStyle="bold"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/notam" />
+        android:id="@+id/raw_notam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="RAW NOTAM" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/decoded_notam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/notam"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/raw_notam" />
+
+</androidx.constraintlayout.motion.widget.MotionLayout>

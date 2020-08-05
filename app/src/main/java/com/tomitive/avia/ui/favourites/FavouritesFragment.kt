@@ -13,6 +13,7 @@ import com.tomitive.avia.model.Airport
 import com.tomitive.avia.model.airports
 import com.tomitive.avia.utils.MarginItemDecoration
 import com.tomitive.avia.utils.MetarManager
+import com.tomitive.avia.utils.NotamManager
 import com.tomitive.avia.utils.TimeManager
 import kotlinx.coroutines.runBlocking
 import kotlin.concurrent.thread
@@ -35,10 +36,12 @@ class FavouritesFragment : Fragment() {
                     runBlocking {
                         airports.filter { it.isFavourite }.forEach {
                             val newMetar = MetarManager.getForecast(it.airportName)
-                            if (newMetar != null) {
-                                it.metar = newMetar
-                                it.timestamp = TimeManager.time
-                            }
+                            if(newMetar != null) it.metar = newMetar
+
+                            val newNotams = NotamManager.getForecast(it.airportName)
+                            if(newNotams.isNotEmpty()) it.notams = newNotams
+
+                            it.timestamp = TimeManager.time
                         }
                     }
                     isRefreshing = false

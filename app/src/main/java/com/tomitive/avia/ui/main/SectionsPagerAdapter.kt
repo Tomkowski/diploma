@@ -30,7 +30,7 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
         return when(position){
             0 -> ActivityAirbaseDataTaf.newInstance(airportName, "")
             1 -> ActivityAirbaseDataMetar.newInstance(airportName)
-            else -> ActivityAirbaseDataNotam.newInstance(airportName, "")
+            else -> ActivityAirbaseDataNotam.newInstance(airportName)
 
         }
     }
