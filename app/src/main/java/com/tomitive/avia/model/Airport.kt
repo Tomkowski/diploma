@@ -22,4 +22,4 @@ data class Airport(
 
 
 //TEMPORARY HERE
-val airports: List<Airport> = airportName.map { Airport(it.key, it.value, airportLocation[it.key]).apply { isFavourite = false }}
+var airports: List<Airport> = emptyList()

@@ -44,6 +44,7 @@ object MetarManager : ForecastManager<Metar?> {
             }
         }.join()
         Log.d(TAG, "GOT $airportName")
+        
         return metar
     }
 }

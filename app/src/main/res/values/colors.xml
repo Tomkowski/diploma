@@ -6,4 +6,6 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="avia_fav_color">#FFFAFA</color>
     <color name="ic_search_item_fav_on">#FF0030</color>
+    <color name="notam_item_view_background_color">#B1B1B1</color>
+    <color name="notam_raw_background_color">#EFECEC</color>
 </resources>

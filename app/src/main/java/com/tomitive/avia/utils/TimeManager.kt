@@ -5,7 +5,11 @@ import java.util.*
 
 object TimeManager {
 
-    val time :String
-        get() = SimpleDateFormat("MM.dd.yyyy HH:mm", Locale.ROOT).format(Calendar.getInstance().time)
+    val currentTime :String
+        get() = SimpleDateFormat("dd.MM.yyyy - HH:mm", Locale.ROOT).format(Calendar.getInstance().time)
 
+}
+
+fun Date.parseToString(): String{
+    return SimpleDateFormat("dd.MM.yyyy - HH:mm", Locale.ROOT).format(this)
 }

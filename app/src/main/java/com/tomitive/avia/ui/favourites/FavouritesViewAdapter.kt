@@ -108,7 +108,7 @@ class FavouritesViewAdapter(private val context: Context, private val data: List
                 thread {
                     runBlocking {
                         metar = MetarManager.getForecast(airportName)
-                        metar?.let { timestamp = TimeManager.time }
+                        metar?.let { timestamp = TimeManager.currentTime }
                         reloading = false
                         parent.post {
                             notifyItemChanged(adapterPosition)

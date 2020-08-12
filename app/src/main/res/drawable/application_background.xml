@@ -12,7 +12,7 @@
         <bitmap
             android:src="@drawable/logo_transparent600"
             android:gravity="center"
-            android:alpha="0.1"
+            android:alpha="0.15"
             />
 
     </item>

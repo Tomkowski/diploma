@@ -41,7 +41,7 @@ class FavouritesFragment : Fragment() {
                             val newNotams = NotamManager.getForecast(it.airportName)
                             if(newNotams.isNotEmpty()) it.notams = newNotams
 
-                            it.timestamp = TimeManager.time
+                            it.timestamp = TimeManager.currentTime
                         }
                     }
                     isRefreshing = false

@@ -47,7 +47,7 @@ class AirbaseDataFullInfo : AppCompatActivity() {
                 return@setOnClickListener
             }
             airports.find { it.airportName == airportName }?.apply {
-                timestamp = TimeManager.time
+                timestamp = TimeManager.currentTime
                 metar = newMetar
             }
         }

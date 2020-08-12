@@ -1,34 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/notam_motion_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/avia_fav_color"
-    app:layoutDescription="@xml/fragment_activity_airbase_data_notam_scene"
-    tools:context=".ui.fragments.ActivityAirbaseDataNotam">
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/notam_motion_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/avia_fav_color"
+        android:layout_margin="8dp"
+        tools:context=".ui.fragments.ActivityAirbaseDataNotam">
 
-    <TextView
-        android:id="@+id/raw_notam"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:text="RAW NOTAM" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/notam_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
-    <TextView
-        android:id="@+id/decoded_notam"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/notam"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/raw_notam" />
-
-</androidx.constraintlayout.motion.widget.MotionLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

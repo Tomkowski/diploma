@@ -6,9 +6,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 import com.tomitive.avia.R
+import com.tomitive.avia.databinding.FragmentActivityAirbaseDataMetarBinding
+import com.tomitive.avia.databinding.FragmentActivityAirbaseDataNotamBinding
+import com.tomitive.avia.model.Notam
 import com.tomitive.avia.model.airports
+import com.tomitive.avia.ui.airbasefullinfo.NotamInfoViewAdapter
+import com.tomitive.avia.utils.MarginItemDecoration
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -30,8 +38,36 @@ class ActivityAirbaseDataNotam : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.d("notamFragment", airports.filter { it.isFavourite }.map { it.notams.toString() }.joinToString("\n") )
-        return inflater.inflate(R.layout.fragment_activity_airbase_data_notam, container, false)
+
+        val binding: FragmentActivityAirbaseDataNotamBinding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_activity_airbase_data_notam,
+            container,
+            false
+        )
+        val view = binding.root
+
+        val notamRecyclerView = view.findViewById<RecyclerView>(R.id.notam_recycler_view)
+
+        val airportNotams = airports.find { it.airportName == airportName }?.notams ?: emptyList()
+        initRecyclerView(notamRecyclerView, airportNotams)
+
+        //Log.d("notamFragment", airports.filter { it.isFavourite }.map { it.notams.toString() }.joinToString("\n") )
+
+        return view
+    }
+
+    private fun initRecyclerView(recyclerView: RecyclerView, notams: List<Notam>){
+        recyclerView.apply{
+            adapter = NotamInfoViewAdapter(requireContext(), notams)
+            layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(
+                MarginItemDecoration(
+                    resources.getDimension(R.dimen.recyclerview_item_padding).toInt()
+                )
+            )
+            setHasFixedSize(true)
+        }
     }
 
     companion object {
