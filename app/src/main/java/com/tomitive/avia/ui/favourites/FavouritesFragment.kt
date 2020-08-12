@@ -36,12 +36,15 @@ class FavouritesFragment : Fragment() {
                     runBlocking {
                         airports.filter { it.isFavourite }.forEach {
                             val newMetar = MetarManager.getForecast(it.airportName)
-                            if(newMetar != null) it.metar = newMetar
+                            if(newMetar != null) {
+                                it.metar = newMetar
+                                it.timestamp = TimeManager.currentTime
+                            }
 
                             val newNotams = NotamManager.getForecast(it.airportName)
                             if(newNotams.isNotEmpty()) it.notams = newNotams
 
-                            it.timestamp = TimeManager.currentTime
+
                         }
                     }
                     isRefreshing = false

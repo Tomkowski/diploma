@@ -49,7 +49,7 @@ class FavouritesViewAdapter(private val context: Context, private val data: List
                 setOnClickListener { onClickMetarOk(adapterPosition) }
                 animation = AnimationUtils.loadAnimation(context, R.anim.favourite_item_transition)
 
-                if(adapterPosition < 3){
+                if (adapterPosition < 3) {
                     animation.startOffset = (adapterPosition * 150L)
                 }
 
@@ -108,7 +108,9 @@ class FavouritesViewAdapter(private val context: Context, private val data: List
                 thread {
                     runBlocking {
                         metar = MetarManager.getForecast(airportName)
-                        metar?.let { timestamp = TimeManager.currentTime }
+                        if (metar != null) {
+                            timestamp = TimeManager.currentTime
+                        }
                         reloading = false
                         parent.post {
                             notifyItemChanged(adapterPosition)

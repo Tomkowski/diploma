@@ -14,6 +14,7 @@ import com.tomitive.avia.model.Airport
 import com.tomitive.avia.model.airports
 import com.tomitive.avia.ui.airbasefullinfo.MetarInfoViewAdapter
 import com.tomitive.avia.ui.favourites.FavouritesViewAdapter
+import com.tomitive.avia.utils.CloudManager
 import com.tomitive.avia.utils.MarginItemDecoration
 import kotlinx.android.synthetic.main.avia_favourite_item.*
 
@@ -79,9 +80,32 @@ class ActivityAirbaseDataMetar : Fragment() {
 
         val data = mutableListOf<Pair<String, String>>()
         with(metar) {
-            temperature?.run { data.add("Temperature" to "$temperature °C") }
-            wind?.run { data.add("Wind" to "${wind.directionDegrees} ° at ${wind.speed} kt") }
-            visibility?.run { data.add("Visibility" to visibility.mainVisibility) }
+            temperature?.run { data.add("Temperature" to "$this °C") }
+            dewPoint?.run { data.add("Dew point temperature" to "$this °C") }
+            altimeter?.run { data.add("Altimeter" to "$this hPa") }
+            wind?.run {
+                data.add("Wind" to "$directionDegrees ° at $speed kt")
+                if (extreme1 != 0 || extreme2 != 0)
+                    data.add("Wind direction varies" to "from ${this.extreme1}° to ${this.extreme2}°")
+
+            }
+            clouds?.run {
+                val mergedClouds =
+                    joinToString("\n") {
+                        CloudManager.calculateCloudCoverage(
+                            it.quantity,
+                            it.height
+                        )
+                    }
+                data.add("Clouds" to if(mergedClouds.isEmpty()) "No significant clouds" else mergedClouds)
+            }
+            weatherConditions?.run {
+
+                val mergedWeatherCondition =
+                    joinToString("\n") { "${it.intensity} ${it.descriptive} " }
+                if(!this.isNullOrEmpty()) data.add("Weather condition" to mergedWeatherCondition)
+                }
+            visibility?.run { data.add("Visibility" to mainVisibility) }
         }
         return data
     }

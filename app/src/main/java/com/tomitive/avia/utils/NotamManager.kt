@@ -1,9 +1,6 @@
 package com.tomitive.avia.utils
 
 import android.util.Log
-import com.beust.klaxon.JsonArray
-import com.beust.klaxon.JsonObject
-import com.beust.klaxon.Klaxon
 import com.tomitive.avia.interfaces.ForecastManager
 import com.tomitive.avia.model.Notam
 import com.tomitive.avia.model.notamCodes
@@ -16,6 +13,8 @@ object NotamManager : ForecastManager<List<Notam>> {
     private const val TAG = "NotamManager"
     override fun getForecast(airportName: String): List<Notam> {
         var jsonObject: String? = null
+        Log.d(TAG, "$airportName")
+
         thread {
 
             runBlocking {
@@ -23,7 +22,7 @@ object NotamManager : ForecastManager<List<Notam>> {
                     val doc =
                         URL(
                             "https://api.autorouter.aero/v1.0/notam?itemas=[\"$airportName\"]"
-                        ).readText()
+                        ).readText(charset = Charsets.UTF_16)
 
                     doc
                 } catch (exception: Exception) {
@@ -38,20 +37,29 @@ object NotamManager : ForecastManager<List<Notam>> {
         val notams = jsonObject ?: ""
         if (notams.isEmpty()) return emptyList()
 
-        val mapper = Klaxon()
-        val json = mapper.parse<Map<String, Any>>(notams)
+        Log.d(TAG, jsonObject)
+        val iteme = Regex("(?<=\"iteme\":\")((.+?)(?=\"))")
 
-        val jsonArray = json?.get("rows") as JsonArray<JsonObject>?
-
+        val startValidityRegex = Regex("(?<=\"startvalidity\":)((.+?)(?=,))")
+        val endValidityRegex = Regex("(?<=\"endvalidity\":)((.+?)(?=,))")
 
         val airportDecodedNotams = mutableListOf<Notam>()
 
-        jsonArray?.forEach { notam ->
+        val rawNotams = iteme.findAll(notams).map { it.value }.toList()
+        val sValidity = startValidityRegex.findAll(notams).map { it.value.toLong() }.toList()
+        val eValidity = endValidityRegex.findAll(notams).map { it.value.toLong() }.toList()
 
-            val startValidity = Date(1000L * (notam["startvalidity"] as Int).toLong())
-            val endValidity = Date(1000L * (notam["endvalidity"] as Int).toLong())
-            val rawNotam = notam["iteme"] as String
+        val dataLength = rawNotams.size
 
+
+        for (i in 0 until dataLength) {
+
+
+            val startValidity = Date(1000L * (sValidity[i]))
+            val endValidity = Date(1000L * (eValidity[i]))
+            val rawNotam = rawNotams[i]
+
+            Log.d(TAG, rawNotam)
             val decodedNotam = rawNotam.trim().let {
                 var fixedNotam = ""
                 it.forEach { char ->
