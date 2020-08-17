@@ -1,15 +1,11 @@
 package com.tomitive.avia.interfaces
 
 import android.util.Log
-import android.view.MenuItem
 import android.view.View
-import androidx.annotation.UiThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.whenResumed
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.tomitive.avia.MainActivity
 import com.tomitive.avia.R
 import com.tomitive.avia.ui.favourites.FavouritesFragment
 import com.tomitive.avia.ui.map.MapFragment

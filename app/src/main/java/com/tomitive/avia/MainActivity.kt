@@ -4,13 +4,10 @@ import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
-import android.view.Menu
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.Navigation
-import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.navigation.NavController
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.tomitive.avia.databinding.ActivityMainBinding
@@ -27,6 +24,7 @@ import me.ibrahimsn.lib.SmoothBottomBar
 class MainActivity : AppCompatActivity() {
     private var doubleBackToExitPressedOnce = false
     private lateinit var navView: SmoothBottomBar
+    private lateinit var navController: NavController
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
 
@@ -34,13 +32,12 @@ class MainActivity : AppCompatActivity() {
 
         loadData()
 
-        val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        val binding: ActivityMainBinding =
+            DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         navView = findViewById(R.id.nav_view)
 
-
-
-        with(navView){
+        with(navView) {
             onItemSelectedListener = NavControllerSelectedListener(this@MainActivity)
             onItemReselectedListener = NavControllerReselectedListener(this@MainActivity)
 
@@ -71,7 +68,7 @@ class MainActivity : AppCompatActivity() {
         saveData()
     }
 
-    private fun saveData(){
+    private fun saveData() {
         val editor = getSharedPreferences("shared preferences", Context.MODE_PRIVATE).edit()
         val gson = Gson()
         val json = gson.toJson(airports)
@@ -80,7 +77,7 @@ class MainActivity : AppCompatActivity() {
         Log.d("mainActivity", "data saved!")
     }
 
-    private fun loadData(){
+    private fun loadData() {
         val sharedPreferences = getSharedPreferences("shared preferences", Context.MODE_PRIVATE)
         val gson = Gson()
         val json = sharedPreferences.getString("airport list", null)
@@ -88,15 +85,7 @@ class MainActivity : AppCompatActivity() {
 
         airports = gson.fromJson(json, type) ?: emptyList()
 
-        if(airports.isEmpty())
-            airports = airportName.map { Airport(it.key, it.value, airportLocation[it.key])}
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.bottom_nav_menu,menu)
-        val navController = Navigation.findNavController(findViewById(R.id.nav_host_fragment))
-
-        navView.setupWithNavController(menu!!,navController)
-        return true
+        if (airports.isEmpty())
+            airports = airportName.map { Airport(it.key, it.value, airportLocation[it.key]) }
     }
 }

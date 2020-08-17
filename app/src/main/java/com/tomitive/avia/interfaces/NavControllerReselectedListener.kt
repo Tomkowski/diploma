@@ -1,16 +1,10 @@
 package com.tomitive.avia.interfaces
 
-import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.util.Log
-import android.view.MenuItem
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.getSystemService
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.tomitive.avia.MainActivity
 import com.tomitive.avia.R
 import com.tomitive.avia.ui.map.MapFragment
 import me.ibrahimsn.lib.OnItemReselectedListener
