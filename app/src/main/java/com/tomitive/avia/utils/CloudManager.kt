@@ -11,6 +11,6 @@ object CloudManager {
             CloudQuantity.BKN -> "5-7/8 Broken ceiling"
             CloudQuantity.OVC -> "8/8 Overcast"
             else -> return "No significant clouds"
-        } +  " at $height ft"
+        } +  " at ${height}ft"
     }
 }

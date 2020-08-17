@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.view.Menu
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -20,11 +21,12 @@ import com.tomitive.avia.model.TimeFormatManager
 import com.tomitive.avia.model.airports
 import com.tomitive.avia.utils.airportLocation
 import com.tomitive.avia.utils.airportName
+import me.ibrahimsn.lib.SmoothBottomBar
 
 
 class MainActivity : AppCompatActivity() {
     private var doubleBackToExitPressedOnce = false
-
+    private lateinit var navView: SmoothBottomBar
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
 
@@ -34,15 +36,14 @@ class MainActivity : AppCompatActivity() {
 
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        val navView: BottomNavigationView = findViewById(R.id.nav_view)
+        navView = findViewById(R.id.nav_view)
 
-        val navController = Navigation.findNavController(findViewById(R.id.nav_host_fragment))
 
 
         with(navView){
-            setupWithNavController(navController)
-            setOnNavigationItemReselectedListener(NavControllerReselectedListener(this@MainActivity))
-            setOnNavigationItemSelectedListener(NavControllerSelectedListener(this@MainActivity))
+            onItemSelectedListener = NavControllerSelectedListener(this@MainActivity)
+            onItemReselectedListener = NavControllerReselectedListener(this@MainActivity)
+
         }
 
 
@@ -91,4 +92,11 @@ class MainActivity : AppCompatActivity() {
             airports = airportName.map { Airport(it.key, it.value, airportLocation[it.key])}
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.bottom_nav_menu,menu)
+        val navController = Navigation.findNavController(findViewById(R.id.nav_host_fragment))
+
+        navView.setupWithNavController(menu!!,navController)
+        return true
+    }
 }

@@ -13,28 +13,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.tomitive.avia.MainActivity
 import com.tomitive.avia.R
 import com.tomitive.avia.ui.map.MapFragment
+import me.ibrahimsn.lib.OnItemReselectedListener
 
 
 class NavControllerReselectedListener(private val parentActivity: AppCompatActivity) :
-    BottomNavigationView.OnNavigationItemReselectedListener {
+        OnItemReselectedListener {
     private val TAG = "navControllerListener"
-    override fun onNavigationItemReselected(item: MenuItem) {
-        if(NavControllerSelectedListener.isLoading) return
-
-        when (item.itemId) {
-            R.id.navigation_map -> {
-                restartMapFragment()
-                Log.d(TAG, "MAP IS RESELECTED")
-            }
-
-            R.id.navigation_favourites -> Log.d(TAG, "FAVS IS RESELECTED")
-
-            R.id.navigation_search -> {
-                openSoftKeyboard()
-                Log.d(TAG, "SEARCH IS RESELECTED")
-            }
-        }
-    }
 
     private fun restartMapFragment() {
         val fragment = parentActivity.supportFragmentManager.findFragmentByTag("fragment") as MapFragment
@@ -54,5 +38,23 @@ class NavControllerReselectedListener(private val parentActivity: AppCompatActiv
 
     companion object{
         var isLoading = false
+    }
+
+    override fun onItemReselect(pos: Int) {
+        if(NavControllerSelectedListener.isLoading) return
+
+        when (pos) {
+            2 -> {
+                restartMapFragment()
+                Log.d(TAG, "MAP IS RESELECTED")
+            }
+
+            1 -> Log.d(TAG, "FAVS IS RESELECTED")
+
+            0 -> {
+                openSoftKeyboard()
+                Log.d(TAG, "SEARCH IS RESELECTED")
+            }
+        }
     }
 }

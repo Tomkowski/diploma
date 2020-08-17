@@ -16,38 +16,41 @@ import com.tomitive.avia.ui.map.MapFragment
 import com.tomitive.avia.ui.search.SearchFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.runBlocking
+import me.ibrahimsn.lib.OnItemSelectedListener
 import kotlin.concurrent.thread
 
 class NavControllerSelectedListener(private val parentActivity: AppCompatActivity) :
-    BottomNavigationView.OnNavigationItemSelectedListener {
-    private val TAG = "NavSelectedListener"
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+    OnItemSelectedListener {
+
+    override fun onItemSelect(pos: Int): Boolean {
         if (isLoading) return false
 
-        when (item.itemId) {
-            R.id.navigation_map -> {
+        val fragmentToLaunch = when (pos) {
+            2 -> {
                 Log.d(TAG, "MAP IS SELECTED")
+                R.id.navigation_map
             }
-
-            R.id.navigation_favourites -> {
+            1 -> {
                 Log.d(TAG, "FAVS IS SELECTED")
+                R.id.navigation_favourites
             }
-
-            R.id.navigation_search -> {
+            0 -> {
                 Log.d(TAG, "SEARCH IS SELECTED")
+                R.id.navigation_search
             }
             else -> {
-
-                Log.d(TAG, "Invalid id - ${item.itemId}")
-                return false
+                Log.d(TAG, "Invalid id - $pos")
+                return true
             }
         }
 
         setProgressBarVisible(true)
-        launchFragment(item.itemId)
+        launchFragment(fragmentToLaunch)
 
         return true
+
     }
+    private val TAG = "NavSelectedListener"
 
     private fun setProgressBarVisible(flag: Boolean) {
         parentActivity.progress_bar.visibility = if (flag) View.VISIBLE else View.INVISIBLE
