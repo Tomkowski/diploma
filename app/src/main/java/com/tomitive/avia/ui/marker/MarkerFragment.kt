@@ -79,7 +79,9 @@ class MarkerFragment : Fragment() {
 	document.getElementById("wtg_meteorogram_top").style.display="none";
 	document.getElementById("wtg_meteorogram_right").style.display="none";
 	document.getElementById("wtg_meteorogram_bottom").style.display="none";
-
+    var data = document.querySelectorAll("img");
+    data[5].style.marginTop = -150;
+    data[6].style.marginTop = -150;
 })()"""
             )
         }

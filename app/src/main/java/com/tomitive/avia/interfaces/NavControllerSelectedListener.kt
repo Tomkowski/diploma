@@ -19,7 +19,7 @@ class NavControllerSelectedListener(private val parentActivity: AppCompatActivit
     OnItemSelectedListener {
 
     override fun onItemSelect(pos: Int): Boolean {
-        if (isLoading) return false
+        if (isLoading) return true
 
         val fragmentToLaunch = when (pos) {
             2 -> {

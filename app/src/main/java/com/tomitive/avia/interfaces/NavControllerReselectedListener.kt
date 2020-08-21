@@ -30,10 +30,6 @@ class NavControllerReselectedListener(private val parentActivity: AppCompatActiv
         imm.showSoftInput(searchEditText, InputMethodManager.SHOW_IMPLICIT)
     }
 
-    companion object{
-        var isLoading = false
-    }
-
     override fun onItemReselect(pos: Int) {
         if(NavControllerSelectedListener.isLoading) return
 

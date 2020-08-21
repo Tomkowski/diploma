@@ -84,7 +84,12 @@ class ActivityAirbaseDataMetar : Fragment() {
             dewPoint?.run { data.add("Dew point temperature" to "$this °C") }
             altimeter?.run { data.add("Altimeter" to "$this hPa") }
             wind?.run {
-                data.add("Wind" to "$directionDegrees ° at $speed kt")
+                val direction = if(directionDegrees == null){
+                    "Variable wind direction"
+                }
+                else "$directionDegrees°"
+
+                data.add("Wind" to "$direction at $speed kt")
                 if (extreme1 != 0 || extreme2 != 0)
                     data.add("Wind direction varies" to "from ${this.extreme1}° to ${this.extreme2}°")
 

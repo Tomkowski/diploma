@@ -15,9 +15,11 @@ import com.tomitive.avia.databinding.AviaFavouriteItemBinding
 import com.tomitive.avia.databinding.FavouriteItemErrorBinding
 import com.tomitive.avia.databinding.FavouriteItemLoadingBinding
 import com.tomitive.avia.model.Airport
+import com.tomitive.avia.utils.FlightRuleManager
 import com.tomitive.avia.utils.MetarManager
 import com.tomitive.avia.utils.TimeManager
 import com.tomitive.avia.utils.airportName
+import io.github.mivek.model.Metar
 import kotlinx.coroutines.runBlocking
 import kotlin.concurrent.thread
 
@@ -57,7 +59,7 @@ class FavouritesViewAdapter(private val context: Context, private val data: List
 
             with(binding) {
                 airport = item
-                flightRule.flightStatus = "LIFR"
+                flightRule.flightStatus = FlightRuleManager.calculateFlightRule(item.metar ?: Metar()).name
                 flightRule.root.setBackgroundResource(R.drawable.shape_avia_favourite_status_background)
                 executePendingBindings()
             }
