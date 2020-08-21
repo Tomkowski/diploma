@@ -19,12 +19,8 @@ import com.tomitive.avia.utils.FlightRuleManager
 import com.tomitive.avia.utils.MetarManager
 import com.tomitive.avia.utils.TimeManager
 import com.tomitive.avia.utils.airportName
-<<<<<<< HEAD
 import io.github.mivek.model.Metar
-=======
-import kotlinx.android.synthetic.main.avia_favourite_item.view.*
-import kotlinx.android.synthetic.main.avia_favourite_item_status.view.*
->>>>>>> 7c893d0... ViewHolder refactor. Move pull data to fav fragment
+
 import kotlinx.coroutines.runBlocking
 import kotlin.concurrent.thread
 
@@ -115,13 +111,9 @@ class FavouritesViewAdapter(private val context: Context, private val data: List
                 thread {
                     runBlocking {
                         metar = MetarManager.getForecast(airportName)
-<<<<<<< HEAD
                         if (metar != null) {
                             timestamp = TimeManager.currentTime
                         }
-=======
-                        metar?.let { timestamp = TimeManager.time }
->>>>>>> 7c893d0... ViewHolder refactor. Move pull data to fav fragment
                         reloading = false
                         parent.post {
                             notifyItemChanged(adapterPosition)
