@@ -1,5 +1,9 @@
 <resources>
-    <string name="app_name">Aviacast</string>
+    <string name="app_name">RetroLogin</string>
+    <string name="forgot_password">Nie pamiętasz <a href="https://login.uni.wroc.pl/passwd-change/reset?lang=pl"><b>hasła?</b></a></string>
+    <string name="title_activity_some_other">SomeOtherActivity</string>
+    <string name="sharedUsername">username - shared preferences</string>
+    <string name="sharedPassword">password - shared preferences</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>

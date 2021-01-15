@@ -5,13 +5,13 @@
     android:scaleType="centerInside"
     android:layout_gravity="center">
     <item>
-        <color android:color="@color/colorPrimaryDark" />
+        <color android:color="@color/colorWhite" />
     </item>
 
     <item>
         <bitmap
-            android:src="@drawable/logo_transparent600"
-            android:gravity="center"
+            android:src="@drawable/logo"
+            android:gravity="fill_horizontal|center_vertical"
             />
 
     </item>

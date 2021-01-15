@@ -10,7 +10,7 @@
 
     <item>
         <bitmap
-            android:src="@drawable/logo_transparent600"
+            android:src="@drawable/logo"
             android:gravity="center"
             android:alpha="0.15"
             />

@@ -64,4 +64,11 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'org.jsoup:jsoup:1.13.1'
     implementation 'io.github.mivek:metarParser:1.10.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.6.1'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.1'
+    implementation 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.1.0'
+    implementation 'pl.droidsonroids:jspoon:1.0.0'
+    implementation 'pl.droidsonroids.retrofit2:converter-jspoon:1.0.0'
+
 }
