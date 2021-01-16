@@ -29,7 +29,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun loginAutomatically(){
-        val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return
+        val sharedPref = getSharedPreferences(getString(R.string.preferencesName), Context.MODE_PRIVATE) ?: return
         val username = sharedPref.getString(getString(R.string.sharedUsername), null)
         val password = sharedPref.getString(getString(R.string.sharedPassword), null)
         if(username == null || password == null) return
@@ -57,6 +57,7 @@ class LoginActivity : AppCompatActivity() {
         service.sendCredentials(Credentials(username, password)) { response ->
             if (response == null) {
                 errorToast.show()
+                progress.visibility = View.INVISIBLE
                 return@sendCredentials
             }
 
@@ -67,7 +68,7 @@ class LoginActivity : AppCompatActivity() {
                         "${response.username} has been logged in successfully",
                         Toast.LENGTH_SHORT
                     ).show()
-                    val sharedPref = getPreferences(Context.MODE_PRIVATE)
+                    val sharedPref = getSharedPreferences(getString(R.string.preferencesName),Context.MODE_PRIVATE)
                     with (sharedPref.edit()) {
                         putString(getString(R.string.sharedUsername), response.username)
                         putString(getString(R.string.sharedPassword), response.authenticatorToken)

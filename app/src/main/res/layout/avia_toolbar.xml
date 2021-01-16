@@ -2,36 +2,51 @@
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/avia_clock">
 
     <data>
 
         <variable
-            name="timezone"
-            type="com.tomitive.avia.model.TimeFormatManager" />
+            name="username"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextClock
+        <TextView
             android:id="@+id/current_time"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark"
-            android:format12Hour="@{null}"
-            android:format24Hour="@{timezone.format}"
+            android:layout_height="0dp"
+            android:background="@color/logo_color"
             android:gravity="center"
             android:textColor="@color/colorWhite"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:timeZone="@{timezone.timezone}"
+            android:text="@{username}"
+            tools:text="299008"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0" />
+
+        <ImageButton
+            android:id="@+id/logout_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/logout_button"
+            android:elevation="4dp"
+            android:gravity="center"
+            android:src="@drawable/ic_baseline_exit_to_app_24"
+            app:layout_constraintBottom_toBottomOf="@id/current_time"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

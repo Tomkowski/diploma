@@ -46,26 +46,18 @@ class RestApiService {
             }
         )
     }
-/*
-    fun logout(cookies: String, onResult: (Response<String>?) -> Unit) {
-        retrofit.logout(cookies).enqueue(
+
+    fun logout(credentials: Credentials, onResult: (Response<String>?) -> Unit) {
+        retrofit.logout(credentials).enqueue(
             object : Callback<String> {
                 override fun onFailure(call: Call<String>, t: Throwable) {
-                    Log.d("RestServiceCredentials", "FAIL: ${call.request().body()}")
                     onResult(null)
                 }
 
                 override fun onResponse(call: Call<String>, response: Response<String>) {
-                    if (!response.isSuccessful) {
-                        Log.d("RestServiceCredentials", "" + response.errorBody()?.string())
-                    } else {
-                        Log.d("RestServiceCredentials", response.headers().toString())
-                    }
-
                     onResult(response)
                 }
             }
         )
     }
-    */
 }

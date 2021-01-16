@@ -1,6 +1,7 @@
 package com.tomitive.avia
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -10,14 +11,18 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.tomitive.avia.api.LoginActivity
+import com.tomitive.avia.api.RestApiService
 import com.tomitive.avia.databinding.ActivityMainBinding
 import com.tomitive.avia.interfaces.NavControllerReselectedListener
 import com.tomitive.avia.interfaces.NavControllerSelectedListener
 import com.tomitive.avia.model.Airport
+import com.tomitive.avia.model.Credentials
 import com.tomitive.avia.model.TimeFormatManager
 import com.tomitive.avia.model.airports
 import com.tomitive.avia.utils.airportLocation
 import com.tomitive.avia.utils.airportName
+import kotlinx.android.synthetic.main.avia_toolbar.*
 import me.ibrahimsn.lib.SmoothBottomBar
 
 
@@ -25,6 +30,7 @@ class MainActivity : AppCompatActivity() {
     private var doubleBackToExitPressedOnce = false
     private lateinit var navView: SmoothBottomBar
     private lateinit var navController: NavController
+    private lateinit var username: String
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
 
@@ -42,13 +48,17 @@ class MainActivity : AppCompatActivity() {
             onItemReselectedListener = NavControllerReselectedListener(this@MainActivity)
 
         }
+        binding.usernameBar.username = username
+        logout_button.setOnClickListener {
+            val service = RestApiService()
+            val password = getSharedPreferences(getString(R.string.preferencesName), Context.MODE_PRIVATE).getString(getString(R.string.sharedPassword), "default")?: "empty"
 
-
-        val format = "EEEE dd/MM/yyyy HH:mm:ss (UTC)"
-        val timeZone = "GMT+000"
-
-        binding.timeBar.timezone =
-            TimeFormatManager(format, timeZone)
+            service.logout(Credentials(username, password)){
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }
     }
 
     override fun onBackPressed() {
@@ -78,11 +88,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadData() {
-        val sharedPreferences = getSharedPreferences("shared preferences", Context.MODE_PRIVATE)
+        val sharedPreferences = getSharedPreferences(getString(R.string.preferencesName), Context.MODE_PRIVATE)
         val gson = Gson()
         val json = sharedPreferences.getString("airport list", null)
         val type = object : TypeToken<List<Airport>>() {}.type
-
+        username = getSharedPreferences(getString(R.string.preferencesName), Context.MODE_PRIVATE).getString(getString(R.string.sharedUsername), "defualt")?: "empty"
         airports = gson.fromJson(json, type) ?: emptyList()
 
         if (airports.isEmpty())

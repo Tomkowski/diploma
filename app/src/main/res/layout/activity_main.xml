@@ -14,7 +14,7 @@
 
     <include
         layout="@layout/avia_toolbar"
-        android:id="@+id/timeBar"
+        android:id="@+id/usernameBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/nav_view"
@@ -46,7 +46,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/nav_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/timeBar"
+        app:layout_constraintTop_toBottomOf="@id/usernameBar"
         app:navGraph="@navigation/mobile_navigation" />
 
     <me.ibrahimsn.lib.SmoothBottomBar
@@ -54,7 +54,7 @@
         android:layout_width="0dp"
         android:layout_height="50dp"
         app:activeItem="1"
-        app:backgroundColor="@color/colorPrimaryDark"
+        app:backgroundColor="@color/logo_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"

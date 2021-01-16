@@ -53,12 +53,8 @@ class AirbaseDataFullInfo : AppCompatActivity() {
         }
         viewPager.currentItem = 1
 
-        val format = "EEEE dd/MM/yyyy HH:mm:ss (UTC)"
-        val timeZone = "GMT+000"
-
         binding.airportName = airportFullName
-        binding.timeBar.timezone =
-            TimeFormatManager(format, timeZone)
+        binding.usernameBar.username = "299008"
 
     }
 }

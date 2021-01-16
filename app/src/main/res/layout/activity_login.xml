@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorWhite"
     android:layout_gravity="center"
     tools:context=".api.LoginActivity"
     app:layoutDescription="@xml/activity_login_scene">
@@ -12,7 +13,6 @@
         android:id="@+id/university_logo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
         android:adjustViewBounds="true"
         android:src="@drawable/logo"
         app:layout_constraintBottom_toTopOf="@+id/username"
