@@ -9,27 +9,19 @@ import android.view.animation.AnimationUtils
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
-import com.tomitive.avia.ui.airbasefullinfo.AirbaseDataFullInfo
 import com.tomitive.avia.R
 import com.tomitive.avia.databinding.AviaFavouriteItemBinding
 import com.tomitive.avia.databinding.FavouriteItemErrorBinding
-import com.tomitive.avia.databinding.FavouriteItemLoadingBinding
-import com.tomitive.avia.model.Airport
-import com.tomitive.avia.utils.FlightRuleManager
-import com.tomitive.avia.utils.MetarManager
-import com.tomitive.avia.utils.TimeManager
+import com.tomitive.avia.model.Reservation
+import com.tomitive.avia.ui.airbasefullinfo.AirbaseDataFullInfo
 import com.tomitive.avia.utils.airportName
-import io.github.mivek.model.Metar
-
-import kotlinx.coroutines.runBlocking
-import kotlin.concurrent.thread
 
 private const val metarError = 900
 private const val metarLoading = 909
 private const val metarOk = 910
 
 
-class FavouritesViewAdapter(private val context: Context, private val data: List<Airport>) :
+class FavouritesViewAdapter(private val context: Context, private val data: List<Reservation>) :
     RecyclerView.Adapter<FavouritesViewAdapter.FavouritesView>() {
     private val TAG = "MetarViewAdapter"
     private lateinit var parent: RecyclerView
@@ -38,16 +30,15 @@ class FavouritesViewAdapter(private val context: Context, private val data: List
         RecyclerView.ViewHolder(binding.root) {
         abstract val parentLayout: ConstraintLayout
 
-        abstract fun bind(item: Airport)
+        abstract fun bind(item: Reservation)
     }
 
     inner class MetarOkHolder(private val binding: AviaFavouriteItemBinding) :
         FavouritesView(binding) {
         override val parentLayout: ConstraintLayout =
-            binding.root.findViewById(R.id.avia_favourite_item)
+            binding.root.findViewById(R.id.user_reservation_card)
 
-        override fun bind(item: Airport) {
-
+        override fun bind(item: Reservation) {
             with(parentLayout) {
                 setOnClickListener { onClickMetarOk(adapterPosition) }
                 animation = AnimationUtils.loadAnimation(context, R.anim.favourite_item_transition)
@@ -59,9 +50,7 @@ class FavouritesViewAdapter(private val context: Context, private val data: List
             }
 
             with(binding) {
-                airport = item
-                flightRule.flightStatus = FlightRuleManager.calculateFlightRule(item.metar ?: Metar()).name
-                flightRule.root.setBackgroundResource(R.drawable.shape_avia_favourite_status_background)
+                reservation = item
                 executePendingBindings()
             }
         }
@@ -69,8 +58,8 @@ class FavouritesViewAdapter(private val context: Context, private val data: List
         private fun onClickMetarOk(position: Int) {
             Log.d(TAG, "Clicked on : $airportName")
             val intent = Intent(context, AirbaseDataFullInfo::class.java)
-            intent.putExtra("airbaseFullName", data[position].airportFullName)
-            intent.putExtra("airbaseName", data[position].airportName)
+            //intent.putExtra("airbaseFullName", data[position].airportFullName)
+            //intent.putExtra("airbaseName", data[position].airportName)
             context.startActivity(intent)
         }
     }
@@ -80,23 +69,24 @@ class FavouritesViewAdapter(private val context: Context, private val data: List
         override val parentLayout: ConstraintLayout =
             binding.root.findViewById(R.id.avia_favourite_item_error)
 
-        override fun bind(item: Airport) {
+        override fun bind(item: Reservation) {
             with(parentLayout) {
                 setOnClickListener {
                     with(data[adapterPosition]) {
-                        reloading = true
+                        //reloading = true
                         notifyItemChanged(adapterPosition)
                     }
                 }
                 alpha = 0.8f
             }
             with(binding) {
-                airport = item
+                //airport = item
                 executePendingBindings()
             }
         }
     }
 
+    /*
     inner class MetarLoadingHolder(private val binding: FavouriteItemLoadingBinding) :
         FavouritesView(binding) {
         override val parentLayout: ConstraintLayout =
@@ -124,18 +114,24 @@ class FavouritesViewAdapter(private val context: Context, private val data: List
         }
 
     }
+    */
 
 
     override fun getItemViewType(position: Int): Int {
-        if (data[position].reloading) return metarLoading
-        if (data[position].metar == null) return metarError
+        //if (data[position].reloading) return metarLoading
+        //if (data[position].metar == null) return metarError
 
 
         return metarOk
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavouritesView {
+        val binding = AviaFavouriteItemBinding.inflate(
+            LayoutInflater.from(context), parent, false
+        )
+        return MetarOkHolder(binding)
 
+/*
         when (viewType) {
             metarOk -> {
                 val binding = AviaFavouriteItemBinding.inflate(
@@ -144,6 +140,7 @@ class FavouritesViewAdapter(private val context: Context, private val data: List
                 return MetarOkHolder(binding)
 
             }
+
             metarLoading -> {
                 val binding = FavouriteItemLoadingBinding.inflate(
                     LayoutInflater.from(context), parent, false
@@ -161,6 +158,7 @@ class FavouritesViewAdapter(private val context: Context, private val data: List
             }
 
         }
+  */
     }
 
     override fun getItemCount(): Int = data.size

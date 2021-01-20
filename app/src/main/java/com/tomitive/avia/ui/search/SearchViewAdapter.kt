@@ -1,6 +1,7 @@
 package com.tomitive.avia.ui.search
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.tomitive.avia.R
 import com.tomitive.avia.model.Airport
 import com.tomitive.avia.model.airports
+import com.tomitive.avia.ui.reservation.ReservationActivity
 import com.tomitive.avia.utils.airportLocation
 import com.tomitive.avia.utils.airportName
 import kotlinx.android.synthetic.main.avia_search_result.view.*
@@ -58,23 +60,24 @@ class SearchViewAdapter(
     }
 
     override fun onBindViewHolder(holder: SearchView, position: Int) {
-        val entry = airports.find { it.airportName == searchItems[position] } ?: return
-        holder.setAirportName(entry.airportName)
-        holder.setAirportFullName(entry.airportFullName)
-        entry.airportLocation?.run { holder.setAirportLocation(this) }
+        //val entry = airports.find { it.airportName == searchItems[position] } ?: return
+        holder.setAirportName("123")
+        holder.setAirportFullName("Yes")
+        holder.setAirportLocation("Wolne teraz")
 
         //holder.itemView.search_result_fav_checkbox.isSelected = entry.isFavourite
-        holder.setFavouriteSelected(entry.isFavourite)
-        Log.d(
-            "debug",
-            "airport name at ${searchItems[position]} position $position. Entry name ${entry.airportName} is checked? ${entry.isFavourite} holder checkbox is checked? : ${holder.itemView.search_result_fav_checkbox.isSelected}"
-        )
+        //holder.setFavouriteSelected(entry.isFavourite)
+
         holder.itemView.search_result_fav_checkbox.setOnCheckedChangeListener(null)
-        with(holder.itemView.search_result_fav_checkbox){
-            setOnClickListener{if(this.isChecked) entry.isFavourite = isChecked else entry.isFavourite = false}
+        with(holder.itemView){
+            setOnClickListener{
+                val intent = Intent(context, ReservationActivity::class.java)
+                intent.putExtra("beginDate",1611057600000F)
+                intent.putExtra("endDate",1611064800000F)
+                intent.putExtra("classId",103F)
+                context.startActivity(intent)
+            }
         }
-
-
     }
 
     fun updateSearchResults(results: List<String>) {
@@ -82,5 +85,4 @@ class SearchViewAdapter(
         Log.d("searchview", "notified! searchItems size is: ${searchItems.size}")
         notifyDataSetChanged()
     }
-
 }

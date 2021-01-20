@@ -4,16 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="com.tomitive.avia.utils.CalendarKt" />
         <variable
-            name="airport"
-            type="com.tomitive.avia.model.Airport" />
+            name="reservation"
+            type="com.tomitive.avia.model.Reservation" />
 
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/avia_favourite_item"
+        android:id="@+id/user_reservation_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -24,34 +24,23 @@
         android:paddingEnd="@dimen/favourite_item_padding_horizontal">
 
 
-        <include
-            android:id="@+id/flight_rule"
-            layout="@layout/avia_favourite_item_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/airport_name">
-
-        </include>
-
         <TextView
 
-            android:id="@+id/airport_location"
+            android:id="@+id/reservation_class_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:paddingStart="@dimen/favourite_textView_padding_horizontal"
             android:paddingEnd="@dimen/favourite_textView_padding_horizontal"
             android:textColor="#FFFF"
-            android:text="@{airport.airportLocation}"
+            android:text="@{`s. ` + reservation.classId+ `, II piętro`}"
             android:textSize="@dimen/favourite_item_airport_location"
             app:layout_constraintBottom_toTopOf="@+id/seperation_bar"
-            app:layout_constraintEnd_toStartOf="@+id/flight_rule"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/airport_name"
-            app:layout_constraintTop_toBottomOf="@+id/airport_name"
+            app:layout_constraintStart_toStartOf="@+id/reservation_title"
+            app:layout_constraintTop_toBottomOf="@+id/reservation_title"
             app:layout_constraintVertical_bias="0.034"
-            tools:text="Dęblin, Poland" />
+            tools:text="s. 103, II piętro" />
 
         <TextView
             android:id="@+id/timestamp"
@@ -64,38 +53,37 @@
             android:textColor="#FFFF"
             android:elevation="2dp"
             android:textSize="@dimen/favourite_item_update_timestamp"
-            android:text="@{`Last updated: `+ airport.timestamp}"
-            app:layout_constraintEnd_toStartOf="@+id/flight_rule"
-            app:layout_constraintStart_toStartOf="@+id/airport_location"
-            app:layout_constraintTop_toBottomOf="@+id/airport_location"
-            tools:text="Last updated: 02.07.2020 14:58" />
+            android:text="@{CalendarKt.dateFormatted(reservation.beginDate) + ` - ` + CalendarKt.dateFormatted(reservation.endDate)}"
+            app:layout_constraintStart_toStartOf="@+id/reservation_class_id"
+            app:layout_constraintTop_toBottomOf="@+id/reservation_class_id"
+            tools:text="02.07.2020 14:00 - 16:30" />
 
         <TextView
-            android:id="@+id/airport_name"
+            android:id="@+id/reservation_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/favourite_textView_padding_horizontal"
             android:paddingEnd="@dimen/favourite_textView_padding_horizontal"
 
             android:textColor="#FFFF"
-            android:text="@{airport.airportFullName}"
+            android:text="@{reservation.title}"
             android:textSize="@dimen/favourite_item_airport_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Moja nazwa lotniska" />
+            tools:text="Robimy bazy danych" />
 
         <ImageView
             android:id="@+id/seperation_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="13dp"
+            android:layout_marginBottom="8dp"
             android:paddingStart="@dimen/favourite_item_seperator_padding"
             android:paddingEnd="@dimen/favourite_item_seperator_padding"
-            app:layout_constraintBottom_toTopOf="@+id/wind"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/flight_rule"
+            app:layout_constraintTop_toBottomOf="@+id/timestamp"
             app:srcCompat="@drawable/shape_avia_favourite_item_seperate_bar" />
 
 

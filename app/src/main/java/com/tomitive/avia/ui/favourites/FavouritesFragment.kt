@@ -1,6 +1,8 @@
 package com.tomitive.avia.ui.favourites
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,8 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.tomitive.avia.R
-import com.tomitive.avia.model.Airport
+import com.tomitive.avia.model.Reservation
 import com.tomitive.avia.model.airports
+import com.tomitive.avia.model.reservations
 import com.tomitive.avia.utils.MarginItemDecoration
 import com.tomitive.avia.utils.MetarManager
 import com.tomitive.avia.utils.NotamManager
@@ -28,39 +31,25 @@ class FavouritesFragment : Fragment() {
         val rootView = inflater.inflate(R.layout.fragment_favourites, container, false)
         val favouritesList = rootView.findViewById<RecyclerView>(R.id.favourites_list)
 
-        val favAirports = airports.filter { it.isFavourite }
+        val username = activity?.getSharedPreferences(
+            getString(R.string.preferencesName),
+            Context.MODE_PRIVATE
+        )?.getString(getString(R.string.sharedUsername), "default") ?: "empty"
 
+        val myReservations = reservations.filter { it.studentId == username.toLong() }
         with(rootView as SwipeRefreshLayout) {
             setOnRefreshListener {
-                thread {
-                    runBlocking {
-                        airports.filter { it.isFavourite }.forEach {
-                            val newMetar = MetarManager.getForecast(it.airportName)
-                            if(newMetar != null) {
-                                it.metar = newMetar
-                                it.timestamp = TimeManager.currentTime
-                            }
 
-                            val newNotams = NotamManager.getForecast(it.airportName)
-                            if(newNotams.isNotEmpty()) it.notams = newNotams
-
-
-                        }
-                    }
-                    isRefreshing = false
-                    post { favouritesList.adapter?.notifyDataSetChanged() }
-                }
             }
         }
-
-        initRecyclerView(favouritesList, favAirports)
+        initRecyclerView(favouritesList, myReservations)
 
         return rootView
     }
 
-    private fun initRecyclerView(favouritesList: RecyclerView, favAirports: List<Airport>) {
+    private fun initRecyclerView(favouritesList: RecyclerView, myReservations: List<Reservation>) {
         favouritesList.apply {
-            adapter = FavouritesViewAdapter(requireContext(), favAirports)
+            adapter = FavouritesViewAdapter(requireContext(), myReservations)
             addItemDecoration(
                 MarginItemDecoration(
                     resources.getDimension(R.dimen.recyclerview_item_padding).toInt()

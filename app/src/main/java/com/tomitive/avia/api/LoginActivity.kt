@@ -60,7 +60,6 @@ class LoginActivity : AppCompatActivity() {
                 progress.visibility = View.INVISIBLE
                 return@sendCredentials
             }
-
             when (response.statusCode) {
                 200 -> {
                     Toast.makeText(

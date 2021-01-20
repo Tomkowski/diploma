@@ -28,7 +28,7 @@
 
         <TextView
 
-            android:id="@+id/airport_location"
+            android:id="@+id/reservation_class_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
@@ -37,8 +37,8 @@
             android:text="@{airport.airportLocation}"
             android:textSize="@dimen/favourite_item_airport_location"
             app:layout_constraintBottom_toTopOf="@+id/seperation_bar"
-            app:layout_constraintStart_toStartOf="@+id/airport_name"
-            app:layout_constraintTop_toBottomOf="@+id/airport_name"
+            app:layout_constraintStart_toStartOf="@+id/reservation_title"
+            app:layout_constraintTop_toBottomOf="@+id/reservation_title"
             app:layout_constraintVertical_bias="0.034"
             tools:text="Dęblin, Poland" />
 
@@ -53,12 +53,12 @@
             android:paddingEnd="@dimen/favourite_textView_padding_horizontal"
             android:text="@{`Last updated: `+ airport.timestamp}"
             android:textSize="@dimen/favourite_item_update_timestamp"
-            app:layout_constraintStart_toStartOf="@+id/airport_location"
-            app:layout_constraintTop_toBottomOf="@+id/airport_location"
+            app:layout_constraintStart_toStartOf="@+id/reservation_class_id"
+            app:layout_constraintTop_toBottomOf="@+id/reservation_class_id"
             tools:text="Last updated: 02.07.2020 14:58" />
 
         <TextView
-            android:id="@+id/airport_name"
+            android:id="@+id/reservation_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/favourite_textView_padding_horizontal"

@@ -11,7 +11,7 @@
     <item>
         <bitmap
             android:src="@drawable/logo"
-            android:gravity="center"
+            android:gravity="fill_horizontal"
             android:alpha="0.15"
             />
 

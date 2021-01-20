@@ -47,6 +47,4 @@ class SearchFragment : Fragment() {
         searchList.setHasFixedSize(true)
         Log.d("searchview", "all set")
     }
-
-
 }
