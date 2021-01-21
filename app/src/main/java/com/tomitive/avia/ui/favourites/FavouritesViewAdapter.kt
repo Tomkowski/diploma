@@ -6,22 +6,29 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
+import com.tomitive.avia.MainActivity
 import com.tomitive.avia.R
+import com.tomitive.avia.api.RestApiService
 import com.tomitive.avia.databinding.AviaFavouriteItemBinding
 import com.tomitive.avia.databinding.FavouriteItemErrorBinding
+import com.tomitive.avia.model.CancellationRequest
+import com.tomitive.avia.model.Credentials
 import com.tomitive.avia.model.Reservation
+import com.tomitive.avia.model.reservations
 import com.tomitive.avia.ui.airbasefullinfo.AirbaseDataFullInfo
 import com.tomitive.avia.utils.airportName
+import kotlinx.android.synthetic.main.avia_favourite_item.view.*
 
 private const val metarError = 900
 private const val metarLoading = 909
 private const val metarOk = 910
 
 
-class FavouritesViewAdapter(private val context: Context, private val data: List<Reservation>) :
+class FavouritesViewAdapter(private val context: Context, private var data: MutableList<Reservation>) :
     RecyclerView.Adapter<FavouritesViewAdapter.FavouritesView>() {
     private val TAG = "MetarViewAdapter"
     private lateinit var parent: RecyclerView
@@ -40,7 +47,7 @@ class FavouritesViewAdapter(private val context: Context, private val data: List
 
         override fun bind(item: Reservation) {
             with(parentLayout) {
-                setOnClickListener { onClickMetarOk(adapterPosition) }
+                cancel_button.setOnClickListener { onClickMetarOk(adapterPosition) }
                 animation = AnimationUtils.loadAnimation(context, R.anim.favourite_item_transition)
 
                 if (adapterPosition < 3) {
@@ -56,11 +63,30 @@ class FavouritesViewAdapter(private val context: Context, private val data: List
         }
 
         private fun onClickMetarOk(position: Int) {
-            Log.d(TAG, "Clicked on : $airportName")
-            val intent = Intent(context, AirbaseDataFullInfo::class.java)
-            //intent.putExtra("airbaseFullName", data[position].airportFullName)
-            //intent.putExtra("airbaseName", data[position].airportName)
-            context.startActivity(intent)
+            val service = RestApiService()
+            with(context as MainActivity) {
+                val classId = data[position].id
+                service.cancelReservation(
+                    CancellationRequest(Credentials(fetchUsername(), fetchToken()), classId)
+                ) {
+                    when (it) {
+                        "414" -> {
+                            Toast.makeText(this, "Twoja sesja wygasła", Toast.LENGTH_SHORT).show()
+                            logout()
+                        }
+                        "400" -> {
+                            Toast.makeText(
+                                this,
+                                "Coś poszło nie tak, spróbuj ponownie później. Kod błedu: $it",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                    downloadReservations()
+                    data = reservations
+                    notifyDataSetChanged()
+                }
+            }
         }
     }
 

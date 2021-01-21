@@ -61,9 +61,11 @@ class ReservationActivity : AppCompatActivity() {
                     )
                     service.createReservation(reservationRequest) {
                         if (it == "200") {
+                            /*
                             with(reservationRequest) {
                                 reservations.add(
                                     Reservation(
+                                        id,
                                         classId,
                                         username.toLong(),
                                         title,
@@ -72,12 +74,13 @@ class ReservationActivity : AppCompatActivity() {
                                     )
                                 )
                             }
+                             */
                             val intent = Intent(this@ReservationActivity, MainActivity::class.java)
                                 .apply {
                                     flags =
                                         Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                putExtra("update made by user", true)
                                 }
-                            Log.d("reserv", "${reservations.size}")
                             startActivity(intent)
                         } else {
                             Toast.makeText(this@ReservationActivity, "$it", Toast.LENGTH_SHORT)

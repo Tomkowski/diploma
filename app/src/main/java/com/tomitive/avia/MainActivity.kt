@@ -34,7 +34,14 @@ class MainActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
 
+        intent?.run {
+            if(getBooleanExtra("update made by user", false)) {
+                downloadReservations()
+                Log.d("intent_main", "called for download")
+            }
+        }
         loadData()
+
 
         val binding: ActivityMainBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -92,7 +99,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun logout() {
+    fun logout() {
         reservations = mutableListOf()
         saveData()
 
@@ -115,14 +122,14 @@ class MainActivity : AppCompatActivity() {
         }.join()
     }
 
-    private fun fetchUsername(): String{
+    fun fetchUsername(): String{
         return getSharedPreferences(
             getString(R.string.preferencesName),
             Context.MODE_PRIVATE
         ).getString(getString(R.string.sharedUsername), "default") ?: "empty"
     }
 
-    private fun fetchToken(): String{
+    fun fetchToken(): String{
         return getSharedPreferences(
             getString(R.string.preferencesName),
             Context.MODE_PRIVATE

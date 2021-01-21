@@ -52,12 +52,12 @@ class FavouritesFragment : Fragment() {
                 post { favouritesList.adapter?.notifyDataSetChanged() }
             }
         }
-        initRecyclerView(favouritesList, myReservations)
+        initRecyclerView(favouritesList, myReservations as MutableList<Reservation>)
 
         return rootView
     }
 
-    private fun initRecyclerView(favouritesList: RecyclerView, myReservations: List<Reservation>) {
+    private fun initRecyclerView(favouritesList: RecyclerView, myReservations: MutableList<Reservation>) {
         favouritesList.apply {
             adapter = FavouritesViewAdapter(requireContext(), myReservations)
             addItemDecoration(

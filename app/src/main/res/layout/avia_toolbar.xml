@@ -17,7 +17,7 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/current_time"
+            android:id="@+id/toolbar_username"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="@color/logo_color"
@@ -43,7 +43,7 @@
             android:elevation="4dp"
             android:gravity="center"
             android:src="@drawable/ic_baseline_exit_to_app_24"
-            app:layout_constraintBottom_toBottomOf="@id/current_time"
+            app:layout_constraintBottom_toBottomOf="@id/toolbar_username"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

@@ -1,9 +1,6 @@
 package com.tomitive.avia.api
 
-import com.tomitive.avia.model.Credentials
-import com.tomitive.avia.model.LoginResponse
-import com.tomitive.avia.model.Reservation
-import com.tomitive.avia.model.ReservationRequest
+import com.tomitive.avia.model.*
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -24,4 +21,6 @@ interface RestApi {
     @POST("/reservation/all")
     fun fetchAllReservations(@Body credentials: Credentials): Call<List<Reservation>?>
 
+    @PUT("/reservation/cancel")
+    fun cancelReservation(@Body cancellationRequest: CancellationRequest): Call<String>
 }

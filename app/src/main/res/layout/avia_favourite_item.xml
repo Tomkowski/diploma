@@ -23,6 +23,15 @@
         android:paddingTop="@dimen/favourite_item_padding_top"
         android:paddingEnd="@dimen/favourite_item_padding_horizontal">
 
+        <ImageButton
+            android:id="@+id/cancel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:background="#00000000"
+            android:src="@drawable/ic_baseline_delete_24"
+            app:layout_constraintEnd_toEndOf="@id/seperation_bar"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
 
@@ -32,6 +41,7 @@
             android:layout_marginBottom="20dp"
             android:paddingStart="@dimen/favourite_textView_padding_horizontal"
             android:paddingEnd="@dimen/favourite_textView_padding_horizontal"
+
             android:textColor="#FFFF"
             android:text="@{`s. ` + reservation.classId+ `, II piętro`}"
             android:textSize="@dimen/favourite_item_airport_location"
@@ -46,21 +56,23 @@
             android:id="@+id/timestamp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingStart="@dimen/favourite_textView_padding_horizontal"
-            android:paddingEnd="@dimen/favourite_textView_padding_horizontal"
-            android:gravity="start"
-            android:paddingTop="4dp"
-            android:textColor="#FFFF"
+            android:layout_marginBottom="8dp"
             android:elevation="2dp"
-            android:textSize="@dimen/favourite_item_update_timestamp"
+            android:gravity="start"
+            android:paddingStart="@dimen/favourite_textView_padding_horizontal"
+            android:paddingTop="4dp"
+            android:paddingEnd="@dimen/favourite_textView_padding_horizontal"
             android:text="@{CalendarKt.dateFormatted(reservation.beginDate) + ` - ` + CalendarKt.dateFormatted(reservation.endDate)}"
+            android:textColor="#FFFF"
+            android:textSize="@dimen/favourite_item_update_timestamp"
+            app:layout_constraintBottom_toTopOf="@id/seperation_bar"
             app:layout_constraintStart_toStartOf="@+id/reservation_class_id"
             app:layout_constraintTop_toBottomOf="@+id/reservation_class_id"
             tools:text="02.07.2020 14:00 - 16:30" />
 
         <TextView
             android:id="@+id/reservation_title"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/favourite_textView_padding_horizontal"
             android:paddingEnd="@dimen/favourite_textView_padding_horizontal"
@@ -68,7 +80,7 @@
             android:textColor="#FFFF"
             android:text="@{reservation.title}"
             android:textSize="@dimen/favourite_item_airport_name"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/cancel_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Robimy bazy danych" />

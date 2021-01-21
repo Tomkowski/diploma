@@ -1,10 +1,7 @@
 package com.tomitive.avia.api
 
 import android.util.Log
-import com.tomitive.avia.model.Credentials
-import com.tomitive.avia.model.LoginResponse
-import com.tomitive.avia.model.Reservation
-import com.tomitive.avia.model.ReservationRequest
+import com.tomitive.avia.model.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -85,9 +82,23 @@ class RestApiService {
     fun fetchAllReservations(credentials: Credentials, onResult: (List<Reservation>?) -> Unit) {
 
         val result = retrofit.fetchAllReservations(credentials).execute()
-        if(result.isSuccessful){
-            onResult(retrofit.fetchAllReservations(credentials).execute().body())
-        }
-        else onResult(null)
+        if (result.isSuccessful) {
+            onResult(result.body())
+        } else onResult(null)
     }
+
+    fun cancelReservation(cancellationRequest: CancellationRequest, onResult: (String?) -> Unit) {
+        retrofit.cancelReservation(cancellationRequest).enqueue(
+            object : Callback<String> {
+                override fun onFailure(call: Call<String>, t: Throwable) {
+                    onResult(null)
+                }
+
+                override fun onResponse(call: Call<String>, response: Response<String>) {
+                    onResult(response.body())
+                }
+            }
+        )
+    }
+
 }
