@@ -3,7 +3,7 @@ package com.tomitive.avia.utils
 import java.text.SimpleDateFormat
 import java.util.*
 
-fun Calendar.dateFormatted(): String{
+fun Long.dateFormatted(): String{
 
-    return SimpleDateFormat("HH:mm", Locale.ROOT).format(this.timeInMillis)
+    return SimpleDateFormat("HH:mm", Locale.ROOT).format(this)
 }

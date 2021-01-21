@@ -22,6 +22,7 @@ import com.tomitive.avia.utils.airportLocation
 import com.tomitive.avia.utils.airportName
 import kotlinx.android.synthetic.main.avia_toolbar.*
 import me.ibrahimsn.lib.SmoothBottomBar
+import kotlin.concurrent.thread
 
 
 class MainActivity : AppCompatActivity() {
@@ -84,17 +85,17 @@ class MainActivity : AppCompatActivity() {
         val json = sharedPreferences.getString("reservation list", null)
         val type = object : TypeToken<List<Reservation>>() {}.type
         if(reservations.isEmpty())
-            reservations = gson.fromJson(json, type)
+            reservations = gson.fromJson(json, type)?: mutableListOf()
 
         if(reservations.isEmpty()){
-            val service = RestApiService()
-            service.fetchAllReservations(Credentials(fetchUsername(), fetchToken())){
-                reservations = it as MutableList<Reservation>
-            }
+            downloadReservations()
         }
     }
 
     private fun logout() {
+        reservations = mutableListOf()
+        saveData()
+
         val service = RestApiService()
         service.logout(Credentials(fetchUsername(), fetchToken())) {
             val intent = Intent(this, LoginActivity::class.java)
@@ -102,6 +103,16 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
 
+    }
+
+    fun downloadReservations(){
+        thread {
+            val service = RestApiService()
+            service.fetchAllReservations(Credentials(fetchUsername(), fetchToken())) {
+                reservations = if (it == null) mutableListOf() else it as MutableList<Reservation>
+                Log.d("debug", "assigned")
+            }
+        }.join()
     }
 
     private fun fetchUsername(): String{

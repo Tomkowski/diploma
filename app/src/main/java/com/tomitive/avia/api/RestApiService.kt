@@ -83,19 +83,11 @@ class RestApiService {
     }
 
     fun fetchAllReservations(credentials: Credentials, onResult: (List<Reservation>?) -> Unit) {
-        retrofit.fetchAllReservations(credentials).enqueue(
-            object : Callback<List<Reservation>?> {
-                override fun onFailure(call: Call<List<Reservation>?>, t: Throwable) {
-                    onResult(null)
-                }
 
-                override fun onResponse(
-                    call: Call<List<Reservation>?>,
-                    response: Response<List<Reservation>?>
-                ) {
-                    onResult(response.body())
-                }
-            }
-        )
+        val result = retrofit.fetchAllReservations(credentials).execute()
+        if(result.isSuccessful){
+            onResult(retrofit.fetchAllReservations(credentials).execute().body())
+        }
+        else onResult(null)
     }
 }

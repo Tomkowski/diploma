@@ -67,8 +67,8 @@ class ReservationActivity : AppCompatActivity() {
                                         classId,
                                         username.toLong(),
                                         title,
-                                        Calendar.getInstance().apply { timeInMillis = beginDate },
-                                        Calendar.getInstance().apply { timeInMillis = endDate }
+                                        beginDate,
+                                        endDate
                                     )
                                 )
                             }
