@@ -17,7 +17,7 @@ class NavControllerReselectedListener(private val parentActivity: AppCompatActiv
     private fun restartMapFragment() {
         val fragment = parentActivity.supportFragmentManager.findFragmentByTag("fragment") as MapFragment
 
-        fragment.refreshMap()
+        //fragment.refreshMap()
         fragment.hideToolbar()
     }
 

@@ -1,6 +1,8 @@
 package com.tomitive.avia.ui.favourites
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
@@ -28,10 +30,14 @@ private const val metarLoading = 909
 private const val metarOk = 910
 
 
-class FavouritesViewAdapter(private val context: Context, private var data: MutableList<Reservation>) :
+class FavouritesViewAdapter(
+    private val context: Context,
+    var data: MutableList<Reservation>
+) :
     RecyclerView.Adapter<FavouritesViewAdapter.FavouritesView>() {
     private val TAG = "MetarViewAdapter"
     private lateinit var parent: RecyclerView
+    private val cancelReservationDialog = AlertDialog.Builder(context)
 
     abstract class FavouritesView(binding: ViewDataBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -63,30 +69,16 @@ class FavouritesViewAdapter(private val context: Context, private var data: Muta
         }
 
         private fun onClickMetarOk(position: Int) {
-            val service = RestApiService()
-            with(context as MainActivity) {
-                val classId = data[position].id
-                service.cancelReservation(
-                    CancellationRequest(Credentials(fetchUsername(), fetchToken()), classId)
-                ) {
-                    when (it) {
-                        "414" -> {
-                            Toast.makeText(this, "Twoja sesja wygasła", Toast.LENGTH_SHORT).show()
-                            logout()
-                        }
-                        "400" -> {
-                            Toast.makeText(
-                                this,
-                                "Coś poszło nie tak, spróbuj ponownie później. Kod błedu: $it",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    }
-                    downloadReservations()
-                    data = reservations
-                    notifyDataSetChanged()
+            cancelReservationDialog.setMessage("Czy na pewno chcesz anulować tę rezerwację?\n${reservations[position].title}")
+                .setTitle("Potwierdzenie")
+                .setPositiveButton("Tak") { _, _ ->
+                    cancelReservation(position)
                 }
-            }
+                .setNegativeButton("Anuluj") { dialog, _ ->
+                    dialog.cancel()
+                }
+                .show()
+
         }
     }
 
@@ -195,5 +187,32 @@ class FavouritesViewAdapter(private val context: Context, private var data: Muta
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         parent = recyclerView
+    }
+
+    private fun cancelReservation(position: Int) {
+        val service = RestApiService()
+        with(context as MainActivity) {
+            val classId = data[position].id
+            service.cancelReservation(
+                CancellationRequest(Credentials(fetchUsername(), fetchToken()), classId)
+            ) {
+                when (it) {
+                    "414" -> {
+                        Toast.makeText(this, "Twoja sesja wygasła", Toast.LENGTH_SHORT).show()
+                        logout()
+                    }
+                    "400" -> {
+                        Toast.makeText(
+                            this,
+                            "Coś poszło nie tak, spróbuj ponownie później. Kod błedu: $it",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+                downloadReservations()
+                data = reservations
+                notifyDataSetChanged()
+            }
+        }
     }
 }

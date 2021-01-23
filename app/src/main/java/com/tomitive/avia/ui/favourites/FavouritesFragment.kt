@@ -41,14 +41,13 @@ class FavouritesFragment : Fragment() {
         val myReservations = reservations.filter { it.studentId == username.toLong() }
         with(rootView as SwipeRefreshLayout) {
             setOnRefreshListener {
-                Log.d("debug", "requestd")
                 thread {
                     (requireContext() as MainActivity).downloadReservations()
                 }.join()
-                Log.d("debug", "received")
 
                 rootView.isRefreshing = false
-
+                (favouritesList.adapter as FavouritesViewAdapter).data =
+                    reservations.filter { it.studentId == username.toLong() } as MutableList<Reservation>
                 post { favouritesList.adapter?.notifyDataSetChanged() }
             }
         }
@@ -57,7 +56,10 @@ class FavouritesFragment : Fragment() {
         return rootView
     }
 
-    private fun initRecyclerView(favouritesList: RecyclerView, myReservations: MutableList<Reservation>) {
+    private fun initRecyclerView(
+        favouritesList: RecyclerView,
+        myReservations: MutableList<Reservation>
+    ) {
         favouritesList.apply {
             adapter = FavouritesViewAdapter(requireContext(), myReservations)
             addItemDecoration(

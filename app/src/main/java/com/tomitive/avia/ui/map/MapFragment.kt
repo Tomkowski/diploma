@@ -1,6 +1,5 @@
 package com.tomitive.avia.ui.map
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -8,25 +7,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.constraintlayout.motion.widget.MotionLayout
+import android.widget.Toast
+import androidx.annotation.DrawableRes
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
-import com.tomitive.avia.MainActivity
+import com.google.android.gms.maps.model.*
 import com.tomitive.avia.R
 import com.tomitive.avia.model.airports
 import com.tomitive.avia.ui.marker.MarkerFragment
-import com.tomitive.avia.utils.airportLocationCoordinates
-import com.tomitive.avia.utils.div
-import com.tomitive.avia.utils.minus
-import com.tomitive.avia.utils.plus
-import kotlinx.android.synthetic.main.avia_favourite_item.*
+import com.tomitive.avia.utils.*
 import kotlinx.android.synthetic.main.fragment_map.*
 
 
@@ -35,13 +28,32 @@ class MapFragment() : Fragment(), OnMapReadyCallback,
 
     private val TAG = "gmap"
     private lateinit var mMap: GoogleMap
-    private val polandSouthWest = LatLng(48.857389, 13.894399)
-    private val polandNorthEast = LatLng(54.581568, 23.883870)
+    private val polandSouthWest = LatLng(-10.0, -10.0)
+    private val polandNorthEast = LatLng(10.0, 10.0)
+    private val groundFloorMap: BitmapDescriptor by lazy {
+        getOverlay(R.drawable.map)
+    }
+    private val firstFloorMap: BitmapDescriptor by lazy {
+        getOverlay(R.drawable.first_floor)
+    }
 
-    private val portraitZoom = 5.7f
-    private val landscapeZoom = 5.2f
-    private val inPortraitMode: Boolean
-        get() = (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT)
+    private val minZoom = 4.0f
+    private val maxZoom = 5.2f
+
+    private val classMarkers = listOf(
+        ClassMarker(LatLng(0.0, 0.0), "103", 1),
+        ClassMarker(LatLng(1.0, 1.0), "104", 1),
+        ClassMarker(LatLng(2.0, 2.0), "105", 1),
+        ClassMarker(LatLng(2.0, 0.0), "106", 1),
+        ClassMarker(LatLng(0.0, 0.0), "3", 0),
+        ClassMarker(LatLng(3.0, 0.0), "4", 0),
+        ClassMarker(LatLng(3.0, 1.0), "5", 0),
+        ClassMarker(LatLng(-1.0, 2.0), "7", 0)
+    )
+
+    private val markers = mutableListOf<Marker>()
+
+    private lateinit var currentMapOverlay: GroundOverlay
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,6 +70,7 @@ class MapFragment() : Fragment(), OnMapReadyCallback,
         map_view.onResume()
         map_view.getMapAsync(this)
         openMarkerFragment("EPDE")
+        setUpButtons()
     }
 
     override fun onMapReady(map: GoogleMap?) {
@@ -65,6 +78,17 @@ class MapFragment() : Fragment(), OnMapReadyCallback,
 
         mMap = map
         with(mMap) {
+            currentMapOverlay = addGroundOverlay(
+                GroundOverlayOptions()
+                    .image(groundFloorMap)
+                    .positionFromBounds(LatLngBounds(polandSouthWest, polandNorthEast))
+            )
+            setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style))
+            Log.d(TAG, "map ready")
+            classMarkers.forEach {
+                markers.add(addMarker(it.marker).apply { isVisible = (it.floor == 0) })
+            }
+
             setOnMarkerClickListener(this@MapFragment)
             setLatLngBoundsForCameraTarget(
                 LatLngBounds
@@ -74,28 +98,16 @@ class MapFragment() : Fragment(), OnMapReadyCallback,
                 )
             )
 
-
-            val zoom = (if (inPortraitMode) portraitZoom else landscapeZoom)
-            setMinZoomPreference(zoom)
+            setMinZoomPreference(minZoom)
+            setMaxZoomPreference(maxZoom)
             moveCamera(
                 CameraUpdateFactory.newLatLngZoom(
                     polandSouthWest + (polandNorthEast - polandSouthWest) / 2.0,
-                    zoom
+                    5.0f
                 )
-            );  //move camera to location
+            )
         }
 
-        airports.filter { it.isFavourite }.forEach {
-            val coordinates = airportLocationCoordinates[it.airportName]
-            if (coordinates != null) {
-                mMap.addMarker(
-                    MarkerOptions().position(
-                        coordinates
-                    )
-                        .title(it.airportName)
-                )
-            }
-        }
     }
 
     override fun onMarkerClick(marker: Marker?): Boolean {
@@ -104,12 +116,11 @@ class MapFragment() : Fragment(), OnMapReadyCallback,
         with(marker) {
             Handler().post {
                 moveToCurrentLocation(LatLng(position.latitude, position.longitude))
-                showInfoWindow()
             }
         }
 
         airport_title.text = marker.title
-        with(childFragmentManager.findFragmentByTag("MarkerFragment") as MarkerFragment){
+        with(childFragmentManager.findFragmentByTag("MarkerFragment") as MarkerFragment) {
             code = marker.title
             loadUrl(code)
         }
@@ -117,7 +128,7 @@ class MapFragment() : Fragment(), OnMapReadyCallback,
         return true
     }
 
-    private fun openMarkerFragment(airportTitle: String){
+    private fun openMarkerFragment(airportTitle: String) {
         val args = Bundle().apply { putString("title", airportTitle) }
         childFragmentManager
             .beginTransaction()
@@ -132,23 +143,69 @@ class MapFragment() : Fragment(), OnMapReadyCallback,
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 13f))
     }
 
-    fun refreshMap() {
-        val zoom = (if (inPortraitMode) portraitZoom else landscapeZoom)
-        mMap.setMinZoomPreference(zoom)
-        mMap.animateCamera(
-            CameraUpdateFactory.newLatLngZoom(
-                polandSouthWest + (polandNorthEast - polandSouthWest) / 2.0,
-                zoom
-            )
-        );  //move camera to location
-    }
-    private fun toolbarAction(){
+    private fun toolbarAction() {
         val button = view?.findViewById<Button>(R.id.dummy_motion_listener) ?: return
         button.performClick()
     }
-    fun hideToolbar(){
+
+    fun hideToolbar() {
         val button = view?.findViewById<Button>(R.id.dummy_motion1_listener) ?: return
         button.performClick()
 
+    }
+
+    private fun setUpButtons() {
+        with(ground_floor_button) {
+            isClickable = false
+            backgroundTintList =
+                ContextCompat.getColorStateList(requireContext(), R.color.reservation_card_color)
+
+            setOnClickListener {
+                currentMapOverlay.setImage(groundFloorMap)
+
+                first_floor_button.isClickable = true
+                first_floor_button.backgroundTintList =
+                    ContextCompat.getColorStateList(requireContext(), R.color.colorWhite)
+
+                markers.forEachIndexed { index, elem ->
+                    elem.isVisible = (classMarkers[index].floor == 0)
+                }
+                backgroundTintList =
+                    ContextCompat.getColorStateList(
+                        requireContext(),
+                        R.color.reservation_card_color
+                    )
+                isClickable = false
+
+                Toast.makeText(context, "Ground floor selected", Toast.LENGTH_SHORT).show()
+            }
+        }
+        with(first_floor_button) {
+            setOnClickListener {
+                currentMapOverlay.setImage(firstFloorMap)
+
+                isClickable = false
+                backgroundTintList =
+                    ContextCompat.getColorStateList(
+                        requireContext(),
+                        R.color.reservation_card_color
+                    )
+
+                markers.forEachIndexed { index, elem ->
+                    elem.isVisible = (classMarkers[index].floor == 1)
+                }
+
+                ground_floor_button.isClickable = true
+                ground_floor_button.backgroundTintList =
+                    ContextCompat.getColorStateList(requireContext(), R.color.colorWhite)
+
+                Toast.makeText(context, "First floor selected", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun getOverlay(@DrawableRes resId: Int): BitmapDescriptor {
+        Log.d(TAG, "get overlay $resId")
+        return BitmapDescriptorFactory.fromResource(resId)
     }
 }
