@@ -74,7 +74,7 @@ class FavouritesViewAdapter(
                 .setPositiveButton("Tak") { _, _ ->
                     cancelReservation(position)
                 }
-                .setNegativeButton("Anuluj") { dialog, _ ->
+                .setNegativeButton("Nie") { dialog, _ ->
                     dialog.cancel()
                 }
                 .show()

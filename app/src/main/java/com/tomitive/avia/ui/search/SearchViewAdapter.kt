@@ -13,6 +13,7 @@ import com.tomitive.avia.R
 import com.tomitive.avia.model.Airport
 import com.tomitive.avia.model.airports
 import com.tomitive.avia.ui.reservation.ReservationActivity
+import com.tomitive.avia.ui.reservation.ReservationSchedule
 import com.tomitive.avia.utils.airportLocation
 import com.tomitive.avia.utils.airportName
 import kotlinx.android.synthetic.main.avia_search_result.view.*
@@ -69,12 +70,13 @@ class SearchViewAdapter(
         //holder.setFavouriteSelected(entry.isFavourite)
 
         holder.itemView.search_result_fav_checkbox.setOnCheckedChangeListener(null)
-        with(holder.itemView){
-            setOnClickListener{
-                val intent = Intent(context, ReservationActivity::class.java)
-                intent.putExtra("beginDate",1611057600000F)
-                intent.putExtra("endDate",1611064800000F)
-                intent.putExtra("classId",103F)
+        with(holder.itemView) {
+            setOnClickListener {
+                val intent = Intent(context, ReservationSchedule::class.java).apply {
+                    putExtra("beginDate", 1611057600000F)
+                    putExtra("endDate", 1611064800000F)
+                    putExtra("classId", 103F)
+                }
                 context.startActivity(intent)
             }
         }

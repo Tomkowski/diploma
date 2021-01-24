@@ -16,6 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.launcher"
         android:usesCleartextTraffic="true">
+        <activity android:name=".ui.reservation.ReservationSchedule"></activity>
         <activity android:name=".ui.reservation.ReservationActivity" />
         <activity android:name=".ui.marker.MarkerActivity" />
         <activity

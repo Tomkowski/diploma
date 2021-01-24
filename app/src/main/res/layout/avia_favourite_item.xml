@@ -49,7 +49,6 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/reservation_title"
             app:layout_constraintTop_toBottomOf="@+id/reservation_title"
-            app:layout_constraintVertical_bias="0.034"
             tools:text="s. 103, II piętro" />
 
         <TextView
@@ -62,7 +61,7 @@
             android:paddingStart="@dimen/favourite_textView_padding_horizontal"
             android:paddingTop="4dp"
             android:paddingEnd="@dimen/favourite_textView_padding_horizontal"
-            android:text="@{CalendarKt.dateFormatted(reservation.beginDate) + ` - ` + CalendarKt.dateFormatted(reservation.endDate)}"
+            android:text="@{CalendarKt.dateFormattedDDMMYYYY(reservation.beginDate) + ` ` + CalendarKt.dateFormattedHHmm(reservation.beginDate) + ` - ` + CalendarKt.dateFormattedHHmm(reservation.endDate)}"
             android:textColor="#FFFF"
             android:textSize="@dimen/favourite_item_update_timestamp"
             app:layout_constraintBottom_toTopOf="@id/seperation_bar"

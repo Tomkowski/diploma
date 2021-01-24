@@ -7,18 +7,99 @@
     android:background="@color/colorWhite"
     tools:context=".ui.reservation.ReservationActivity">
 
+    <EditText
+        android:id="@+id/activity_reservation_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:drawableStart="@drawable/ic_baseline_edit_24"
+        android:drawablePadding="12dp"
+        android:hint="Moja rezerwacja"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/activity_reservation_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Początek"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/activity_reservation_begin_date"
+        app:layout_constraintStart_toStartOf="@id/activity_reservation_begin_date"
+        app:layout_constraintBottom_toTopOf="@id/activity_reservation_begin_date"/>
+    <com.robinhood.ticker.TickerView
+        android:id="@+id/activity_reservation_begin_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/logo_color"
+        android:textSize="32sp"
+        android:layout_marginHorizontal="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/rangeSlider"
+        app:layout_constraintEnd_toStartOf="@id/activity_reservation_guideline"
+        app:layout_constraintTop_toBottomOf="@id/activity_reservation_title"
+        app:ticker_animationDuration="500"
+        app:ticker_defaultPreferredScrollingDirection="any"
+        tools:text="11:30" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Koniec"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/activity_reservation_end_date"
+        app:layout_constraintStart_toStartOf="@id/activity_reservation_end_date"
+        app:layout_constraintBottom_toTopOf="@id/activity_reservation_end_date"/>
+    <com.robinhood.ticker.TickerView
+        android:id="@+id/activity_reservation_end_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/logo_color"
+        android:layout_marginHorizontal="32dp"
+        android:textSize="32sp"
+        app:layout_constraintBottom_toTopOf="@+id/rangeSlider"
+        app:layout_constraintStart_toEndOf="@id/activity_reservation_guideline"
+        app:layout_constraintTop_toBottomOf="@id/activity_reservation_title"
+        app:ticker_animationDuration="500"
+        app:ticker_defaultPreferredScrollingDirection="any"
+        tools:text="13:00" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="24.01.2021\nSala: 123\nII piętro"
+        android:gravity="center"
+        android:textColor="@color/logo_color"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/activity_reservation_begin_date"
+        app:layout_constraintBottom_toTopOf="@id/rangeSlider"/>
+
+
     <com.google.android.material.slider.RangeSlider
         android:id="@+id/rangeSlider"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        app:haloColor="@color/logo_color"
-        app:thumbColor="@color/colorWhite"
-        app:tickColor="@color/colorPrimary"
-        app:trackColor="@color/logo_color"
+        app:haloColor="@color/reservation_card_color"
         app:layout_constraintBottom_toTopOf="@+id/reservation_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:thumbColor="@color/colorWhite"
+        app:tickColor="@color/colorPrimary"
+        app:trackColorInactive="@color/reservation_card_color"
+        app:trackColorActive="@color/logo_color" />
 
     <Button
         android:id="@+id/reservation_button"

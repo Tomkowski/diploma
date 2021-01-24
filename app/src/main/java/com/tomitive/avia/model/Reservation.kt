@@ -1,12 +1,10 @@
 package com.tomitive.avia.model
 
-import java.util.*
-
 data class Reservation(
-    val id: Long,
+    val id: Long = -1L,
     val classId: Long,
-    val studentId: Long,
-    val title: String,
+    val studentId: Long = 0L,
+    val title: String = "",
     val beginDate: Long,
     val endDate: Long
 )

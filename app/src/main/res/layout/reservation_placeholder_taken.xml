@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.tomitive.avia.utils.CalendarKt" />
+        <variable
+            name="reservation"
+            type="com.tomitive.avia.model.Reservation" />
+
+
+    </data>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/reservation_placeholder_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="2dp"
+    android:background="@drawable/shape_reservation_schedule_background">
+
+    <TextView
+        android:id="@+id/reservation_placeholder_title"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:layout_width="wrap_content"
+        android:textColor="#000"
+        android:text="@{reservation.title}"
+        tools:text="Wybrane elementy praktyki projektowania oprogramowania"
+        app:layout_constraintStart_toStartOf="parent"
+        android:paddingBottom="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="wrap_content"/>
+
+
+    <TextView
+        android:id="@+id/reservation_placeholder_author"
+        android:layout_width="wrap_content"
+        tools:text="Rezerwacja cykliczna"
+        android:text="@{reservation.studentId+``}"
+        android:textColor="#666"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/reservation_placeholder_title"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/reservation_placeholder_hours"
+        android:layout_width="wrap_content"
+        tools:text="8:00 - 10:00"
+        android:textColor="#000"
+        android:text="@{CalendarKt.dateFormattedHHmm(reservation.beginDate) + ` - ` + CalendarKt.dateFormattedHHmm(reservation.endDate)}"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="wrap_content"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
