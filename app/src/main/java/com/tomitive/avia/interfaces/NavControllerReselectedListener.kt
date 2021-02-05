@@ -23,7 +23,7 @@ class NavControllerReselectedListener(private val parentActivity: AppCompatActiv
 
     private fun openSoftKeyboard() {
         val searchEditText =
-            parentActivity.findViewById<EditText>(R.id.navigation_search_edit_text)
+            parentActivity.findViewById<EditText>(R.id.navigation_search_edit_text)?: return
         searchEditText.requestFocus()
         val imm =
             parentActivity.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager

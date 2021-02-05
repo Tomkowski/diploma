@@ -6,21 +6,20 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CompoundButton
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.tomitive.avia.R
-import com.tomitive.avia.model.Airport
-import com.tomitive.avia.model.airports
-import com.tomitive.avia.ui.reservation.ReservationActivity
+import com.tomitive.avia.model.Reservation
+import com.tomitive.avia.model.classrooms
+import com.tomitive.avia.model.reservations
 import com.tomitive.avia.ui.reservation.ReservationSchedule
-import com.tomitive.avia.utils.airportLocation
-import com.tomitive.avia.utils.airportName
+import com.tomitive.avia.utils.dateFormattedHHmm
 import kotlinx.android.synthetic.main.avia_search_result.view.*
+import java.util.*
 
 class SearchViewAdapter(
     private val context: Context,
-    private var searchItems: List<String> = airportName.map { it.key }
+    private var searchItems: List<String> = classrooms
 ) :
     RecyclerView.Adapter<SearchViewAdapter.SearchView>() {
 
@@ -28,21 +27,20 @@ class SearchViewAdapter(
 
         val parentLayout = itemView.findViewById<ConstraintLayout>(R.id.avia_search_result)
 
-        fun setAirportName(name: String) {
-            itemView.search_result_airport_name.text = name
+        fun setClassNumber(name: String) {
+            itemView.search_result_classroom_number.text = name
         }
 
-        fun setAirportFullName(fullName: String) {
-            itemView.search_result_airport_full_name.text = fullName
+        fun setReservationTitle(fullName: String) {
+            itemView.search_result_current_reservation_title.text = fullName
         }
 
-        fun setAirportLocation(location: String) {
-            itemView.search_result_airport_location.text = location
+        fun setNextReservationDate(location: String) {
+            itemView.search_result_current_reservation_date.text = location
         }
 
         fun setFavouriteSelected(isSet: Boolean) {
-            itemView.search_result_fav_checkbox.isChecked = isSet
-            itemView.search_result_fav_checkbox.isSelected = isSet
+            itemView.search_result_fav_checkbox.visibility = if (isSet) View.VISIBLE else View.GONE
 
         }
 
@@ -56,26 +54,52 @@ class SearchViewAdapter(
     }
 
     override fun getItemCount(): Int {
-        Log.d("searchview", "number of items : ${searchItems.size}")
         return searchItems.size
     }
 
     override fun onBindViewHolder(holder: SearchView, position: Int) {
-        //val entry = airports.find { it.airportName == searchItems[position] } ?: return
-        holder.setAirportName("123")
-        holder.setAirportFullName("Yes")
-        holder.setAirportLocation("Wolne teraz")
+        val closestReservation =
+            reservations.filter { it.classId.toString() == searchItems[position] }
+                .minBy { it.endDate }
+        val currentTime = System.currentTimeMillis()
+        val entry = with(closestReservation) {
+            when {
+                this == null -> null
+                currentTime in beginDate..endDate -> this
+                else -> null
+            }
+        }
+        holder.setClassNumber("Sala: ${searchItems[position]}")
+        if (entry != null) {
+
+            val fullName = if (entry.studentFullName.isEmpty()) "" else ", ${entry.studentFullName}"
+
+            holder.setReservationTitle("${entry.title}$fullName")
+            holder.setNextReservationDate("${entry.beginDate.dateFormattedHHmm()} - ${entry.endDate.dateFormattedHHmm()}")
+            holder.setFavouriteSelected(false)
+        } else {
+            val calendar = Calendar.getInstance()
+            holder.setReservationTitle("")
+
+            if (calendar.get(Calendar.HOUR_OF_DAY) >= 20) {
+                holder.setNextReservationDate("Instytut jest zamknięty, zapraszamy jutro.")
+                holder.setFavouriteSelected(false)
+            }
+                else{
+                holder.setNextReservationDate("Wolne teraz")
+                holder.setFavouriteSelected(true)
+            }
+        }
 
         //holder.itemView.search_result_fav_checkbox.isSelected = entry.isFavourite
         //holder.setFavouriteSelected(entry.isFavourite)
 
-        holder.itemView.search_result_fav_checkbox.setOnCheckedChangeListener(null)
+        //holder.itemView.search_result_fav_checkbox.setOnCheckedChangeListener(null)
+
         with(holder.itemView) {
             setOnClickListener {
                 val intent = Intent(context, ReservationSchedule::class.java).apply {
-                    putExtra("beginDate", 1611057600000F)
-                    putExtra("endDate", 1611064800000F)
-                    putExtra("classId", 103F)
+                    putExtra("classId", searchItems[position].toLong())
                 }
                 context.startActivity(intent)
             }
@@ -84,7 +108,6 @@ class SearchViewAdapter(
 
     fun updateSearchResults(results: List<String>) {
         searchItems = results
-        Log.d("searchview", "notified! searchItems size is: ${searchItems.size}")
         notifyDataSetChanged()
     }
 }

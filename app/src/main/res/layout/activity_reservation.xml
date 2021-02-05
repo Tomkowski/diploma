@@ -74,9 +74,10 @@
         tools:text="13:00" />
 
     <TextView
+        android:id="@+id/activity_reservation_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="24.01.2021\nSala: 123\nII piętro"
+        tools:text="24.01.2021\nSala: 123\nII piętro"
         android:gravity="center"
         android:textColor="@color/logo_color"
         android:textSize="24sp"

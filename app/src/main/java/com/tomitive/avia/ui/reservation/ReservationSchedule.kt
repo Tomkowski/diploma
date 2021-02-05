@@ -18,32 +18,51 @@ import java.util.*
 
 class ReservationSchedule : AppCompatActivity() {
 
-    private val dateSelected = Calendar.getInstance()
-    private val classId = 123L
+    private val dateSelected = Calendar.getInstance().apply { add(Calendar.HOUR, 4) }
+    private var classId: Long = 0L
     private lateinit var scheduleList: RecyclerView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reservation_schedule)
         reservation_schedule_date.text = dateSelected.timeInMillis.dateFormattedDDMMYYYY()
         scheduleList = findViewById<RecyclerView>(R.id.reservation_schedule_recycler)
+        with(intent.extras ?: return) {
+            classId = getLong("classId")
+        }
         initRecyclerView(scheduleList, createPlaceholders(reservationForSelectedDay(dateSelected)))
     }
 
     fun onLeftSelected(v: View) {
-        dateSelected.add(Calendar.DAY_OF_YEAR, -1)
+        val currentDay = Calendar.getInstance().get(Calendar.DAY_OF_YEAR)
+        if(dateSelected.get(Calendar.DAY_OF_YEAR) > currentDay){
+            dateSelected.add(Calendar.DAY_OF_YEAR, -1)
+        }
+        
         reservation_schedule_date.text = dateSelected.timeInMillis.dateFormattedDDMMYYYY()
+        with((scheduleList.adapter as ReservationViewAdapter)) {
+            data = createPlaceholders(reservationForSelectedDay(dateSelected))
+            notifyDataSetChanged()
+        }
     }
 
     fun onRightSelected(v: View) {
         dateSelected.add(Calendar.DAY_OF_YEAR, 1)
         reservation_schedule_date.text = dateSelected.timeInMillis.dateFormattedDDMMYYYY()
+        with((scheduleList.adapter as ReservationViewAdapter)) {
+            data = createPlaceholders(reservationForSelectedDay(dateSelected))
+            notifyDataSetChanged()
+        }
     }
 
 
     fun onDateClicked(v: View) {
         val picker = DatePicker(this).apply {
             with(dateSelected) {
-                updateDate(get(Calendar.YEAR), get(Calendar.MONTH), get(Calendar.DAY_OF_MONTH))
+                apply {
+                    updateDate(get(Calendar.YEAR), get(Calendar.MONTH), get(Calendar.DAY_OF_MONTH))
+                    add(Calendar.HOUR, 4)
+                }
+                    minDate = System.currentTimeMillis() + 1000 * 60 * 60 * 4
             }
         }
         AlertDialog.Builder(this)
@@ -59,7 +78,7 @@ class ReservationSchedule : AppCompatActivity() {
                     reservation_schedule_date.text =
                         dateSelected.timeInMillis.dateFormattedDDMMYYYY()
 
-                    with((scheduleList.adapter as ReservationViewAdapter)){
+                    with((scheduleList.adapter as ReservationViewAdapter)) {
                         data = createPlaceholders(reservationForSelectedDay(dateSelected))
                         notifyDataSetChanged()
                     }
@@ -77,24 +96,17 @@ class ReservationSchedule : AppCompatActivity() {
         }.timeInMillis
 
         val upperBound = lowerBound + 1000 * 60 * 60 * 24
-        return reservations.filter { (lowerBound <= it.beginDate && it.endDate < upperBound) }
+        return reservations.filter { it.classId == classId && (lowerBound <= it.beginDate && it.endDate < upperBound) }
     }
 
     private fun createPlaceholders(reservationList: List<Reservation>): List<Reservation> {
         val sortedList = reservationList.sortedBy { it.endDate }
         var start = dateSelected.apply {
             set(Calendar.HOUR_OF_DAY, 8)
-            set(Calendar.MINUTE, 0)
-            set(Calendar.SECOND, 0)
-            set(Calendar.MILLISECOND, 0)
         }.timeInMillis
-        var end = dateSelected.apply {
-            set(Calendar.HOUR_OF_DAY, 20)
-            set(Calendar.MINUTE, 0)
-            set(Calendar.SECOND, 0)
-            set(Calendar.MILLISECOND, 0)
-        }.timeInMillis
-        var dayEnd = end
+        var end = start + 1000 * 60 * 60 * 12
+
+        val dayEnd = end
         val resultList = mutableListOf<Reservation>()
 
         sortedList.forEach {

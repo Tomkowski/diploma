@@ -85,30 +85,4 @@ class LoginActivity : AppCompatActivity() {
             progress.visibility = View.INVISIBLE
         }
     }
-
-    fun onLogout(v: View) {
-        /*
-        val service = RestApiService()
-        service.logout(cookies) { response ->
-            if (response == null) {
-                errorToast.show()
-                return@logout
-            }
-            val successfulAuthorizationPage =
-                Jspoon.create().adapter(SuccessfulAuthorizationPage::class.java).fromHtml(
-                    response.body()
-                )
-            if (successfulAuthorizationPage.loginMessage == "Wylogowałeś się z CAS - Centralnej Usługi Uwierzytelniania.") {
-                Toast.makeText(this, "User was logged off successfully", Toast.LENGTH_SHORT).show()
-                cookies = ""
-            } else {
-                Log.d("MainActivity", "${response.body()}")
-                errorToast.show()
-            }
-
-
-        }
-        */
-
-    }
 }

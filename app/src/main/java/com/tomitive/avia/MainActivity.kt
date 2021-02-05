@@ -13,13 +13,10 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.tomitive.avia.api.LoginActivity
 import com.tomitive.avia.api.RestApiService
-import com.tomitive.avia.api.retrofit
 import com.tomitive.avia.databinding.ActivityMainBinding
 import com.tomitive.avia.interfaces.NavControllerReselectedListener
 import com.tomitive.avia.interfaces.NavControllerSelectedListener
 import com.tomitive.avia.model.*
-import com.tomitive.avia.utils.airportLocation
-import com.tomitive.avia.utils.airportName
 import kotlinx.android.synthetic.main.avia_toolbar.*
 import me.ibrahimsn.lib.SmoothBottomBar
 import kotlin.concurrent.thread
@@ -34,10 +31,19 @@ class MainActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
 
-        intent?.run {
-            if(getBooleanExtra("update made by user", false)) {
-                downloadReservations()
-                Log.d("intent_main", "called for download")
+        intent.extras?.run {
+            when(getString("status")) {
+                "200" ->{
+                    downloadReservations()
+                    Log.d("intent_main", "called for download")
+                }
+                "414" -> {
+                    Toast.makeText(this@MainActivity, getString(R.string.end_session), Toast.LENGTH_SHORT).show()
+                    logout()
+                }
+                else -> {
+                    Toast.makeText(this@MainActivity, getString(R.string.reservation_failed), Toast.LENGTH_LONG).show()
+                }
             }
         }
         loadData()

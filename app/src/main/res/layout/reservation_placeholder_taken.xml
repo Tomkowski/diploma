@@ -37,7 +37,7 @@
         android:id="@+id/reservation_placeholder_author"
         android:layout_width="wrap_content"
         tools:text="Rezerwacja cykliczna"
-        android:text="@{reservation.studentId+``}"
+        android:text="@{reservation.studentId != -1 ? reservation.studentId+`` : reservation.studentFullName}"
         android:textColor="#666"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/reservation_placeholder_title"

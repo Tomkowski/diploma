@@ -46,8 +46,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginVertical="16dp"
         android:id="@+id/reservation_schedule_recycler"
-        app:layout_constraintStart_toStartOf="@id/reservation_schedule_go_left"
-        app:layout_constraintEnd_toEndOf="@id/reservation_schedule_go_right"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/reservation_schedule_date"
         android:layout_width="0dp"

@@ -2,9 +2,6 @@ package com.tomitive.avia.ui.favourites
 
 import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
-import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
@@ -16,17 +13,12 @@ import com.tomitive.avia.MainActivity
 import com.tomitive.avia.R
 import com.tomitive.avia.api.RestApiService
 import com.tomitive.avia.databinding.AviaFavouriteItemBinding
-import com.tomitive.avia.databinding.FavouriteItemErrorBinding
 import com.tomitive.avia.model.CancellationRequest
 import com.tomitive.avia.model.Credentials
 import com.tomitive.avia.model.Reservation
 import com.tomitive.avia.model.reservations
-import com.tomitive.avia.ui.airbasefullinfo.AirbaseDataFullInfo
-import com.tomitive.avia.utils.airportName
 import kotlinx.android.synthetic.main.avia_favourite_item.view.*
 
-private const val metarError = 900
-private const val metarLoading = 909
 private const val metarOk = 910
 
 
@@ -69,71 +61,18 @@ class FavouritesViewAdapter(
         }
 
         private fun onClickMetarOk(position: Int) {
-            cancelReservationDialog.setMessage("Czy na pewno chcesz anulować tę rezerwację?\n${reservations[position].title}")
-                .setTitle("Potwierdzenie")
-                .setPositiveButton("Tak") { _, _ ->
+            cancelReservationDialog.setMessage(context.getString(R.string.cancel_reservation_details) + "\n" + reservations[position].title)
+                .setTitle(context.getString(R.string.cancel_reservation_dialog_title))
+                .setPositiveButton(context.getString(R.string.yes)) { _, _ ->
                     cancelReservation(position)
                 }
-                .setNegativeButton("Nie") { dialog, _ ->
+                .setNegativeButton(context.getString(R.string.no)) { dialog, _ ->
                     dialog.cancel()
                 }
                 .show()
 
         }
     }
-
-    inner class MetarErrorHolder(private val binding: FavouriteItemErrorBinding) :
-        FavouritesView(binding) {
-        override val parentLayout: ConstraintLayout =
-            binding.root.findViewById(R.id.avia_favourite_item_error)
-
-        override fun bind(item: Reservation) {
-            with(parentLayout) {
-                setOnClickListener {
-                    with(data[adapterPosition]) {
-                        //reloading = true
-                        notifyItemChanged(adapterPosition)
-                    }
-                }
-                alpha = 0.8f
-            }
-            with(binding) {
-                //airport = item
-                executePendingBindings()
-            }
-        }
-    }
-
-    /*
-    inner class MetarLoadingHolder(private val binding: FavouriteItemLoadingBinding) :
-        FavouritesView(binding) {
-        override val parentLayout: ConstraintLayout =
-            binding.root.findViewById(R.id.avia_favourite_item_loading)
-
-        override fun bind(item: Airport) {
-            with(binding) {
-                airport = item
-                executePendingBindings()
-            }
-            with(data[adapterPosition]) {
-                thread {
-                    runBlocking {
-                        metar = MetarManager.getForecast(airportName)
-                        if (metar != null) {
-                            timestamp = TimeManager.currentTime
-                        }
-                        reloading = false
-                        parent.post {
-                            notifyItemChanged(adapterPosition)
-                        }
-                    }
-                }
-            }
-        }
-
-    }
-    */
-
 
     override fun getItemViewType(position: Int): Int {
         //if (data[position].reloading) return metarLoading
@@ -198,13 +137,14 @@ class FavouritesViewAdapter(
             ) {
                 when (it) {
                     "414" -> {
-                        Toast.makeText(this, "Twoja sesja wygasła", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, getString(R.string.end_session), Toast.LENGTH_SHORT)
+                            .show()
                         logout()
                     }
                     "400" -> {
                         Toast.makeText(
                             this,
-                            "Coś poszło nie tak, spróbuj ponownie później. Kod błedu: $it",
+                            getString(R.string.something_went_wrong_code) + it,
                             Toast.LENGTH_SHORT
                         ).show()
                     }

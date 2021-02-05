@@ -9,14 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tomitive.avia.R
+import com.tomitive.avia.model.classrooms
 import com.tomitive.avia.utils.MarginItemDecoration
 import com.tomitive.avia.utils.afterTextChanged
-import com.tomitive.avia.utils.airportName
 import kotlinx.android.synthetic.main.fragment_search.view.*
 
 class SearchFragment : Fragment() {
-
-    private lateinit var searchViewModel: SearchViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,7 +28,7 @@ class SearchFragment : Fragment() {
 
         rootView.navigation_search_edit_text.afterTextChanged { searchText ->
             (searchList.adapter as SearchViewAdapter).updateSearchResults(
-                airportName.map { it.key }.filter { it.contains(searchText.trim().toUpperCase()) }
+                classrooms.filter { it.contains(searchText.trim()) }
             )
 
             Log.d("searchview", "listener set")

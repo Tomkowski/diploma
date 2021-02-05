@@ -9,20 +9,20 @@
     android:elevation="3dp"
     android:paddingHorizontal="8dp">
 
-    <CheckBox
+    <ImageView
         android:id="@+id/search_result_fav_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
-        android:button="@drawable/avia_search_item_favourite_background"
-        android:checked="false"
+        android:src="@drawable/chessboard"
+        android:elevation="2dp"
         android:paddingTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/search_result_airport_name"
+        android:id="@+id/search_result_classroom_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -30,21 +30,21 @@
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tool:text="EPDE" />
+        tool:text="Sala: 105" />
 
     <TextView
-        android:id="@+id/search_result_airport_full_name"
+        android:id="@+id/search_result_current_reservation_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/colorWhite"
         android:layout_marginTop="16dp"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_result_airport_name"
-        tool:text="Dęblin military airbase" />
+        app:layout_constraintTop_toBottomOf="@+id/search_result_classroom_number"
+        tool:text="Bazy danych" />
 
     <TextView
-        android:id="@+id/search_result_airport_location"
+        android:id="@+id/search_result_current_reservation_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -53,6 +53,6 @@
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_result_airport_full_name"
-        tool:text="Dęblin, Poland" />
+        app:layout_constraintTop_toBottomOf="@+id/search_result_current_reservation_title"
+        tool:text="13:00 - 15:00" />
 </androidx.constraintlayout.widget.ConstraintLayout>

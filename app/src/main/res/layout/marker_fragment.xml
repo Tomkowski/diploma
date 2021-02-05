@@ -1,18 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
+<data>
+
+</data>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/meteo_fragment"
-    android:background="@color/colorPrimaryDark">
+    android:elevation="1dp"
+    android:background="@color/colorWhite">
 
-    <WebView
-        android:id="@+id/meteo_web_view"
+    <include layout="@layout/reservation_placeholder_taken"
+        android:id="@+id/marker_fragment_current_class"
+        android:layout_height="0dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/marker_fragment_center_guideline"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_margin="16dp"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/marker_fragment_center_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.4" />
+
+    <include layout="@layout/reservation_placeholder_taken"
+        android:id="@+id/marker_fragment_next_class"
+        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        app:layout_constraintBottom_toTopOf="@id/meteo_button"
+        app:layout_constraintTop_toBottomOf="@id/marker_fragment_center_guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="16dp"/>
+
 
     <Button
         android:background="@drawable/shape_avia_favourite_item_background"
@@ -28,3 +51,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

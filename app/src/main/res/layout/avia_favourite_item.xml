@@ -43,7 +43,7 @@
             android:paddingEnd="@dimen/favourite_textView_padding_horizontal"
 
             android:textColor="#FFFF"
-            android:text="@{`s. ` + reservation.classId+ `, II piętro`}"
+            android:text="@{`s. ` + reservation.classId+ `, ` + (reservation.classId > 100L? `II` : `I`) +` piętro`}"
             android:textSize="@dimen/favourite_item_airport_location"
             app:layout_constraintBottom_toTopOf="@+id/seperation_bar"
             app:layout_constraintHorizontal_bias="0.0"

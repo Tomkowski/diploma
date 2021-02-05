@@ -1,6 +1,5 @@
 package com.tomitive.avia.api
 
-import android.util.Log
 import com.tomitive.avia.model.*
 import retrofit2.Call
 import retrofit2.Callback

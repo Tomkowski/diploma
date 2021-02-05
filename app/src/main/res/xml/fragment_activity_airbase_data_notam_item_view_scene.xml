@@ -4,17 +4,17 @@
     xmlns:motion="http://schemas.android.com/apk/res-auto">
 
     <Transition
-        motion:constraintSetEnd="@+id/end"
-        motion:constraintSetStart="@id/start"
+        motion:constraintSetEnd="@+id/fragment_map_scene_end"
+        motion:constraintSetStart="@id/fragment_map_scene_start"
         motion:duration="400">
        <KeyFrameSet>
        </KeyFrameSet>
         <OnClick motion:targetId="@+id/data_notam_item_view" motion:clickAction="toggle"/>
     </Transition>
 
-    <ConstraintSet android:id="@+id/start" />
+    <ConstraintSet android:id="@+id/fragment_map_scene_start" />
 
-    <ConstraintSet android:id="@+id/end">
+    <ConstraintSet android:id="@+id/fragment_map_scene_end">
         <Constraint android:id="@+id/notam_decoded"
             motion:layout_constraintBottom_toTopOf="@+id/validity_start"
             motion:layout_constraintStart_toStartOf="parent"

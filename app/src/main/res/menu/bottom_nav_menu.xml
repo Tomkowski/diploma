@@ -8,8 +8,8 @@
 
     <item
         android:id="@+id/navigation_favourites"
-        android:icon="@drawable/ic_favorite_black_24dp"
-        android:title="@string/title_favourites" />
+        android:icon="@drawable/ic_baseline_event_note_24"
+        android:title="@string/title_reservations" />
 
     <item
         android:id="@+id/navigation_map"

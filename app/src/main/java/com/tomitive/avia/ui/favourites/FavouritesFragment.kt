@@ -2,7 +2,6 @@ package com.tomitive.avia.ui.favourites
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,15 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.tomitive.avia.MainActivity
 import com.tomitive.avia.R
-import com.tomitive.avia.api.RestApiService
 import com.tomitive.avia.model.Reservation
-import com.tomitive.avia.model.airports
 import com.tomitive.avia.model.reservations
 import com.tomitive.avia.utils.MarginItemDecoration
-import com.tomitive.avia.utils.MetarManager
-import com.tomitive.avia.utils.NotamManager
-import com.tomitive.avia.utils.TimeManager
-import kotlinx.coroutines.runBlocking
 import kotlin.concurrent.thread
 
 class FavouritesFragment : Fragment() {

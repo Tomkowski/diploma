@@ -7,3 +7,6 @@ data class LoginResponse(
     @SerializedName("username") val username: String,
     @SerializedName("authenticatorToken") val authenticatorToken: String
 )
+
+
+

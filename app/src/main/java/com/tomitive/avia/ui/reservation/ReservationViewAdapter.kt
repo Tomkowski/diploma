@@ -5,6 +5,7 @@ import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
@@ -31,6 +32,7 @@ class ReservationViewAdapter(private val context: Context, var data: List<Reserv
     inner class ReservationTaken(private val binding: ReservationPlaceholderTakenBinding) :
         ReservationViewAdapter.PlaceholderView(binding) {
         override fun bind(item: Reservation) {
+            parentLayout.animation = AnimationUtils.loadAnimation(context, R.anim.fragment_fade_enter)
             with(binding) {
                 reservation = item
                 executePendingBindings()
@@ -42,6 +44,7 @@ class ReservationViewAdapter(private val context: Context, var data: List<Reserv
         ReservationViewAdapter.PlaceholderView(binding) {
 
         override fun bind(item: Reservation) {
+            parentLayout.animation = AnimationUtils.loadAnimation(context, R.anim.fragment_fade_enter)
             parentLayout.reservation_placeholder_active_button.setOnClickListener {
                 val intent = Intent(context, ReservationActivity::class.java).apply {
                     putExtra("beginDate", item.beginDate)

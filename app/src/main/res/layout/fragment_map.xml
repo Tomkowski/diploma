@@ -7,7 +7,8 @@
     android:descendantFocusability="blocksDescendants"
     android:paddingBottom="50dp"
     app:layoutDescription="@xml/fragment_map_scene"
-    tools:context=".ui.map.MapFragment">
+    tools:context=".ui.map.MapFragment"
+    android:id="@+id/fragment_map_motion_layout">
 
     <Button
         android:id="@+id/dummy_motion_listener"
@@ -57,7 +58,7 @@
 
 
     <TextView
-        android:id="@+id/airport_title"
+        android:id="@+id/fragment_map_class_title"
         android:layout_width="match_parent"
         android:layout_height="32dp"
         android:textColor="@color/colorWhite"
@@ -67,6 +68,7 @@
         android:gravity="center"
         android:textSize="16sp"
         android:textStyle="bold"
+        app:drawableEndCompat="@drawable/ic_baseline_keyboard_arrow_up_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="parent" />
@@ -76,14 +78,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
-        app:constraint_referenced_ids="airport_title"
-        app:layout_constraintTop_toBottomOf="@id/airport_title" />
+        app:constraint_referenced_ids="fragment_map_class_title"
+        app:layout_constraintTop_toBottomOf="@id/fragment_map_class_title" />
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/map_view"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:nestedScrollingEnabled="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -93,7 +95,7 @@
 
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/meteo"
+        android:id="@+id/marker_fragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:elevation="2dp"
