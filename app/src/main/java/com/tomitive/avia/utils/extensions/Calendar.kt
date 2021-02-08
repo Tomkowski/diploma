@@ -1,4 +1,4 @@
-package com.tomitive.avia.utils
+package com.tomitive.avia.utils.extensions
 
 import java.text.SimpleDateFormat
 import java.util.*

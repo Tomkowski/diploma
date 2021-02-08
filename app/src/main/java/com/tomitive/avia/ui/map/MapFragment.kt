@@ -1,6 +1,5 @@
 package com.tomitive.avia.ui.map
 
-import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -8,29 +7,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.*
 import com.tomitive.avia.R
 import com.tomitive.avia.interfaces.TransitionChangeListener
 import com.tomitive.avia.ui.marker.MarkerFragment
 import com.tomitive.avia.utils.*
+import com.tomitive.avia.utils.extensions.div
+import com.tomitive.avia.utils.extensions.minus
+import com.tomitive.avia.utils.extensions.plus
 import kotlinx.android.synthetic.main.fragment_map.*
-import kotlinx.android.synthetic.main.fragment_map.first_floor_button
-import kotlinx.android.synthetic.main.fragment_map.ground_floor_button
 import kotlinx.android.synthetic.main.fragment_map.view.*
 
 
-class MapFragment() : Fragment(), OnMapReadyCallback,
+class MapFragment : Fragment(), OnMapReadyCallback,
     GoogleMap.OnMarkerClickListener {
 
-    private val TAG = "gmap"
+    private val loggerTag = "gmap"
     private lateinit var mMap: GoogleMap
     private val mapSouthWestBound = LatLng(-20.0, -24.0)
     private val mapNorthWestBound = LatLng(20.0, 24.0)
@@ -77,7 +77,6 @@ class MapFragment() : Fragment(), OnMapReadyCallback,
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_map, container, false)
-
         root.fragment_map_motion_layout.setTransitionListener(
             object : TransitionChangeListener {
                 override fun onTransitionChange(
@@ -121,21 +120,13 @@ class MapFragment() : Fragment(), OnMapReadyCallback,
         mMap = map
         with(mMap) {
 
-
-            /*
-            setOnMapClickListener {
-                Toast.makeText(context, "${it.latitude} ${it.longitude}", Toast.LENGTH_SHORT).show()
-                Log.d("gmap", "${it.latitude} ${it.longitude}")
-            }
-            */
-
             setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style))
             currentMapOverlay = addGroundOverlay(
                 GroundOverlayOptions()
                     .image(groundFloorMap)
                     .positionFromBounds(LatLngBounds(mapSouthWestBound, mapNorthWestBound))
             )
-            Log.d(TAG, "map ready")
+            Log.d(loggerTag, "map ready")
             classMarkers.forEach {
                 markers.add(addMarker(it.marker).apply { isVisible = (it.floor == 0) })
             }
@@ -163,7 +154,7 @@ class MapFragment() : Fragment(), OnMapReadyCallback,
 
     override fun onMarkerClick(marker: Marker?): Boolean {
         if (marker == null) return true
-        Log.d(TAG, "clicked on ${marker.title}")
+        Log.d(loggerTag, "clicked on ${marker.title}")
         marker.snippet = "Metody programowania"
         marker.showInfoWindow()
         with(marker) {
@@ -226,8 +217,6 @@ class MapFragment() : Fragment(), OnMapReadyCallback,
                         R.color.reservation_card_color
                     )
                 isClickable = false
-
-                //Toast.makeText(context, "Ground floor selected", Toast.LENGTH_SHORT).show()
             }
         }
         with(first_floor_button) {
@@ -248,14 +237,12 @@ class MapFragment() : Fragment(), OnMapReadyCallback,
                 rootView.ground_floor_button.isClickable = true
                 rootView.ground_floor_button.backgroundTintList =
                     ContextCompat.getColorStateList(requireContext(), R.color.colorWhite)
-
-                //Toast.makeText(context, "First floor selected", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     private fun getOverlay(@DrawableRes resId: Int): BitmapDescriptor {
-        Log.d(TAG, "get overlay $resId")
+        Log.d(loggerTag, "get overlay $resId")
         return BitmapDescriptorFactory.fromResource(resId)
     }
 }

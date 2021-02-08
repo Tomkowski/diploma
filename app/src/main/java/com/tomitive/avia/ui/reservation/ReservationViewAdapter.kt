@@ -65,18 +65,18 @@ class ReservationViewAdapter(private val context: Context, var data: List<Reserv
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaceholderView {
-        when (viewType) {
+        return when (viewType) {
             placeholderActiveID -> {
                 val binding = ReservationPlaceholderActiveBinding.inflate(
                     LayoutInflater.from(context), parent, false
                 )
-                return ReservationPlaceholder(binding)
+                ReservationPlaceholder(binding)
             }
             else -> {
                 val binding = ReservationPlaceholderTakenBinding.inflate(
                     LayoutInflater.from(context), parent, false
                 )
-                return ReservationTaken(binding)
+                ReservationTaken(binding)
             }
         }
     }

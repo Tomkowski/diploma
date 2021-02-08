@@ -3,18 +3,16 @@ package com.tomitive.avia.ui.reservation
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.slider.RangeSlider
-import com.google.android.material.slider.Slider
 import com.robinhood.ticker.TickerUtils
 import com.tomitive.avia.MainActivity
 import com.tomitive.avia.R
 import com.tomitive.avia.api.RestApiService
 import com.tomitive.avia.model.Credentials
 import com.tomitive.avia.model.ReservationRequest
-import com.tomitive.avia.utils.dateFormattedDDMMYYYY
+import com.tomitive.avia.utils.extensions.dateFormattedDDMMYYYY
 import kotlinx.android.synthetic.main.activity_reservation.*
 import java.util.*
 

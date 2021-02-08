@@ -10,6 +10,7 @@ android {
     defaultConfig {
         applicationId "com.tomitive.avia"
         minSdkVersion 23
+        flavorDimensions "default"
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -23,6 +24,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    productFlavors {
+        adminModule{}
+        userModule{}
+    }
+
+
 
 // To inline the bytecode built with JVM target 1.8 into
 // bytecode that is being built with JVM target 1.6. (e.g. navArgs)

@@ -2,18 +2,16 @@ package com.tomitive.avia.ui.search
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.tomitive.avia.R
-import com.tomitive.avia.model.Reservation
 import com.tomitive.avia.model.classrooms
 import com.tomitive.avia.model.reservations
 import com.tomitive.avia.ui.reservation.ReservationSchedule
-import com.tomitive.avia.utils.dateFormattedHHmm
+import com.tomitive.avia.utils.extensions.dateFormattedHHmm
 import kotlinx.android.synthetic.main.avia_search_result.view.*
 import java.util.*
 
@@ -90,11 +88,6 @@ class SearchViewAdapter(
                 holder.setFavouriteSelected(true)
             }
         }
-
-        //holder.itemView.search_result_fav_checkbox.isSelected = entry.isFavourite
-        //holder.setFavouriteSelected(entry.isFavourite)
-
-        //holder.itemView.search_result_fav_checkbox.setOnCheckedChangeListener(null)
 
         with(holder.itemView) {
             setOnClickListener {

@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
+import com.google.android.gms.maps.MapsInitializer
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.tomitive.avia.api.LoginActivity
@@ -28,7 +29,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
-
+        MapsInitializer.initialize(this)
         super.onCreate(savedInstanceState)
 
         intent.extras?.run {

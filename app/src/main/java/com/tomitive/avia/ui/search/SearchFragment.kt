@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.tomitive.avia.R
 import com.tomitive.avia.model.classrooms
 import com.tomitive.avia.utils.MarginItemDecoration
-import com.tomitive.avia.utils.afterTextChanged
+import com.tomitive.avia.utils.extensions.afterTextChanged
 import kotlinx.android.synthetic.main.fragment_search.view.*
 
 class SearchFragment : Fragment() {

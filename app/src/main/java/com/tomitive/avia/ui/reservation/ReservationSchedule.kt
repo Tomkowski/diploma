@@ -11,7 +11,7 @@ import com.tomitive.avia.R
 import com.tomitive.avia.model.Reservation
 import com.tomitive.avia.model.reservations
 import com.tomitive.avia.utils.MarginItemDecoration
-import com.tomitive.avia.utils.dateFormattedDDMMYYYY
+import com.tomitive.avia.utils.extensions.dateFormattedDDMMYYYY
 import kotlinx.android.synthetic.main.activity_reservation_schedule.*
 import java.util.*
 

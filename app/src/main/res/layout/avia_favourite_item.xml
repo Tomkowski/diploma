@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.tomitive.avia.utils.CalendarKt" />
+        <import type="com.tomitive.avia.utils.extensions.CalendarKt" />
         <variable
             name="reservation"
             type="com.tomitive.avia.model.Reservation" />
