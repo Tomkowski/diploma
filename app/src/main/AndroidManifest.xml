@@ -19,9 +19,6 @@
         <activity android:name=".ui.reservation.ReservationSchedule"></activity>
         <activity android:name=".ui.reservation.ReservationActivity" />
         <activity android:name=".ui.marker.MarkerActivity" />
-        <activity
-            android:name=".ui.airbasefullinfo.AirbaseDataFullInfo"
-            android:label="@string/title_activity_airbase_data_full_info" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

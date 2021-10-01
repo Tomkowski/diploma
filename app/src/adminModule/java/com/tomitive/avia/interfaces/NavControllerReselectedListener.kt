@@ -9,11 +9,19 @@ import com.tomitive.avia.R
 import com.tomitive.avia.ui.map.MapFragment
 import me.ibrahimsn.lib.OnItemReselectedListener
 
-
+/**
+ * Listener reagujący na ponowne wybranie elementu z dolnego menu nawigacji
+ *
+ * @property parentActivity aktywność, w której znajduje się menu nawigacji
+ */
 class NavControllerReselectedListener(private val parentActivity: AppCompatActivity) :
         OnItemReselectedListener {
     private val TAG = "navControllerListener"
 
+    /**
+     * Otwiera klawiaturę urządzenia
+     *
+     */
     private fun openSoftKeyboard() {
         val searchEditText =
             parentActivity.findViewById<EditText>(R.id.navigation_search_edit_text)?: return
@@ -23,6 +31,11 @@ class NavControllerReselectedListener(private val parentActivity: AppCompatActiv
         imm.showSoftInput(searchEditText, InputMethodManager.SHOW_IMPLICIT)
     }
 
+    /**
+     * metoda odpowiadająca za logikę ponownego wciśnięcia elementu z dolnego paska nawigacji
+     *
+     * @param pos pozycja elementu w menu nawigacji
+     */
     override fun onItemReselect(pos: Int) {
         if(NavControllerSelectedListener.isLoading) return
 

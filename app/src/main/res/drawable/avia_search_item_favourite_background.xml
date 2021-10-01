@@ -5,7 +5,7 @@
     android:exitFadeDuration="@android:integer/config_shortAnimTime"
     android:constantSize="true">
 
-    <item android:drawable="@drawable/chessboard"
+    <item android:drawable="@drawable/available_reservation_indicator"
         android:state_checked="true" />
     <item android:drawable="@drawable/default_fav"
         android:state_checked="false" />

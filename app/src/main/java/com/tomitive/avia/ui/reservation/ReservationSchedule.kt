@@ -16,11 +16,31 @@ import kotlinx.android.synthetic.main.activity_reservation_schedule.*
 import java.util.*
 
 
+/**
+ * Aktywność prezentująca listę zajęć z możliwością rezerwacji oraz wyboru dnia
+ */
 class ReservationSchedule : AppCompatActivity() {
 
+    /**
+     * Obecnie wybrany dzień przez użytkownika. Dodanie 4 godzin wynika z zamknięcia rezerwacji na dany dzień o 20:00
+     */
     private val dateSelected = Calendar.getInstance().apply { add(Calendar.HOUR, 4) }
+
+    /**
+     * numer sali wybrany przez użytkownika
+     */
     private var classId: Long = 0L
+
+    /**
+     * lista reprezentująca plan zajęć
+     */
     private lateinit var scheduleList: RecyclerView
+
+    /**
+     * metoda wywoływana przy stworzeniu aktywności
+     *
+     * @param savedInstanceState mapa klucz-wartość zapisanych danych w pamięci urządzenia
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reservation_schedule)
@@ -32,6 +52,11 @@ class ReservationSchedule : AppCompatActivity() {
         initRecyclerView(scheduleList, createPlaceholders(reservationForSelectedDay(dateSelected)))
     }
 
+    /**
+     * metoda wywoływana po wybraniu dnia wcześniejszego
+     *
+     * @param v widok wciśnięty w celu wywołania metody
+     */
     fun onLeftSelected(v: View) {
         val currentDay = Calendar.getInstance().get(Calendar.DAY_OF_YEAR)
         if(dateSelected.get(Calendar.DAY_OF_YEAR) > currentDay){
@@ -45,6 +70,11 @@ class ReservationSchedule : AppCompatActivity() {
         }
     }
 
+    /**
+     * metoda wywoływana po wybraniu dnia przyszłego
+     *
+     * @param v widok wciśnięty w celu wywołania metody
+     */
     fun onRightSelected(v: View) {
         dateSelected.add(Calendar.DAY_OF_YEAR, 1)
         reservation_schedule_date.text = dateSelected.timeInMillis.dateFormattedDDMMYYYY()
@@ -54,7 +84,11 @@ class ReservationSchedule : AppCompatActivity() {
         }
     }
 
-
+    /**
+     * metoda wywoływana po wybraniu konkretnego dnia z kalendarza
+     *
+     * @param v widok wciśnięty w celu wywołania metody
+     */
     fun onDateClicked(v: View) {
         val picker = DatePicker(this).apply {
             with(dateSelected) {
@@ -87,6 +121,11 @@ class ReservationSchedule : AppCompatActivity() {
             .show()
     }
 
+    /**
+     * metoda zwracająca listę aktywności na wybrany dzień
+     *
+     * @param calendar dzień dla którego mają zostać zwrócone wszystkie jego aktywności
+     */
     private fun reservationForSelectedDay(calendar: Calendar): List<Reservation> {
         val lowerBound = calendar.apply {
             set(Calendar.HOUR_OF_DAY, 8)
@@ -99,6 +138,11 @@ class ReservationSchedule : AppCompatActivity() {
         return reservations.filter { it.classId == classId && (lowerBound <= it.beginDate && it.endDate < upperBound) }
     }
 
+    /**
+     * Metoda zwracająca listę rezerwacji wypełniając dostępnymi terminami puste miejsca pomiędzy kolejnymi rezerwacjami
+     *
+     * @param reservationList lista rezerwacji, który ma być rozszerzona o dostępne termriny
+     */
     private fun createPlaceholders(reservationList: List<Reservation>): List<Reservation> {
         val sortedList = reservationList.sortedBy { it.endDate }
         var start = dateSelected.apply {
@@ -129,6 +173,12 @@ class ReservationSchedule : AppCompatActivity() {
         return resultList
     }
 
+    /**
+     * inicjuje plan zajęć. Przypisuje adapter do listy zajęć.
+     *
+     * @param searchList - plan zajęć
+     * @param reservationList - lista rezerwacji i wolnych terminów na dany dzień
+     */
     private fun initRecyclerView(searchList: RecyclerView, reservationList: List<Reservation>) {
         searchList.adapter = ReservationViewAdapter(this, reservationList)
         searchList.addItemDecoration(

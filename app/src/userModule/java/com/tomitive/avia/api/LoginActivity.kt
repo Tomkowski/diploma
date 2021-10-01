@@ -10,19 +10,20 @@ import androidx.appcompat.app.AppCompatActivity
 import com.tomitive.avia.MainActivity
 import com.tomitive.avia.R
 import com.tomitive.avia.model.Credentials
+import com.tomitive.avia.model.credentialUsername
 import kotlinx.android.synthetic.main.activity_login.*
 
+/**
+ * Login activity
+ *
+ * @constructor Create empty Login activity
+ */
 class LoginActivity : AppCompatActivity() {
     lateinit var errorToast: Toast
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        errorToast = Toast.makeText(
-            this,
-            "Coś poszło nie tak. Sprawdź połączenie z internetem i spróbuj ponownie",
-            Toast.LENGTH_LONG
-        )
         // open url in web browser
         forgot_password.movementMethod = LinkMovementMethod.getInstance()
         loginAutomatically()
@@ -41,6 +42,7 @@ class LoginActivity : AppCompatActivity() {
             when (response.statusCode) {
                 200 -> {
                     val intent = Intent(this, MainActivity::class.java)
+                    credentialUsername = response.username
                     startActivity(intent)
                     finish()
                 }
@@ -73,6 +75,7 @@ class LoginActivity : AppCompatActivity() {
                         putString(getString(R.string.sharedPassword), response.authenticatorToken)
                         apply()
                     }
+                    credentialUsername = response.username
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                     finish()

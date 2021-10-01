@@ -22,11 +22,26 @@ import kotlinx.android.synthetic.main.avia_toolbar.*
 import me.ibrahimsn.lib.SmoothBottomBar
 import kotlin.concurrent.thread
 
-
+/**
+ * Główna aktywność aplikacji
+ *
+ */
 class MainActivity : AppCompatActivity() {
+    /**
+     * flaga sprawdzająca czy przycisk powrotu został wciśnięty dwukrotnie
+     */
     private var doubleBackToExitPressedOnce = false
+
+    /**
+     * dolny panel nawigacji
+     */
     private lateinit var navView: SmoothBottomBar
-    private lateinit var navController: NavController
+
+    /**
+     * metoda wywoływana przy stworzeniu aktywności
+     *
+     * @param savedInstanceState mapa klucz-wartość zapisanych danych w pamięci urządzenia
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         MapsInitializer.initialize(this)
@@ -66,6 +81,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Metoda wywołująca się po wciśnięciu przycisku cofania
+     *
+     */
     override fun onBackPressed() {
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed()
@@ -73,16 +92,23 @@ class MainActivity : AppCompatActivity() {
         }
 
         this.doubleBackToExitPressedOnce = true
-        Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, getString(R.string.press_back_to_exit), Toast.LENGTH_SHORT).show()
 
+        // po dwóch sekundach anuluj sprawdzenie
         Handler().postDelayed({ doubleBackToExitPressedOnce = false }, 2000)
     }
 
+    /**
+     * metoda wywoływana po zatrzymaniu aplikacji (po zamknięciu lub zminimalizowaniu)
+     */
     override fun onStop() {
         super.onStop()
         saveData()
     }
 
+    /**
+     * metoda zapisująca stan rezerwacji do pamięci urządzenia
+     */
     private fun saveData() {
         val editor = getSharedPreferences("shared preferences", Context.MODE_PRIVATE).edit()
         val gson = Gson()
@@ -92,6 +118,9 @@ class MainActivity : AppCompatActivity() {
         Log.d("mainActivity", "data saved!")
     }
 
+    /**
+     * metoda wczytująca stan rezerwacji z pamięci urządzenia
+     */
     private fun loadData() {
         val sharedPreferences =
             getSharedPreferences(getString(R.string.preferencesName), Context.MODE_PRIVATE)
@@ -106,6 +135,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * metoda wywoływana po wciśnięciu przycisku wylogowania
+     */
     fun logout() {
         reservations = mutableListOf()
         saveData()
@@ -119,16 +151,22 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * metoda pobierająca rezerwacje z serwera
+     */
     fun downloadReservations(){
         thread {
             val service = RestApiService()
             service.fetchAllReservations(Credentials(fetchUsername(), fetchToken())) {
                 reservations = if (it == null) mutableListOf() else it as MutableList<Reservation>
-                Log.d("debug", "assigned")
             }
         }.join()
+        Log.d("main", "$reservations")
     }
 
+    /**
+     * metoda zwracająca login obecnie zalogowanego użytkownika
+     */
     fun fetchUsername(): String{
         return getSharedPreferences(
             getString(R.string.preferencesName),
@@ -136,6 +174,9 @@ class MainActivity : AppCompatActivity() {
         ).getString(getString(R.string.sharedUsername), "default") ?: "empty"
     }
 
+    /**
+     * metoda zwracająca token obecnie zalogowanego użytkownika
+     */
     fun fetchToken(): String{
         return getSharedPreferences(
             getString(R.string.preferencesName),

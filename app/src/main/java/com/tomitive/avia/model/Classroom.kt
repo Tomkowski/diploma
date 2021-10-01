@@ -1,5 +1,8 @@
  package com.tomitive.avia.model
 
+ /**
+  * Lista sal dostępnych do rezerwacji
+  */
 val classrooms = listOf(
     "4",
     "5",

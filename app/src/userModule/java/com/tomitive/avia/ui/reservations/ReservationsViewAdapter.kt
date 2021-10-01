@@ -1,4 +1,4 @@
-package com.tomitive.avia.ui.favourites
+package com.tomitive.avia.ui.reservations
 
 import android.app.AlertDialog
 import android.content.Context
@@ -12,12 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.tomitive.avia.MainActivity
 import com.tomitive.avia.R
 import com.tomitive.avia.api.RestApiService
-import com.tomitive.avia.databinding.AviaFavouriteItemBinding
-import com.tomitive.avia.model.CancellationRequest
-import com.tomitive.avia.model.Credentials
-import com.tomitive.avia.model.Reservation
-import com.tomitive.avia.model.reservations
-import kotlinx.android.synthetic.main.avia_favourite_item.view.*
+import com.tomitive.avia.databinding.UserReservationItemBinding
+import com.tomitive.avia.model.*
+import kotlinx.android.synthetic.main.user_reservation_item.view.*
 
 private const val metarOk = 910
 
@@ -38,7 +35,7 @@ class FavouritesViewAdapter(
         abstract fun bind(item: Reservation)
     }
 
-    inner class MetarOkHolder(private val binding: AviaFavouriteItemBinding) :
+    inner class MetarOkHolder(private val binding: UserReservationItemBinding) :
         FavouritesView(binding) {
         override val parentLayout: ConstraintLayout =
             binding.root.findViewById(R.id.user_reservation_card)
@@ -83,39 +80,11 @@ class FavouritesViewAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavouritesView {
-        val binding = AviaFavouriteItemBinding.inflate(
+        val binding = UserReservationItemBinding.inflate(
             LayoutInflater.from(context), parent, false
         )
         return MetarOkHolder(binding)
 
-/*
-        when (viewType) {
-            metarOk -> {
-                val binding = AviaFavouriteItemBinding.inflate(
-                    LayoutInflater.from(context), parent, false
-                )
-                return MetarOkHolder(binding)
-
-            }
-
-            metarLoading -> {
-                val binding = FavouriteItemLoadingBinding.inflate(
-                    LayoutInflater.from(context), parent, false
-                )
-                return MetarLoadingHolder(binding)
-            }
-            else -> {
-                val binding =
-                    FavouriteItemErrorBinding.inflate(
-                        LayoutInflater.from(context),
-                        parent,
-                        false
-                    )
-                return MetarErrorHolder(binding)
-            }
-
-        }
-  */
     }
 
     override fun getItemCount(): Int = data.size
@@ -150,7 +119,8 @@ class FavouritesViewAdapter(
                     }
                 }
                 downloadReservations()
-                data = reservations
+                data = reservations.filter { reservation ->  reservation.studentId == credentialUsername.toLong() } as MutableList<Reservation>
+
                 notifyDataSetChanged()
             }
         }

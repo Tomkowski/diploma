@@ -13,7 +13,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.*
 import com.tomitive.avia.R
@@ -26,24 +25,49 @@ import com.tomitive.avia.utils.extensions.plus
 import kotlinx.android.synthetic.main.fragment_map.*
 import kotlinx.android.synthetic.main.fragment_map.view.*
 
-
-class MapFragment : Fragment(), OnMapReadyCallback,
-    GoogleMap.OnMarkerClickListener {
+/**
+ * fragment wyświetlający mapę instytutu
+ */
+class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private val loggerTag = "gmap"
     private lateinit var mMap: GoogleMap
+
+    /**
+     * ograniczenie pola widzenia mapy. Lewy dolny róg
+     */
     private val mapSouthWestBound = LatLng(-20.0, -24.0)
+    /**
+     * ograniczenie pola widzenia mapy. Prawy górny róg
+     */
     private val mapNorthWestBound = LatLng(20.0, 24.0)
+
+    /**
+     * grafika przedstawiająca parter instytutu
+     */
     private val groundFloorMap: BitmapDescriptor by lazy {
         getOverlay(R.drawable.map_ground_floor)
     }
+    /**
+     * grafika przedstawiająca pierwsze piętro instytutu
+     */
     private val firstFloorMap: BitmapDescriptor by lazy {
         getOverlay(R.drawable.map_first_floor)
     }
 
+    /**
+     * minimalne przybliżenie kamery na mapie
+     */
     private val minZoom = 4.0f
+
+    /**
+     * maksymalne przybliżenie kamery na mapie
+     */
     private val maxZoom = 5.2f
 
+    /**
+     * lista sal instytutu i ich współrzędnych
+     */
     private val classMarkers = listOf(
         ClassMarker(LatLng(-13.168386811560687, -6.694337725639343), "4", 0),
         ClassMarker(LatLng(-14.6015254863029, -10.801186971366405), "5", 0),
@@ -66,11 +90,20 @@ class MapFragment : Fragment(), OnMapReadyCallback,
         ClassMarker(LatLng(3.7947796101039066, -13.236898966133596), "110", 1)
     )
 
+    /**
+     * lista znaczników na mapie
+     */
     private val markers = mutableListOf<Marker>()
 
+    /**
+     * obecnie wyświetlane piętro instytutu
+     */
     private lateinit var currentMapOverlay: GroundOverlay
 
-
+    /**
+     * metoda wywoływana przy stworzeniu fragmentu
+     * @param savedInstanceState mapa klucz-wartość zapisanych danych w pamięci urządzenia
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -105,6 +138,10 @@ class MapFragment : Fragment(), OnMapReadyCallback,
         return root
     }
 
+    /**
+     * metoda wywoływana przy stworzeniu aktywności, w której występuje fragment
+     * @param savedInstanceState mapa klucz-wartość zapisanych danych w pamięci urządzenia
+     */
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         map_view.onCreate(savedInstanceState)
@@ -114,6 +151,9 @@ class MapFragment : Fragment(), OnMapReadyCallback,
         setUpButtons()
     }
 
+    /**
+     * metoda wywoływana w momencie utworzenia obiektu mapy
+     */
     override fun onMapReady(map: GoogleMap?) {
         if (map == null) return
 
@@ -152,10 +192,19 @@ class MapFragment : Fragment(), OnMapReadyCallback,
 
     }
 
+    /**
+     * metoda wywoływana po wciśnięciu na znacznik
+     *
+     * @param marker wciśnięty znacznik
+     */
     override fun onMarkerClick(marker: Marker?): Boolean {
         if (marker == null) return true
-        Log.d(loggerTag, "clicked on ${marker.title}")
-        marker.snippet = "Metody programowania"
+
+        val currentTime = System.currentTimeMillis()
+        val activeReservation = with(marker.title.toLong()) {
+            com.tomitive.avia.model.reservations.find { it.classId == this && it.beginDate < currentTime && currentTime < it.endDate }
+        }
+        marker.snippet = activeReservation?.title ?: getString(R.string.free_now)
         marker.showInfoWindow()
         with(marker) {
             Handler().post {
@@ -169,8 +218,13 @@ class MapFragment : Fragment(), OnMapReadyCallback,
         return true
     }
 
-    private fun openMarkerFragment(airportTitle: String) {
-        val args = Bundle().apply { putString("title", airportTitle) }
+    /**
+     * otwiera fragment wyświetlający szczegóły sali
+     *
+     * @param classId numer sali
+     */
+    private fun openMarkerFragment(classId: String) {
+        val args = Bundle().apply { putString("title", classId) }
         childFragmentManager
             .beginTransaction()
             .replace(R.id.marker_fragment, MarkerFragment().apply {
@@ -180,21 +234,36 @@ class MapFragment : Fragment(), OnMapReadyCallback,
 
     }
 
+    /**
+     * przesuwa kamerę do wybranej pozycji
+     *
+     * @param currentLocation wybrana pozycja
+     */
     private fun moveToCurrentLocation(currentLocation: LatLng) {
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 13f))
     }
 
+    /**
+     * metoda wysuwa dolny pasek wyświetlający [MarkerFragment]
+     *
+     */
     private fun toolbarAction() {
         val button = view?.findViewById<Button>(R.id.dummy_motion_listener) ?: return
         button.performClick()
     }
 
+    /**
+     * metoda chowa dolny pasek wyświetlający [MarkerFragment]
+     */
     fun hideToolbar() {
         val button = view?.findViewById<Button>(R.id.dummy_motion1_listener) ?: return
         button.performClick()
 
     }
 
+    /**
+     * metoda przypisuje logikę do przycisków
+     */
     private fun setUpButtons() {
         with(ground_floor_button) {
             isClickable = false
@@ -241,6 +310,11 @@ class MapFragment : Fragment(), OnMapReadyCallback,
         }
     }
 
+    /**
+     * metoda zwraca bitmapę na podstawie ID
+     *
+     * @param resId ID bitmapy
+     */
     private fun getOverlay(@DrawableRes resId: Int): BitmapDescriptor {
         Log.d(loggerTag, "get overlay $resId")
         return BitmapDescriptorFactory.fromResource(resId)

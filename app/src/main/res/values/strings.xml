@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">Classbook</string>
     <string name="forgot_password">Nie pamiętasz <a href="https://login.uni.wroc.pl/passwd-change/reset?lang=pl"><b>hasła?</b></a></string>
     <string name="title_activity_some_other">SomeOtherActivity</string>
     <string name="sharedUsername">username - shared preferences</string>
@@ -10,24 +9,12 @@
     <string name="title_search">Szukaj</string>
     <string name="title_reservations">Moje rezerwacje</string>
     <string name="title_map">Mapa</string>
-    <string name="google_maps_API_key">AIzaSyAY_amNQsF472oKY2MevBTD6O7MsDyl-Ho</string>
+    <string name="google_maps_API_key">NICE TRY BUT NO BANANA - key is disabled anyway as you can find it in previous commits</string>
     <string name="title_activity_maps">Map</string>
-    <string name="title_activity_airbase_data_full_info">AirbaseDataFullInfo</string>
-    <string name="airbase_full_data_tab1">TAF</string>
-    <string name="airbase_full_data_tab2">METAR</string>
-    <string name="airbase_full_data_tab3">NOTAM</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="taf">TAF</string>
-    <string name="metar">METAR</string>
-    <string name="notam">NOTAM</string>
-    <string name="metar_fail_msg">Could not connect to internet! Check your internet connection and try again.</string>
     <string name="navigation_search_hint">Podaj numer sali</string>
     <string name="something_went_wrong_please_try_again">Something went wrong. Please try again.</string>
     <string name="rezerwuj">Rezerwuj</string>
-    <string name="decoded_notam_example">Military Parachute jumping exercise WILL TAKE PLACE. TEMPORARY SEGREGATED AREA Track 345 (EPDE) LATERAL LIMITS\n 1. 514439N 0214546E\n 2. 513613N 0221124E\n 3. 512641N 0220423E\n 4. 513509N 0213716E\n 1. 514439N 0214546E\n VERTICAL LIMITS Ground - FL135 FLIGHT BUFFER ZONE\n EPTR 345Z 514917N 0214900E 514011N 0221627E 513742N 0221902E 513447N 0221912E 512336N 0221047E 512148N 0220637E 512156N 0220144E 513022N 0213443E 513611N 0212926E 513720N 0213003E 514807N 0213946E 514940N 0214411E 514917N 0214900E VERTICAL LIMITS FL095-FL135 ORGANIZER PHONE +48 505 115 638.Military Parachute jumping exercise WILL TAKE PLACE. TEMPORARY SEGREGATED AREA Track 345 (EPDE) LATERAL LIMITS\n 1. 514439N 0214546E\n 2. 513613N 0221124E\n 3. 512641N 0220423E\n 4. 513509N 0213716E\n 1. 514439N 0214546E\n VERTICAL LIMITS Ground - FL135 FLIGHT BUFFER ZONE\n EPTR 345Z 514917N 0214900E 514011N 0221627E 513742N 0221902E 513447N 0221912E 512336N 0221047E 512148N 0220637E 512156N 0220144E 513022N 0213443E 513611N 0212926E 513720N 0213003E 514807N 0213946E 514940N 0214411E 514917N 0214900E VERTICAL LIMITS FL095-FL135 ORGANIZER PHONE +48 505 115 638.</string>
-    <string name="raw_notam_example">MIL PJE WILL TAKE PLACE.\nVERTICAL LIMITS: FL095-FL135\nORGANIZER PHONE: +48 505 115 638.</string>
     <string name="preferencesName">shared preferences</string>
     <string name="minimum15minut">Twoja rezerwacja musi trwać minimum 15 minut</string>
     <string name="reservation_failed">Rezerwacja nieudana. Spróbuj później</string>
@@ -37,4 +24,10 @@
     <string name="yes">Tak</string>
     <string name="no">Nie</string>
     <string name="cancel_reservation_details">Czy na pewno chcesz anulować tę rezerwację?</string>
+    <string name="private_reservation">Rezerwacja prywatna</string>
+    <string name="available_reservation">Możliwa rezerwacja</string>
+    <string name="free_now">Wolne teraz</string>
+    <string name="uni_closed">Instytut nieczynny</string>
+    <string name="press_back_to_exit">Cofnij jeszcze raz aby wyjść z aplikacji</string>
+    <string name="closed_come_back_tomorrow">Instytut jest zamknięty, zapraszamy jutro.</string>
 </resources>

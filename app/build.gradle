@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'org.jetbrains.dokka-android'
 
 android {
     compileSdkVersion 29
@@ -18,6 +19,11 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    dokka {
+        outputFormat = 'html'
+        outputDirectory = "$buildDir/javadoc"
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -26,9 +32,14 @@ android {
     }
 
     productFlavors {
-        adminModule{}
-        userModule{}
+        adminModule {
+            applicationId "com.tomitive.avia.admin"
+        }
+        userModule {
+            applicationId "com.tomitive.avia.user"
+        }
     }
+
 
 
 

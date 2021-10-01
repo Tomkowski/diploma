@@ -5,6 +5,11 @@ import android.view.View
 import androidx.annotation.IdRes
 import androidx.recyclerview.widget.RecyclerView
 
+/**
+ * Klasa odpowiedzialan za stworzenie wizualnych odstępów pomiędzy elementami listy
+ *
+ * @property spaceHeight odstęp liczony w dp
+ */
 class MarginItemDecoration(@IdRes private val spaceHeight: Int) : RecyclerView.ItemDecoration() {
     override fun getItemOffsets(outRect: Rect, view: View,
                                 parent: RecyclerView,

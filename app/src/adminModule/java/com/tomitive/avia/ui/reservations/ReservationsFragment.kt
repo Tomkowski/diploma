@@ -1,4 +1,4 @@
-package com.tomitive.avia.ui.favourites
+package com.tomitive.avia.ui.reservations
 
 import android.content.Context
 import android.os.Bundle
@@ -16,7 +16,7 @@ import com.tomitive.avia.model.reservations
 import com.tomitive.avia.utils.MarginItemDecoration
 import kotlin.concurrent.thread
 
-class FavouritesFragment : Fragment() {
+class ReservationsFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,7 +31,6 @@ class FavouritesFragment : Fragment() {
             Context.MODE_PRIVATE
         )?.getString(getString(R.string.sharedUsername), "default") ?: "empty"
 
-        val myReservations = reservations.filter { it.studentId == username.toLong() }
         with(rootView as SwipeRefreshLayout) {
             setOnRefreshListener {
                 thread {
@@ -39,12 +38,12 @@ class FavouritesFragment : Fragment() {
                 }.join()
 
                 rootView.isRefreshing = false
-                (favouritesList.adapter as FavouritesViewAdapter).data =
-                    reservations.filter { it.studentId == username.toLong() } as MutableList<Reservation>
+                (favouritesList.adapter as ReservationsViewAdapter).data =
+                    reservations
                 post { favouritesList.adapter?.notifyDataSetChanged() }
             }
         }
-        initRecyclerView(favouritesList, myReservations as MutableList<Reservation>)
+        initRecyclerView(favouritesList, reservations)
 
         return rootView
     }
@@ -54,7 +53,7 @@ class FavouritesFragment : Fragment() {
         myReservations: MutableList<Reservation>
     ) {
         favouritesList.apply {
-            adapter = FavouritesViewAdapter(requireContext(), myReservations)
+            adapter = ReservationsViewAdapter(requireContext(), myReservations)
             addItemDecoration(
                 MarginItemDecoration(
                     resources.getDimension(R.dimen.recyclerview_item_padding).toInt()
@@ -64,6 +63,5 @@ class FavouritesFragment : Fragment() {
             setHasFixedSize(true)
 
         }
-        //favouritesList.addOnScrollListener(RecyclerViewCenterItemListener())
     }
 }

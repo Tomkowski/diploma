@@ -34,7 +34,7 @@
         android:layout_marginStart="12dp"
         android:textColor="@color/logo_color"
         android:textSize="32sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/first_floor_button"
         />
     <com.google.android.material.button.MaterialButton
@@ -52,7 +52,7 @@
         android:layout_marginTop="12dp"
         android:textColor="@color/logo_color"
         android:textSize="32sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
 
@@ -62,7 +62,7 @@
         android:layout_width="match_parent"
         android:layout_height="32dp"
         android:textColor="@color/colorWhite"
-        android:background="@drawable/marker_weather_header_background"
+        android:background="@drawable/marker_class_details_background"
         android:elevation="8dp"
         android:focusable="true"
         android:gravity="center"

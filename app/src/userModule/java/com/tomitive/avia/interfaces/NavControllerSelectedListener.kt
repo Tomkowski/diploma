@@ -7,7 +7,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.whenResumed
 import com.tomitive.avia.R
-import com.tomitive.avia.ui.favourites.FavouritesFragment
+import com.tomitive.avia.ui.reservations.ReservationsFragment
 import com.tomitive.avia.ui.map.MapFragment
 import com.tomitive.avia.ui.search.SearchFragment
 import kotlinx.android.synthetic.main.activity_main.*
@@ -60,7 +60,7 @@ class NavControllerSelectedListener(private val parentActivity: AppCompatActivit
                 val fragment: Fragment? = when (fragmentId) {
                     R.id.navigation_map -> MapFragment()
                     R.id.navigation_search -> SearchFragment()
-                    R.id.navigation_favourites -> FavouritesFragment()
+                    R.id.navigation_favourites -> ReservationsFragment()
                     else -> null
                 }
                 fragment?.run {

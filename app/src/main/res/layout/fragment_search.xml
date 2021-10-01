@@ -55,7 +55,7 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_separator"
-        tools:listitem="@layout/avia_search_result" />
+        tools:listitem="@layout/uwr_search_result" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

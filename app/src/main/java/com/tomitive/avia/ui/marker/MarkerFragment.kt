@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.tomitive.avia.R
@@ -16,10 +15,19 @@ import com.tomitive.avia.ui.reservation.ReservationSchedule
 import kotlinx.android.synthetic.main.marker_fragment.*
 import java.util.*
 
-
+/**
+ * fragment wyświetlany jako szczegóły sali po wybraniu znacznika na mapie
+ */
 class MarkerFragment : Fragment() {
-    lateinit var code: String
-    private lateinit var meteoWebView: WebView
+    /**
+     * numer sali
+     */
+    private lateinit var code: String
+
+    /**
+     * metoda wywoływana przy stworzeniu fragmentu
+     * @param savedInstanceState mapa klucz-wartość zapisanych danych w pamięci urządzenia
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -42,17 +50,17 @@ class MarkerFragment : Fragment() {
             closestReservations = listOf(
                 Reservation(
                     classId = code.toLong(),
-                    title = "Wolne teraz",
-                    studentFullName = "Możliwa rezerwacja",
-                    beginDate = System.currentTimeMillis(),
-                    endDate = System.currentTimeMillis()
+                    title = getString(R.string.free_now),
+                    studentFullName = getString(R.string.available_reservation),
+                    beginDate = Calendar.getInstance().apply { set(Calendar.HOUR_OF_DAY, 8); set(Calendar.MINUTE, 0) }.timeInMillis,
+                    endDate = Calendar.getInstance().apply { set(Calendar.HOUR_OF_DAY, 20); set(Calendar.MINUTE, 0) }.timeInMillis
                 ),
                 Reservation(
                     classId = code.toLong(),
-                    title = "Koniec zajęć",
+                    title = getString(R.string.uni_closed),
                     studentFullName = "",
-                    beginDate = System.currentTimeMillis(),
-                    endDate = System.currentTimeMillis()
+                    beginDate = Calendar.getInstance().apply { set(Calendar.HOUR_OF_DAY, 20); set(Calendar.MINUTE, 0) }.timeInMillis,
+                    endDate = Calendar.getInstance().apply { set(Calendar.HOUR_OF_DAY, 8); set(Calendar.MINUTE, 0) }.timeInMillis
                 )
             )
         } else if (closestReservations.size == 1) {
@@ -60,8 +68,8 @@ class MarkerFragment : Fragment() {
                 closestReservations = listOf(
                     Reservation(
                         classId = code.toLong(),
-                        title = "Wolne teraz",
-                        studentFullName = "Możliwa rezerwacja",
+                        title = getString(R.string.free_now),
+                        studentFullName = getString(R.string.available_reservation),
                         beginDate = System.currentTimeMillis(),
                         endDate = closestReservations[0].beginDate
                     ),
@@ -74,7 +82,7 @@ class MarkerFragment : Fragment() {
                 Reservation(
                     classId = code.toLong(),
                     studentFullName = "",
-                    title = "Koniec zajęć",
+                    title = getString(R.string.free_now),
                     beginDate = closestReservations[0].endDate,
                     endDate = Calendar.getInstance().apply { set(Calendar.HOUR_OF_DAY, 20); set(Calendar.MINUTE, 0) }.timeInMillis
                 )
@@ -88,12 +96,19 @@ class MarkerFragment : Fragment() {
         return rootView.root
     }
 
+
+    /**
+     * metoda wywołująca się przy starcie fragmentu
+     */
     override fun onStart() {
         super.onStart()
-        meteo_button.setOnClickListener { initButton(code) }
+        marker_reservation_button.setOnClickListener { openReservationActivity() }
     }
 
-    private fun initButton(code: String) {
+    /**
+     * metoda rozpoczynająca menu rezerwacji dla wybranej sali
+     */
+    private fun openReservationActivity() {
         val intent = Intent(context, ReservationSchedule::class.java).apply {
             putExtra("classId", code.toLong())
         }
